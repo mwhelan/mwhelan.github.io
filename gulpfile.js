@@ -35,7 +35,7 @@ gulp.task('build', function(callback) {
 
 // deploy 'dist' folder to mwhelan.github.io github repo, gh-pages branch
 var options = { 
-	remoteUrl: "https://github.com/mwhelan/blog.git",
+	remoteUrl: "https://github.com/mwhelan/mwhelan.github.io.git",
 	branch: "master"};
 gulp.task('deploy', function () {
     gulp.src("dist/**/*.*")
