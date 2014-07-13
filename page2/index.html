@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2014-07-13T16:34:07.6097607+01:00" />
+    <meta name="keywords" content=".Net,Azure,BDDfy,General,Learning,Seleno,TestStack,Visual Studio" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/page2/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/.net" title=".Net">.Net</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+
+    <div class="blog-main">
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/using-bddfy-for-unit-tests/">BDDfy In Action: Using BDDfy for Unit Tests</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 01 Jun 2013</p>
+
+        
+        <p>I’ve been using BDDfy with NUnit for writing acceptance tests for quite awhile now. But for unit testing I have continued to use mspec with <a href="https://github.com/machine/machine.fakes">machine fakes</a> and Moq for auto-mocking. The more I used BDDfy, the more I liked it, and the less I liked the context switch into another framework. I found myself wanting to write unit tests in the Given When Then format and didn't like having to maintain two sets of helper code for NUnit and mspec. I loved the reporting in BDDfy and started to think it would be pretty cool to have similar reporting for my unit tests. Basically, I wanted a consistent experience across all my automated testing.</p>
+
+          <p><a class="btn btn-primary" href="/using-bddfy-for-unit-tests/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/roll-your-own-testing-framework-2/">BDDfy in Action: Roll your own testing framework (2)</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 May 2013</p>
+
+        
+        <p>In the <a href="/roll-your-own-testing-framework">last post</a>, I did not implement the parallel testing requirement of my custom framework. This is just a brief follow up to show that feature. In the never ending quest for faster running tests, being able to run them in parallel can be a great way to speed things up.</p>
+
+          <p><a class="btn btn-primary" href="/roll-your-own-testing-framework-2/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/roll-your-own-testing-framework/">BDDfy in Action: Roll your own testing framework</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 25 May 2013</p>
+
+        
+        <p>Throughout the BDDfy in Action series, Mehdi and I have talked about the extensibility of BDDfy. I thought it would be useful to put together some sample code to demonstrate some of these extension points, and to provide a reference point for some of your own customizations. To provide some cohesion to the examples, I thought I would set myself the task of modifying BDDfy to work as a context specification framework, similar to mspec, which was previously my unit testing framework of choice. </p>
+
+          <p><a class="btn btn-primary" href="/roll-your-own-testing-framework/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/custom-reports/">BDDfy In Action: Custom Reports</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 23 May 2013</p>
+
+        
+        <p>This post looks at how to customize the HTML Report and how to create your own custom reports. You can customize the HTML report via configuration or by applying custom CSS or JavaScript. You can create custom reports either by implementing a new Processor or Batch Processor and adding them into their respective pipelines (see the <a href="http://www.michael-whelan.net/bddfy-architecture-overview/">BDDfy Architecture Overview</a> for details about the differences between these). </p>
+
+          <p><a class="btn btn-primary" href="/custom-reports/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/bddfy-architecture-overview/">BDDfy In Action: BDDfy Architecture Overview</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 22 May 2013</p>
+
+        
+        <p>The rest of the articles in this series revolve around customizing and extending BDDfy. I thought it would be good to start with an overview of the main components of the BDDfy architecture to provide some context for that discussion and to illustrate the extensibility points.</p>
+
+          <p><a class="btn btn-primary" href="/bddfy-architecture-overview/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/rules-design-pattern/">The Rules Design Pattern</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 14 May 2013</p>
+
+        
+        <p>Lately, I’ve been having to support some legacy code that has a lot of conditional logic and duplication. It can be quite hard to integrate new rules as the code can be difficult to understand and to digest what is going on. This sort of code often has comments explaining what the different pieces of conditional logic are doing. The problems only gets worse as you have to add more conditions over time.</p>
+
+
+          <p><a class="btn btn-primary" href="/rules-design-pattern/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/getting-started-with-seleno/">Getting started with Seleno</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 06 May 2013</p>
+
+        
+        <p>Seleno is an open source project from TestStack which helps you write automated UI tests with Selenium. It focuses on the use of <a href="https://code.google.com/p/selenium/wiki/PageObjects">Page Objects</a> and Page Components and by reading from and writing to web pages using strongly typed view models. This post is a brief overview of what you need to know to get started using Seleno.</p>
+
+
+          <p><a class="btn btn-primary" href="/getting-started-with-seleno/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/seleno-04/">Seleno 0.4</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 24 Mar 2013</p>
+
+        
+        <p><a href="http://teststack.net/">TestStack</a> have just released version 0.4 of <a href="http://teststack.github.com/TestStack.Seleno/">Seleno</a>, our web browser automation framework. It's a pretty big release with lots of bug fixes and enhancements and quite a number of breaking changes as we solidify the core API in preparation for a 1.0 release. We have done extensive refactoring to the core code and internal architecture to improve its testability and to lay the groundwork for new features we are wanting to provide in future releases. While we have strived to keep breaking changes to a minimum, we did choose to make a few as we saw opportunities to improve the API and make the framework easier to use. These changes will greatly reduce as Seleno matures but at this stage we feel it is good to let the API evolve.</p>
+
+
+          <p><a class="btn btn-primary" href="/seleno-04/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/bddfy-reports/">BDDfy In Action: Reports</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 25 Feb 2013</p>
+
+        
+        <p>BDDfy provides a rich array of reports to choose from and is also very easy to extend if you want to add your own reports. The two main reports are the Console Report and the HTML Report and both of these are on by default, though you can turn them off if you want to. In addition there is a Markdown Report, and recently a Diagnostics Report using JSON has been added. Both of these are off by default. </p>
+
+          <p><a class="btn btn-primary" href="/bddfy-reports/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/bddfy-in-action/">BDDfy In Action</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 24 Feb 2013</p>
+
+        
+        <p>This is a series of posts about <a href="http://teststack.github.com/pages/BDDfy.html">BDDfy</a>, the Behaviour Driven Development framework from <a href="http://teststack.github.com/">TestStack</a>. This series of posts builds on and continues the series of articles by the BDDfy creator, <a href="http://www.mehdi-khalili.com/about">Mehdi Khalili</a>, and shows 'BDDfy In Action.' I am a contributor on the project.</p>
+
+
+          <p><a class="btn btn-primary" href="/bddfy-in-action/">Read more</a></p>
+          <hr/>
+      </div>
+    </div>
+
+  <!-- Pagination links -->
+<ul class="pager">
+
+            <li class="previous">
+                <a href="/">&larr; Newer</a>
+            </li>
+
+
+        <li class="next">
+            <a href="/page3">Older &rarr;</a>
+        </li>
+</ul>
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>

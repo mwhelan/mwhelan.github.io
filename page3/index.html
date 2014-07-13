@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2014-07-13T16:34:07.6097607+01:00" />
+    <meta name="keywords" content=".Net,Azure,BDDfy,General,Learning,Seleno,TestStack,Visual Studio" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/page3/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/.net" title=".Net">.Net</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+
+    <div class="blog-main">
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/paste-json-as-classes/">Paste JSON as Classes</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 23 Feb 2013</p>
+
+        
+        <p>In the recent <a href="http://www.hanselman.com/blog/ReleasedASPNETAndWebTools20122InContext.aspx">ASP.Net and Web Tools 2012.2 Update</a> a new feature was added to allow pasting of JSON as .Net classes. This feature allows you to generate strongly typed classes in C# or VB.NET from valid JSON text. To use the feature, open a .vb or .cs file, copy the JSON text to the clipboard, select “Paste Special” from the Edit menu, and then select “Paste JSON As Classes.”</p>
+
+<p>The feature uses the <a href="http://json.codeplex.com/">Json.Net JSON parser</a> from Newtonsoft to parse JSON text from the clipboard. Once the parser validates the clipboard data as valid JSON, it converts it into the C# or VB.NET class depending on the selected file type.  If the JSON object on the clipboard is invalid, a dialog is displayed showing the Json.Net error message with the reason the text was not valid JSON.</p>
+
+
+          <p><a class="btn btn-primary" href="/paste-json-as-classes/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/nuget-add-bindingredirect/">NuGet Add-BindingRedirect</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 09 Jan 2013</p>
+
+        
+        <p>This is one of those "note to self" posts. I recently came across this NuGet feature which is useful on those infrequent occasions when I need to do binding redirects. Hopefully others will find it useful too! </p>
+
+<p>I was wanting to use <a href="https://github.com/robdmoore/AutofacContrib.NSubstitute">AutoSubstitute</a>, the cool little auto mocking container from fellow TestStacker <a href="http://robdmoore.id.au/">Rob Moore</a> that uses Autofac to resolve unknown dependencies from NSubstitute. The problem was that AutoSubstitute is strongly named and when an assembly has a strong name, the binding to that assembly becomes very strict. Because AutoSubstitute currently binds to NSubstitute 1.4.0 and I was using 1.4.3 I was getting a FileLoadException. </p>
+
+
+          <p><a class="btn btn-primary" href="/nuget-add-bindingredirect/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/using-phantomjs-with-webdriver/">Using PhantomJS and GhostDriver with Selenium WebDriver in .Net</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 09 Jan 2013</p>
+
+        
+        <p>With GhostDriver 1.0 <a href="http://blog.ivandemarino.me/2012/12/04/Finally-GhostDriver-1-0-0">recently being released</a> I was keen to check out using PhantomJS with WebDriver. I couldn’t find any .Net examples so I thought I would post one myself. </p>
+
+<p><a href="http://phantomjs.org/">PhantomJS</a> is a headless browser. That means it is a web browser, but the rendered web pages are never actually displayed. This makes it fast and an excellent candidate for speeding up those slow functional tests. According to their website PhantomJS is “a headless WebKit with JavaScript API.” Webkit is the layout engine used by a few browsers, such as Chrome and Safari. So PhantomJS is a browser, but a headless one. </p>
+
+
+          <p><a class="btn btn-primary" href="/using-phantomjs-with-webdriver/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/introducing-teststack/">Introducing TestStack</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 31 Dec 2012</p>
+
+        
+        <p><a href="http://teststack.net/">TestStack</a> is a collection of open source projects which mainly focus on making the left side of Marrick’s agile testing quadrant easier!</p>
+
+<p>Early last year, <a href="https://twitter.com/MehdiKhalili">Mehdi Khalili</a> created <a href="http://teststack.github.com/TestStack.BDDfy/">BDDfy</a> (then called bddify), a simple yet powerful and extensible BDD framework for .Net. I became a very active user of BDDfy, and eventually a contributor. This year Mehdi and I decided to setup a new open source project for automated UI testing with Selenium, called Seleno, and a GitHub organisation, TestStack, for the two projects. Since then, we have been joined by <a href="https://twitter.com/kkozmic">Krzysztof Kozmic</a>, <a href="https://twitter.com/JakeGinnivan">Jake Ginnivan</a> and <a href="https://twitter.com/robdmoore">Rob Moore</a>. </p>
+
+
+          <p><a class="btn btn-primary" href="/introducing-teststack/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/hello-world/">Hello World</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 May 2012</p>
+
+        
+        <p>I have wanted to setup a blog for awhile and I am glad to have finally done it. I love programming and want to share cool things when I discover them.  My intention for this blog is to have a place to record things that I find useful so that I can find them when I need them again later. Hopefully, others will find them useful too. </p>
+
+<p>So, who am I? I’m a Kiwi living in London. Which is to say I was born and raised in Hastings, New Zealand, and have spent most of my adult life living and working in London. I’m a Christian. I’m married - to <a href="http://birgitwhelan.com/">Birgit</a> - and we really love this city. The plan has always been to go back to New Zealand, but we keep saying, “in another five years.”</p>
+
+
+          <p><a class="btn btn-primary" href="/hello-world/">Read more</a></p>
+          <hr/>
+      </div>
+    </div>
+
+  <!-- Pagination links -->
+<ul class="pager">
+
+            <li class="previous">
+                <a href="/page2">&larr; Newer</a>
+            </li>
+
+
+</ul>
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>
