@@ -1,0 +1,54 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.ContentViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+@section featured{
+}
+
+    <div class="blog-main">
+    @foreach(var postPaged in Model.PostsPaged) {
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="@postPaged.Url">@postPaged.Title</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on @postPaged.Date.ToString("dd MMM yyyy")</p>
+
+        @Html.RenderSeries(postPaged)
+        @Html.Raw(postPaged.ContentExcerpt)
+          <p><a class="btn btn-primary" href="@postPaged.Url">Read more</a></p>
+          <hr/>
+      </div>
+    }
+    </div>
+
+  <!-- Pagination links -->
+<ul class="pager">
+
+    @if (Model.HasPreviousPage)
+    {
+        if (Model.PreviousPage == 1)
+        {
+            <li class="previous">
+                <a href="/">&larr; Newer</a>
+            </li>
+        }
+        else
+        {
+            <li class="previous">
+                <a href="/page@(Model.PreviousPage)">&larr; Newer</a>
+            </li>
+        }
+    }
+
+    @if (!Model.HasPreviousPage)
+    {
+        <li class="previous disabled"><a href="#">&larr; Newer</a></li>
+    }
+
+    @if (Model.HasNextPage)
+    {
+        <li class="next">
+            <a href="/page@(Model.NextPage)">Older &rarr;</a>
+        </li>
+    }
+</ul>

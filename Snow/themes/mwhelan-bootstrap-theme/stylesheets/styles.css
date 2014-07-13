@@ -1,0 +1,148 @@
+/*
+ * Globals
+ */
+@import 'http://fonts.googleapis.com/css?family=Open+Sans:300,600';
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 70px;
+  padding-bottom: 20px;
+    margin: 0;
+    color: #393838;
+    /*font-size: 20px;*/
+    font-family: "Open Sans",sans-serif;
+    line-height: 1.5;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  margin-top: 40px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  color: #333;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+h2 {
+    font-size: 32px;
+}
+
+h3 {
+    font-size: 26px;
+}
+
+h4 {
+    font-size: 20px;
+    font-style: italic;
+}
+
+ a:hover {
+    /*color: #34495e !important;*/
+    text-decoration: none;
+}
+
+p a {
+    font-weight: bold;
+}
+
+.navbar-custom-button {
+    background-repeat: no-repeat;
+    background-position-y: center;
+    display: block;
+    float: left;
+    height: 32px;
+    width: 32px;
+    margin-top: 9px;
+    margin-left: 16px;
+}
+
+.navbar-custom-button img {
+    height: 32px;
+    width: 32px;
+}
+
+/*
+ * Blog name and description
+ */
+
+header {
+  text-align:center;
+}
+header img {
+    border-radius: 50%;
+}
+.blog-title {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 40px;
+  font-weight: bold;
+}
+.blog-title a {
+    color: rgb(57,56,56);
+}
+.blog-description {
+  font-size: 20px;
+  color: #999;
+}
+
+.prettyprint {
+  background-color: rgb(245, 245, 245);
+}
+pre code{
+  word-wrap: normal;
+  white-space: pre;
+  font-size: 16px;
+}
+
+/*
+ * Blog posts
+ */
+
+.blog-post {
+  margin-bottom: 30px;
+    font-size: 18px;
+}
+.blog-post-title {
+  margin-bottom: 5px;
+}
+.blog-post-title a {
+    color: rgb(57,56,56);
+}
+.blog-post-meta {
+    margin-left: 15px;
+  margin-bottom: 20px;
+  color: #999;
+}
+.addThis {
+    margin-bottom: 30px;
+}
+
+/*
+ * Blog lists (Archive, Categories)
+ */
+.blog-list-link {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px;
+    line-height: 2em;
+}
+
+
+/*
+ * Footer
+ */
+
+.blog-footer {
+  padding: 40px 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: 1px solid #e5e5e5;
+}

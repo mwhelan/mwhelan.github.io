@@ -1,0 +1,15 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.ContentViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+<h2>@Model.Category.Name</h2>
+
+    @foreach (var post in Model.PostsInCategory)
+    {
+        <div>
+            <i class="fa fa-desktop"></i>
+            <a class="blog-list-link" href="@post.Url">@post.Title</a> (<span>@post.Date.ToString("dd MMM yyyy")</span>)
+        </div>
+    }
