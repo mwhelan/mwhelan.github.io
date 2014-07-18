@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="last-modified" content="2014-07-18T10:49:07.0270693+01:00" />
-    <meta name="keywords" content="Visual Studio" />
+    <meta name="keywords" content="General" />
 
     <title>Michael Whelan</title>
 
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/nuget-add-bindingredirect/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/deploying-sandra-snow-to-github-pages-with-gulp/" />
 </head>
 <body>
     <div class="container">
@@ -96,41 +96,134 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">NuGet Add-BindingRedirect</h1>
+    <h1 class="blog-post-title">Deploying Sandra.Snow to GitHub Pages with Gulp</h1>
 
     <div class="blog-post-meta">
-        posted on 09 Jan 2013
-            | <a class="label label-primary" href="/category/visual-studio">Visual Studio</a>
+        posted on 18 Jul 2014
+            | <a class="label label-primary" href="/category/general">General</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p>This is one of those "note to self" posts. I recently came across this NuGet feature which is useful on those infrequent occasions when I need to do binding redirects. Hopefully others will find it useful too! </p>
-
-<p>I was wanting to use <a href="https://github.com/robdmoore/AutofacContrib.NSubstitute">AutoSubstitute</a>, the cool little auto mocking container from fellow TestStacker <a href="http://robdmoore.id.au/">Rob Moore</a> that uses Autofac to resolve unknown dependencies from NSubstitute. The problem was that AutoSubstitute is strongly named and when an assembly has a strong name, the binding to that assembly becomes very strict. Because AutoSubstitute currently binds to NSubstitute 1.4.0 and I was using 1.4.3 I was getting a FileLoadException. </p>
+        <p>When I was planning a git work flow for my Sandra.Snow blog, which is hosted on GitHub Pages, I expected that I would store the project files in the master branch, then publish the site to the gh-pages branch. The point I overlooked is that this is the work flow for project sites, but user and organisation sites, like my blog, work slightly differently. With user and organisation sites you publish the website content to the master branch of your GitHub repository. This was far from ideal, as it meant that my content was mixed with the generated output. Even the slightest tweak to a post would lead to the whole site being generated, meaning monster commits and hiding the changes to the content. I suspect Sandra.Snow has a few solutions to this problem, but here is the solution I came up with.</p>
 
 <!--excerpt-->
 
-<p>No worries, just need to add a binding redirect. Thankfully, I no longer have to do it by hand. Open the NuGet Package Manager Console, specify the appropriate Default Project and enter the command Add-BindingRedirect. </p>
+<h2>Orphan Branch</h2>
 
-<p><img src="/images/nuget_addbindingredirect.png" alt="alt text" /></p>
+<p>The first step was to separate out the markdown blog posts and snow templates from the generated static website files. To do this, I created an orphan branch in the repository named "posts" and moved the markdown blog posts and Sandra.Snow templates and generators into it:</p>
 
-<p>As if by magic, an app.config is added to the project (if one doesn't exist already) and the appropriate information added.</p>
-
-<pre><code>&lt;configuration&gt;
-  &lt;runtime&gt;
-    &lt;assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1"&gt;
-      &lt;dependentAssembly&gt;
-        &lt;assemblyIdentity name="NSubstitute" publicKeyToken="92dd2e9066daa5ca" culture="neutral" /&gt;
-        &lt;bindingRedirect oldVersion="0.0.0.0-1.4.3.0" newVersion="1.4.3.0" /&gt;
-      &lt;/dependentAssembly&gt;
-    &lt;/assemblyBinding&gt;
-  &lt;/runtime&gt;
-&lt;/configuration&gt;
+<pre><code>git checkout --orphan posts
 </code></pre>
 
-<p>Sweet!</p>
+<h2>Gulp</h2>
+
+<p>The next step was to automate the deployment to my remote master branch. To do that, I thought I would use <a href="http://gulpjs.com/">Gulp</a>, a useful tool I've been using recently while learning AngularJS. Gulp is a relatively new build system, which makes it easy to automate common tasks in the development of a website. It's built on Node.js and is extremely fast, as it uses node.js streams rather than writing temporary files to disk. It promotes the idea of code over configuration - the code being JavaScript.</p>
+
+<p>To install Gulp, you need to have <a href="http://nodejs.org/">Node</a> installed. Then you can install gulp globally by running:</p>
+
+<pre><code>npm install -g gulp
+</code></pre>
+
+<p>You then need to install it locally into your project. From the command line, navigate to your project root, and run:</p>
+
+<pre><code>npm install --save-dev gulp
+</code></pre>
+
+<p>This installs gulp locally in the <code>node_modules</code> folder and saves it to the <code>package.json</code> file that holds the node configuration. (If you don't have a package.json file you can type <a href="https://www.npmjs.org/doc/cli/npm-init.html">npm init</a> to generate one before this step).</p>
+
+<p>Like I said, I want to keep any generated files out of the repo, so I added the <code>dist</code> folder (where I have Sandra.Snow generate the static pages to) and the <code>node_modules</code> folder (where node stores all of the plugins) to the <code>.gitignore</code> file.</p>
+
+<pre><code>dist/
+node_modules/
+</code></pre>
+
+<p>If I clone a fresh copy of the repo, I just need to open a command prompt at the project root and type <code>npm update</code> to reinstall all the plugins listed in the node <code>package.json</code> file to the <code>node_modules</code> folder.</p>
+
+<h2>Gulp-gh-pages</h2>
+
+<p><a href="https://github.com/rowoot/gulp-gh-pages">Gulp-gh-pages</a> is a gulp plugin to publish to GitHub Pages. Its default use case is to deploy to a project site's gh-pages branch, but you can configure it to deploy to the master branch instead. To deploy locally, execute:</p>
+
+<pre><code>npm install --save-dev gulp-gh-pages
+</code></pre>
+
+<p>You configure gulp-plugins using JavaScript in a <code>gulpfile.js</code> file. To configure gulp-gh-pages to deploy the dist folder (the output folder that Snow generates the website to) to the master branch of my mwhelan.github.io user site repository, I just need to define a <code>deploy</code> task:</p>
+
+<pre><code>var deploy = require("gulp-gh-pages");
+var options = { 
+    remoteUrl: "https://github.com/mwhelan/mwhelan.github.io.git",
+    branch: "master"};
+gulp.task('deploy', function () {
+    gulp.src("dist/**/*.*")
+        .pipe(deploy(options));
+});
+</code></pre>
+
+<p>Now if I want to deploy my site, I just need to navigate to the root of the project via the command line and execute that task:</p>
+
+<pre><code>gulp deploy
+</code></pre>
+
+<h2>The whole workflow</h2>
+
+<p>When I've created a new blog post, I use Snow to generate the static site and then view it in a browser to make sure everything is OK:</p>
+
+<pre><code>gulp build
+</code></pre>
+
+<p>The build task deletes the output folder, shells out to Snow to re-generate the static site, creates a web server to host the static files, then opens the browser to display the site. (Snow already does some of these things, but I did them here to add to my learning about gulp)! </p>
+
+<p>To have these steps happens in that order, I use the <a href="https://www.npmjs.org/package/run-sequence">run-sequence plugin</a>. By default, node would run the tasks asynchronously. Once everything looks OK, I can run the <code>deploy</code> task to publish to GitHub. </p>
+
+<p>In case it is useful, here is the whole gulp configuration file.</p>
+
+<pre><code>var gulp = require("gulp");
+var runSequence = require("run-sequence");
+var clean = require('gulp-rimraf');
+var shell = require('gulp-shell');
+var connect = require('gulp-connect');
+var open = require('gulp-open');
+var deploy = require("gulp-gh-pages");
+
+gulp.task('clean', function () {
+    return gulp.src('dist', {read:false})
+        .pipe(clean());
+});
+
+gulp.task('snow', shell.task('.\\Snow\\_compiler\\Snow.exe config=.\\Snow\\'));
+
+gulp.task('connect', function() {
+    connect.server({
+        root: 'dist/',
+        port: '8123'
+  });
+});
+
+gulp.task("open", function(){
+  var options = {
+    url: "http://localhost:8123"
+  };
+  gulp.src("dist/index.html")
+  .pipe(open("", options));
+});
+
+// generate website to 'dist' folder and then open site in browser
+gulp.task('build', function(callback) {
+    runSequence('clean', 'snow', 'connect', 'open');
+});
+
+// deploy 'dist' folder to mwhelan.github.io github repo, master branch
+var options = { 
+    remoteUrl: "https://github.com/mwhelan/mwhelan.github.io.git",
+    branch: "master"};
+gulp.task('deploy', function () {
+    gulp.src("dist/**/*.*")
+        .pipe(deploy(options));
+});
+</code></pre>
+
+<p>Like I say, I am pretty new to all this front-end build stuff. I suspect I will find better ways of doing things as my experience with gulp increases. I could also add some other tasks in here, such as minifying the CSS/JavaScript, and using <a href="http://addyosmani.com/blog/removing-unused-css/">uncss</a> to delete all the redundant CSS. (I am using Twitter Bootstrap to style my site and I already know that I can delete 90% of my styles)! </p>
 
     </div>
     
@@ -154,14 +247,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/nuget-add-bindingredirect/';
+                this.page.url = 'http://www.michael-whelan.net/deploying-sandra-snow-to-github-pages-with-gulp/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/nuget-add-bindingredirect/';
+    var disqus_url = 'http://www.michael-whelan.net/deploying-sandra-snow-to-github-pages-with-gulp/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
