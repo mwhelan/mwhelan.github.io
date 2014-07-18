@@ -114,17 +114,3 @@ In case it is useful, here is the whole gulp configuration file.
 	});
 
 Like I say, I am pretty new to all this front-end build stuff. I suspect I will find better ways of doing things as my experience with gulp increases. I could also add some other tasks in here, such as minifying the CSS/JavaScript, and using [uncss](http://addyosmani.com/blog/removing-unused-css/) to delete all the redundant CSS. (I am using Twitter Bootstrap to style my site and I already know that I can delete 90% of my styles)! 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
