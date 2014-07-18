@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-07-18T10:49:07.0270693+01:00" />
-    <meta name="keywords" content="General" />
+    <meta http-equiv="last-modified" content="2014-07-18T11:25:25.8789917+01:00" />
+    <meta name="keywords" content="Snow" />
 
     <title>Michael Whelan</title>
 
@@ -56,6 +56,9 @@
                                             <a href="/category/seleno" title="Seleno">Seleno</a>
                                         </li>
                                         <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
                                             <a href="/category/teststack" title="TestStack">TestStack</a>
                                         </li>
                                         <li>
@@ -100,7 +103,7 @@
 
     <div class="blog-post-meta">
         posted on 18 Jul 2014
-            | <a class="label label-primary" href="/category/general">General</a>
+            | <a class="label label-primary" href="/category/snow">Snow</a>
     </div>
 
     <div class="blog-post">
@@ -143,7 +146,7 @@ node_modules/
 
 <h2>Gulp-gh-pages</h2>
 
-<p><a href="https://github.com/rowoot/gulp-gh-pages">Gulp-gh-pages</a> is a gulp plugin to publish to GitHub Pages. Its default use case is to deploy to a project site's gh-pages branch, but you can configure it to deploy to the master branch instead. To deploy locally, execute:</p>
+<p><a href="https://github.com/rowoot/gulp-gh-pages">Gulp-gh-pages</a> is a gulp plugin to publish to GitHub Pages. Its default use case is to deploy to a project site's gh-pages branch, but you can configure it to deploy to the master branch instead. To install into the project, execute:</p>
 
 <pre><code>npm install --save-dev gulp-gh-pages
 </code></pre>
@@ -174,7 +177,7 @@ gulp.task('deploy', function () {
 
 <p>The build task deletes the output folder, shells out to Snow to re-generate the static site, creates a web server to host the static files, then opens the browser to display the site. (Snow already does some of these things, but I did them here to add to my learning about gulp)! </p>
 
-<p>To have these steps happens in that order, I use the <a href="https://www.npmjs.org/package/run-sequence">run-sequence plugin</a>. By default, node would run the tasks asynchronously. Once everything looks OK, I can run the <code>deploy</code> task to publish to GitHub. </p>
+<p>To have these steps happen in that order, I use the <a href="https://www.npmjs.org/package/run-sequence">run-sequence plugin</a>. By default, node would run the tasks asynchronously. Once everything looks OK, I can run the <code>deploy</code> task to publish to GitHub. </p>
 
 <p>In case it is useful, here is the whole gulp configuration file.</p>
 
