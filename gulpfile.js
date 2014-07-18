@@ -33,7 +33,7 @@ gulp.task('build', function(callback) {
 	runSequence('clean', 'snow', 'connect', 'open');
 });
 
-// deploy 'dist' folder to mwhelan.github.io github repo, gh-pages branch
+// deploy 'dist' folder to mwhelan.github.io github repo, master branch
 var options = { 
 	remoteUrl: "https://github.com/mwhelan/mwhelan.github.io.git",
 	branch: "master"};

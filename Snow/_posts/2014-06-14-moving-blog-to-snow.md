@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Moving my blog to Snow and GitHub Pages
-categories: General
+categories: Snow
 image: images/sswtvthumb.jpg
 date: 2014-06-14
 comments: true
