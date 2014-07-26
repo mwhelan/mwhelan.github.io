@@ -19,7 +19,7 @@ The first step was to separate out the markdown blog posts and snow templates fr
 	git checkout --orphan posts
  
 ## Gulp ##
-The next step was to automate the deployment to my remote master branch. To do that, I thought I would use [Gulp](http://gulpjs.com/), a useful tool I've been using recently while learning AngularJS. Gulp is a relatively new build system, which makes it easy to automate common tasks in the development of a website. It's built on Node.js and is extremely fast, as it uses node.js streams rather than writing temporary files to disk. It promotes the idea of code over configuration - the code being JavaScript.
+The next step was to automate the deployment to my remote master branch. To do that, I thought I would use [Gulp](http://gulpjs.com/), a useful tool I've been using recently while learning AngularJS. Gulp is a relatively new  front-end build system, which makes it easy to automate common tasks in the development of a website. It's built on Node.js and is extremely fast, as it uses node.js streams rather than writing temporary files to disk. It promotes the idea of code over configuration - the code being JavaScript.
 
 To install Gulp, you need to have [Node](http://nodejs.org/) installed. Then you can install gulp globally by running:
 
