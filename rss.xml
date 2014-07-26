@@ -128,7 +128,10 @@ gulp.task('deploy', function () {
 
 &lt;!--excerpt--&gt;
 
-&lt;p&gt;Just install &lt;a href="http://technet.microsoft.com/en-us/library/cc733145.aspx"&gt;RoboCopy&lt;/a&gt; and use the mirror flag. If you are on Windows 8, I suggest you use the version from the &lt;a href="http://www.microsoft.com/en-us/download/details.aspx?id=17657"&gt;Windows Server 2003 resource kit&lt;/a&gt; as there appear to be &lt;a href="http://www.matrix44.net/blog/?p=1355"&gt;issues&lt;/a&gt; with the Windows 8 version. This mirrors an empty directory to the problematic &lt;code&gt;node_modules&lt;/code&gt; folder, which you can then delete in the normal way. Cunningly, deleting the mirrored directory also deletes the &lt;code&gt;node_modules&lt;/code&gt; directory. &lt;/p&gt;
+&lt;p&gt;First, you need to install &lt;a href="http://technet.microsoft.com/en-us/library/cc733145.aspx"&gt;RoboCopy&lt;/a&gt;. If you are on Windows 8, I suggest you use the version from the &lt;a href="http://www.microsoft.com/en-us/download/details.aspx?id=17657"&gt;Windows Server 2003 resource kit&lt;/a&gt; as there appear to be &lt;a href="http://www.matrix44.net/blog/?p=1355"&gt;issues&lt;/a&gt; with the Windows 8 version. Create an empty directory and use the RoboCopy mirror flag to mirror the empty directory to the problematic &lt;code&gt;node_modules&lt;/code&gt; folder. You can then delete the empty directory in the normal way. Cunningly, deleting the mirrored directory also deletes the &lt;code&gt;node_modules&lt;/code&gt; directory. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;robocopy new_empty_directory node_modules /MIR
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Credit to &lt;a href="http://toby1kenobi.com/2014/04/how-to-delete-the-node_modules-folder-when-windows-complains-that-file-or-path-names-are-too-long/"&gt;toby1kenobi&lt;/a&gt; for this clever solution!&lt;/p&gt;
 
