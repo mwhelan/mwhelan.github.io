@@ -15,7 +15,9 @@ When using Node Package Manager (NPM) on Windows, it has an annoying habit of cr
 Fortunately, the fix is pretty simple.
 <!--excerpt-->
 
-Just install [RoboCopy](http://technet.microsoft.com/en-us/library/cc733145.aspx) and use the mirror flag. If you are on Windows 8, I suggest you use the version from the [Windows Server 2003 resource kit](http://www.microsoft.com/en-us/download/details.aspx?id=17657) as there appear to be [issues](http://www.matrix44.net/blog/?p=1355) with the Windows 8 version. This mirrors an empty directory to the problematic `node_modules` folder, which you can then delete in the normal way. Cunningly, deleting the mirrored directory also deletes the `node_modules` directory. 
+First, you need to install [RoboCopy](http://technet.microsoft.com/en-us/library/cc733145.aspx). If you are on Windows 8, I suggest you use the version from the [Windows Server 2003 resource kit](http://www.microsoft.com/en-us/download/details.aspx?id=17657) as there appear to be [issues](http://www.matrix44.net/blog/?p=1355) with the Windows 8 version. Create an empty directory and use the RoboCopy mirror flag to mirror the empty directory to the problematic `node_modules` folder. You can then delete the empty directory in the normal way. Cunningly, deleting the mirrored directory also deletes the `node_modules` directory. 
+
+	robocopy new_empty_directory node_modules /MIR
 
 Credit to [toby1kenobi](http://toby1kenobi.com/2014/04/how-to-delete-the-node_modules-folder-when-windows-complains-that-file-or-path-names-are-too-long/) for this clever solution!
 
