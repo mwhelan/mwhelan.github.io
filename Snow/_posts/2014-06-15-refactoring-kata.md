@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Refactoring Kata
-categories: .Net
+categories: Programming
 image: images/sswtvthumb.jpg
 date: 2014-06-14
 comments: true

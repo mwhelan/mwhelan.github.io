@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Rules Design Pattern
-categories: .Net
+categories: Programming
 description: Dealing with complex conditional logic with the Rules design pattern
 date: 2013-05-14
 comments: true
