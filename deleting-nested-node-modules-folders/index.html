@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-07-26T13:55:55.5372634+01:00" />
+    <meta http-equiv="last-modified" content="2014-07-26T14:02:35.9428531+01:00" />
     <meta name="keywords" content="General" />
 
     <title>Michael Whelan</title>
@@ -115,7 +115,7 @@
 
 <!--excerpt-->
 
-<p>First, you need to install <a href="http://technet.microsoft.com/en-us/library/cc733145.aspx">RoboCopy</a>. If you are on Windows 8, I suggest you use the version from the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=17657">Windows Server 2003 resource kit</a> as there appear to be <a href="http://www.matrix44.net/blog/?p=1355">issues</a> with the Windows 8 version. Create an empty directory and use the RoboCopy mirror flag to mirror the empty directory to the problematic <code>node_modules</code> folder. You can then delete the empty directory in the normal way. Cunningly, deleting the mirrored directory also deletes the <code>node_modules</code> directory. </p>
+<p>First, you need to install <a href="http://technet.microsoft.com/en-us/library/cc733145.aspx">RoboCopy</a>. If you are on Windows 8, I suggest you use the version from the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=17657">Windows Server 2003 resource kit</a> as there appear to be <a href="http://www.matrix44.net/blog/?p=1355">issues</a> with the Windows 8 version. Next, create an empty directory and use the RoboCopy mirror flag to mirror the empty directory to the problematic <code>node_modules</code> folder. You can then delete the empty directory in the normal way. Cunningly, deleting the mirrored directory also deletes the <code>node_modules</code> directory. </p>
 
 <pre><code>robocopy new_empty_directory node_modules /MIR
 </code></pre>
