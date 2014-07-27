@@ -13,7 +13,7 @@ permalink: /customizing-metro-report-in-bddfyv4/
 BDDfy v4 is out and it provides a new metro-style HTML report. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.
 <!--excerpt-->
 
-![BDDfy metro report](images/bddfy-metro.png)
+![BDDfy metro report](/images/bddfy-metro.png)
 
 By default, BDDfy still runs with the classic HTML report. If you want to turn on the metro report, then you need to enable it:
 
@@ -59,4 +59,4 @@ You customise both HTML reports by creating an implementation of `IHtmlReportCon
         }
     }
 
-![BDDfy metro report](images/bddfy-metro-custom.png)
+![BDDfy metro report](/images/bddfy-metro-custom.png)
