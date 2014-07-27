@@ -37,7 +37,7 @@ gulp.task('build', function(callback) {
 var options = { 
 	remoteUrl: "https://github.com/mwhelan/mwhelan.github.io.git",
 	branch: "master"};
-gulp.task('deploy', function () {
-    gulp.src("dist/**/*")
-        .pipe(deploy(options));
-});
+  gulp.task('deploy', function () {
+      gulp.src("dist/**/*.*")
+          .pipe(deploy(options));
+  });
