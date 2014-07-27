@@ -27,7 +27,7 @@
 
 &lt;p&gt;Note the use of the &lt;code&gt;MetroReportBuilder&lt;/code&gt; class to create a custom metro report. (To customize the classic HTML report you could swap that parameter for the &lt;code&gt;ClassicReportBuilder&lt;/code&gt; class, or use the original constructor overload to leave the ReportBuilder out altogether).&lt;/p&gt;
 
-&lt;p&gt;You customise both HTML reports by creating an implementation of &lt;code&gt;IHtmlReportConfiguration&lt;/code&gt;. The easiest way to do this is to inherit from the &lt;code&gt;DefaultHtmlReportConfiguration&lt;/code&gt; class and override the specific properties that you want to customize. &lt;/p&gt;
+&lt;p&gt;You customize both HTML reports by creating an implementation of &lt;code&gt;IHtmlReportConfiguration&lt;/code&gt;. The easiest way to do this is to inherit from the &lt;code&gt;DefaultHtmlReportConfiguration&lt;/code&gt; class and override the specific properties that you want to customize. &lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;public class CustomMetroHtmlReportConfiguration : DefaultHtmlReportConfiguration
 {
