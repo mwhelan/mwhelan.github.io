@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Customizing the New Metro HTML Report in BDDfy v4
-categories: Snow
+categories: BDDfy
 image: images/sswtvthumb.jpg
 date: 2014-07-27
 comments: true
