@@ -38,6 +38,6 @@ var options = {
 	remoteUrl: "https://github.com/mwhelan/mwhelan.github.io.git",
 	branch: "master"};
   gulp.task('deploy', function () {
-      gulp.src("dist/**/*.*")
+      gulp.src(["dist/**/*.*", "dist/*"])
           .pipe(deploy(options));
   });
