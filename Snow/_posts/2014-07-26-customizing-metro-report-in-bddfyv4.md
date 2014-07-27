@@ -33,7 +33,7 @@ Alternatively, you can customize the metro report to, amongst other things, have
 
 Note the use of the `MetroReportBuilder` class to create a custom metro report. (To customize the classic HTML report you could swap that parameter for the `ClassicReportBuilder` class, or use the original constructor overload to leave the ReportBuilder out altogether).
 
-You customise both HTML reports by creating an implementation of `IHtmlReportConfiguration`. The easiest way to do this is to inherit from the `DefaultHtmlReportConfiguration` class and override the specific properties that you want to customize. 
+You customize both HTML reports by creating an implementation of `IHtmlReportConfiguration`. The easiest way to do this is to inherit from the `DefaultHtmlReportConfiguration` class and override the specific properties that you want to customize. 
 
     public class CustomMetroHtmlReportConfiguration : DefaultHtmlReportConfiguration
     {
