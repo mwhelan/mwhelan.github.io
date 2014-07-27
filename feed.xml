@@ -1,4 +1,61 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-07-27T10:59:46+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/deploying-sandra-snow-to-github-pages-with-gulp/</id><title type="text">Deploying Sandra.Snow to GitHub Pages with Gulp</title><summary type="html">&lt;p&gt;When I was planning a git work flow for my Sandra.Snow blog, which is hosted on GitHub Pages, I expected that I would store the project files in the master branch, then publish the site to the gh-pages branch. The point I overlooked is that this is the work flow for project sites, but user and organisation sites, like my blog, work slightly differently. With user and organisation sites you publish the website content to the master branch of your GitHub repository. This was far from ideal, as it meant that my content was mixed with the generated output. Even the slightest tweak to a post would lead to the whole site being generated, meaning monster commits and hiding the changes to the content. I suspect Sandra.Snow has a few solutions to this problem, but here is the solution I came up with.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-07-27T14:36:55+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/customizing-metro-report-in-bddfyv4/</id><title type="text">Customizing the New Metro HTML Report in BDDfy v4</title><summary type="html">&lt;p&gt;BDDfy v4 is out and it provides a new metro-style HTML report. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.&lt;/p&gt;
+
+</summary><published>2014-07-26T23:00:00Z</published><updated>2014-07-26T23:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/customizing-metro-report-in-bddfyv4/" /><content type="html">&lt;p&gt;BDDfy v4 is out and it provides a new metro-style HTML report. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/bddfy-metro.png" alt="BDDfy metro report" /&gt;&lt;/p&gt;
+
+&lt;p&gt;By default, BDDfy still runs with the classic HTML report. If you want to turn on the metro report, then you need to enable it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Configurator.BatchProcessors.HtmlMetroReport.Enable();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Technically, this will mean that both HTML reports are turned on. Be warned though, by default both reports generate a file in your bin directory named &lt;code&gt;BDDfy.html&lt;/code&gt;. So, one of the files will overwrite the other one and you will only see one HTML report (we might change this). &lt;/p&gt;
+
+&lt;p&gt;If you only want to run the metro HTML report, then you can turn off the classic HTML report:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Configurator.BatchProcessors.HtmlReport.Disable();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Alternatively, you can customize the metro report to, amongst other things, have a new filename. In this case, instead of enabling the metro report, you would add a new &lt;code&gt;HtmlReporter&lt;/code&gt; to the Batch Processors pipeline.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Configurator.BatchProcessors.Add(
+    new HtmlReporter(
+        new CustomMetroHtmlReportConfiguration(), new MetroReportBuilder()));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note the use of the &lt;code&gt;MetroReportBuilder&lt;/code&gt; class to create a custom metro report. (To customize the classic HTML report you could swap that parameter for the &lt;code&gt;ClassicReportBuilder&lt;/code&gt; class, or use the original constructor overload to leave the ReportBuilder out altogether).&lt;/p&gt;
+
+&lt;p&gt;You customise both HTML reports by creating an implementation of &lt;code&gt;IHtmlReportConfiguration&lt;/code&gt;. The easiest way to do this is to inherit from the &lt;code&gt;DefaultHtmlReportConfiguration&lt;/code&gt; class and override the specific properties that you want to customize. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class CustomMetroHtmlReportConfiguration : DefaultHtmlReportConfiguration
+{
+    public override string OutputFileName
+    {
+        get { return "BDDfyMetro.html"; }
+    }
+
+    public override string ReportHeader
+    {
+        get { return "ATM Solutions"; }
+    }
+
+    public override string ReportDescription
+    {
+        get { return "A reliable solution for your offline banking needs"; }
+    }
+
+    /// Embed jQuery in the report so people can see it with no internet connectivity
+    public override bool ResolveJqueryFromCdn
+    {
+        get { return false; }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/bddfy-metro-custom.png" alt="BDDfy metro report" /&gt;&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/deploying-sandra-snow-to-github-pages-with-gulp/</id><title type="text">Deploying Sandra.Snow to GitHub Pages with Gulp</title><summary type="html">&lt;p&gt;When I was planning a git work flow for my Sandra.Snow blog, which is hosted on GitHub Pages, I expected that I would store the project files in the master branch, then publish the site to the gh-pages branch. The point I overlooked is that this is the work flow for project sites, but user and organisation sites, like my blog, work slightly differently. With user and organisation sites you publish the website content to the master branch of your GitHub repository. This was far from ideal, as it meant that my content was mixed with the generated output. Even the slightest tweak to a post would lead to the whole site being generated, meaning monster commits and hiding the changes to the content. I suspect Sandra.Snow has a few solutions to this problem, but here is the solution I came up with.&lt;/p&gt;
 
 </summary><published>2014-07-17T23:00:00Z</published><updated>2014-07-17T23:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/deploying-sandra-snow-to-github-pages-with-gulp/" /><content type="html">&lt;p&gt;When I was planning a git work flow for my Sandra.Snow blog, which is hosted on GitHub Pages, I expected that I would store the project files in the master branch, then publish the site to the gh-pages branch. The point I overlooked is that this is the work flow for project sites, but user and organisation sites, like my blog, work slightly differently. With user and organisation sites you publish the website content to the master branch of your GitHub repository. This was far from ideal, as it meant that my content was mixed with the generated output. Even the slightest tweak to a post would lead to the whole site being generated, meaning monster commits and hiding the changes to the content. I suspect Sandra.Snow has a few solutions to this problem, but here is the solution I came up with.&lt;/p&gt;
 
