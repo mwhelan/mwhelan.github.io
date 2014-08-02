@@ -1,4 +1,38 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-07-28T12:49:31+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/customizing-metro-report-in-bddfyv4/</id><title type="text">Customizing the New Metro HTML Report in BDDfy v4</title><summary type="html">&lt;p&gt;BDDfy v4 is out and it provides a new metro-style HTML report - thanks to &lt;a href="https://twitter.com/robertsjason"&gt;Jason Roberts&lt;/a&gt; for this excellent contribution. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-08-02T13:01:44+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/gitignore-files/</id><title type="text">gitignore Files</title><summary type="html">&lt;p&gt;There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named &lt;code&gt;.gitignore&lt;/code&gt;, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from &lt;a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files"&gt;Pro Git&lt;/a&gt;.&lt;/p&gt;
+
+</summary><published>2014-08-01T23:00:00Z</published><updated>2014-08-01T23:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/gitignore-files/" /><content type="html">&lt;p&gt;There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named &lt;code&gt;.gitignore&lt;/code&gt;, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from &lt;a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files"&gt;Pro Git&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;h2&gt;Creating a .gitignore file&lt;/h2&gt;
+
+&lt;p&gt;Creating a .gitignore file is slightly tricky on Windows. When you try to create it in Windows Explorer, it interprets the gitignore part of the file name as the file extension, and so thinks that you are trying to create a file without a name. You get the aptly named "You must type a file name." error message.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/gitignore-windows-error.png" alt="windows error" /&gt;&lt;/p&gt;
+
+&lt;p&gt;To get around this issue, just create a normal text file, such as &lt;code&gt;gitignore.txt&lt;/code&gt;. Open the file in a text editor and add all of your rules. Finally, open a command prompt, navigate to the folder containing the file, and use the &lt;code&gt;ren&lt;/code&gt; command to rename it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ren gitignore.txt .gitignore
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Sources of .gitignore rules&lt;/h2&gt;
+
+&lt;p&gt;The contents of a .gitignore file vary by operating systems, environments, and languages. There are a few useful resources for finding the right combination of rules for your particular project flavour.&lt;/p&gt;
+
+&lt;h3&gt;gitignore.io website&lt;/h3&gt;
+
+&lt;p&gt;The &lt;a href="http://www.gitignore.io/"&gt;gitignore.io&lt;/a&gt; website is very handy. It lets you type in any combination of rules from a pre-defined list, and then either generate the .gitignore file in the browser or download the generated .gitignore file to your computer. &lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/gitignore-gitignore-io.png" alt="gitignore.io" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;GitHub&lt;/h3&gt;
+
+&lt;p&gt;When you create a new repository on GitHub you can choose to add a .gitignore file from GitHub's collection of .gitignore file templates.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/gitignore-github.png" alt="github" /&gt;&lt;/p&gt;
+
+&lt;p&gt;GitHub maintains an &lt;a href="https://github.com/github/gitignore"&gt;official list&lt;/a&gt; of recommended .gitignore files for many popular operating systems, environments, and languages, which they use to populate the new repository .gitignore list.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/customizing-metro-report-in-bddfyv4/</id><title type="text">Customizing the New Metro HTML Report in BDDfy v4</title><summary type="html">&lt;p&gt;BDDfy v4 is out and it provides a new metro-style HTML report - thanks to &lt;a href="https://twitter.com/robertsjason"&gt;Jason Roberts&lt;/a&gt; for this excellent contribution. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.&lt;/p&gt;
 
 </summary><published>2014-07-26T23:00:00Z</published><updated>2014-07-26T23:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/customizing-metro-report-in-bddfyv4/" /><content type="html">&lt;p&gt;BDDfy v4 is out and it provides a new metro-style HTML report - thanks to &lt;a href="https://twitter.com/robertsjason"&gt;Jason Roberts&lt;/a&gt; for this excellent contribution. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.&lt;/p&gt;
 

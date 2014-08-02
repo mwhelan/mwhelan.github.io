@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="last-modified" content="2014-08-02T13:01:42.2567142+01:00" />
-    <meta name="keywords" content="Learning" />
+    <meta name="keywords" content="Visual Studio" />
 
     <title>Michael Whelan</title>
 
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/learning-angularjs-data-binding/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/gitignore-files/" />
 </head>
 <body>
     <div class="container">
@@ -99,85 +99,48 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">AngularJS Data Binding</h1>
+    <h1 class="blog-post-title">gitignore Files</h1>
 
     <div class="blog-post-meta">
-        posted on 20 Jun 2014
-            | <a class="label label-primary" href="/category/learning">Learning</a>
+        posted on 02 Aug 2014
+            | <a class="label label-primary" href="/category/visual-studio">Visual Studio</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p><strong>This article is part of a series on <a href="/learning-angularjs">Learning AngularJS</a>.</strong></p>
+        <p>There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named <code>.gitignore</code>, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from <a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files">Pro Git</a>.</p>
 
-<p>Although AngularJS is a JavaScript framework, there is actually quite a lot you can do without writing any JavaScript at all. In my first look at Angular, I am going to focus on simple data binding with Angular directives. Directives are a mechanism that Angular uses to extend the capabilities of HTML. HTML is designed for static documents and directives help you extend it for dynamic views, letting you invent new HTML syntax, specific to your application.</p>
+<!--excerpt-->
 
-<h2>Referencing AngularJS</h2>
+<h2>Creating a .gitignore file</h2>
 
-<p>It probably goes without saying that the first thing you need to do is reference AngularJS in your HTML page.</p>
+<p>Creating a .gitignore file is slightly tricky on Windows. When you try to create it in Windows Explorer, it interprets the gitignore part of the file name as the file extension, and so thinks that you are trying to create a file without a name. You get the aptly named "You must type a file name." error message.</p>
 
-<pre><code>&lt;script src="assets/js/angular.min.js"&gt;&lt;/script&gt;
+<p><img src="/images/gitignore-windows-error.png" alt="windows error" /></p>
+
+<p>To get around this issue, just create a normal text file, such as <code>gitignore.txt</code>. Open the file in a text editor and add all of your rules. Finally, open a command prompt, navigate to the folder containing the file, and use the <code>ren</code> command to rename it.</p>
+
+<pre><code>ren gitignore.txt .gitignore
 </code></pre>
 
-<p>If you go to the <a href="https://angularjs.org/">AngularJS home page</a> then you can download a copy or get a reference to the CDN location. You can also install it via NuGet and Bower.</p>
+<h2>Sources of .gitignore rules</h2>
 
-<h2>ng-app</h2>
+<p>The contents of a .gitignore file vary by operating systems, environments, and languages. There are a few useful resources for finding the right combination of rules for your particular project flavour.</p>
 
-<p>The key built-in Angular directive is <code>ng-app</code>, which bootstraps the Angular application. It designates the root element of the application. You can scope your Angular application to any part of the page, but it is common to put it on the <code>html</code> or <code>body</code> tag, which makes your entire page Angular.</p>
+<h3>gitignore.io website</h3>
 
-<pre><code>&lt;body ng-app=""&gt;
-</code></pre>
+<p>The <a href="http://www.gitignore.io/">gitignore.io</a> website is very handy. It lets you type in any combination of rules from a pre-defined list, and then either generate the .gitignore file in the browser or download the generated .gitignore file to your computer. </p>
 
-<h2>ng-init</h2>
+<p><img src="/images/gitignore-gitignore-io.png" alt="gitignore.io" /></p>
 
-<p>Because we've loaded Angular in our script tag and set the ng-app attribute on our opening html tag, we get access to Angular in our HTML template. <code>ng-init</code> is an Angular directive that allows us to set an initial value on the scope on page load. Here I have a "container" div for my page and I am calling ng-init as an attribute on that div and creating a <code>data</code> object. </p>
+<h3>GitHub</h3>
 
-<pre><code>&lt;div class="container" ng-init="data={
-     femaleName: 'female name',
-     jobTitle: 'job title',
-     tediousTask: 'tedious task',
-     dirtyTask: 'dirty task',
-     celebrity: 'celebrity',
-     uselessSkill: 'useless skill',
-     obnoxiousCelebrity: 'obnoxious celebrity',
-     hugeNumber: 'huge number',
-     adjective: 'adjective'
-     }"&gt;
-</code></pre>
+<p>When you create a new repository on GitHub you can choose to add a .gitignore file from GitHub's collection of .gitignore file templates.</p>
 
-<p>It should be noted that ng-init is not recommended for production applications. There are better ways to load data, but it is convenient for demos like this as it allows us to focus on the basics of data binding without getting into the rest of Angular.</p>
+<p><img src="/images/gitignore-github.png" alt="github" /></p>
 
-<h2>Data Binding</h2>
-
-<p>OK, so it's worth taking a look at the interface at this point. In this <a href="">MadLibs game</a> the player types words into the form input fields and their values show up in the story below. </p>
-
-<p><img src="/images/learning-angularjs-ngmadlibs.png" alt="MadLibs app" /></p>
-
-<h2>ng-model</h2>
-
-<p>The data entry input fields use <code>ng-model</code>, which is an Angular directive to handle <em>two way data binding.</em> This means that it will write any input directly into the data object and will display the latest value for that property in the data object. For example, here is the markup for the input field that is bound to the <code>femaleName</code> property of the <code>data</code> object.</p>
-
-<pre><code>&lt;div class="libInput"&gt;
-    &lt;input type="text" ng-model="data.femaleName" /&gt;
-&lt;/div&gt;
-</code></pre>
-
-<h2>Binding Expressions</h2>
-
-<p>In Angular applications, your HTML templates are static and your data is dynamic. When a data value changes in the model (<code>data</code> in this case) the browser renders the updates within the template. You display the contents of the model using Angular’s binding syntax, which is a pair of curly braces around an Angular expression. Angular expressions are JavaScript-like code snippets that are placed in curly braces. For example:</p>
-
-<pre><code>{{ expression }}
-</code></pre>
-
-<p>Each of the highlighted phrases in the story (above) are bound to the data model using binding expressions. For example:</p>
-
-<pre><code>{{data.femaleName}}
-</code></pre>
-
-<h2>Source code and demo</h2>
-
-<p>You can see the MadLibs game in action <a href="http://www.michael-whelan.net/thinkful-angular-ngMadLibs/">here</a> and you can get the source code on <a href="https://github.com/mwhelan/thinkful-angular-ngMadLibs">GitHub</a>. I am going to be refactoring the application as I go, so to see this iteration of the code you will want the third commit, "madlibs with basic databinding."</p>
+<p>GitHub maintains an <a href="https://github.com/github/gitignore">official list</a> of recommended .gitignore files for many popular operating systems, environments, and languages, which they use to populate the new repository .gitignore list.</p>
 
     </div>
     
@@ -201,14 +164,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/learning-angularjs-data-binding/';
+                this.page.url = 'http://www.michael-whelan.net/gitignore-files/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/learning-angularjs-data-binding/';
+    var disqus_url = 'http://www.michael-whelan.net/gitignore-files/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
