@@ -15,7 +15,7 @@
 &lt;pre&gt;&lt;code&gt;ren gitignore.txt .gitignore
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2&gt;Sources of .gitignore rules&lt;/h2&gt;
+&lt;h2&gt;.gitignore Templates&lt;/h2&gt;
 
 &lt;p&gt;The contents of a .gitignore file vary by operating systems, environments, and languages. There are a few useful resources for finding the right combination of rules for your particular project flavour.&lt;/p&gt;
 
