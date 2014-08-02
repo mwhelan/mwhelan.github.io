@@ -21,7 +21,7 @@ To get around this issue, just create a normal text file, such as `gitignore.txt
 
 	ren gitignore.txt .gitignore
 
-## Sources of .gitignore rules ##
+## .gitignore Templates ##
 The contents of a .gitignore file vary by operating systems, environments, and languages. There are a few useful resources for finding the right combination of rules for your particular project flavour.
 
 ### gitignore.io website ###
