@@ -1,20 +1,19 @@
 ---
 layout: post
 title: gitignore Files
-categories: Visual Studio
-description: 
-date: 2014-08-01
+categories: Visual Studio 
+date: 2014-08-02
 comments: true
 sharing: true
 footer: true
 permalink: /gitignore-files/
 ---
 
-There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named .gitignore, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer.
+There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named `.gitignore`, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from [Pro Git](http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files).
 <!--excerpt-->
 
 ## Creating a .gitignore file ##
-Creating a .gitignore file is slightly tricky on Windows. When you try to create it in Windows Explorer, it interprest the gitignore part of the file name as the file extension, and so thinks that you are trying to create a file without a name. You get the aptly named "You must type a file name." error message.
+Creating a .gitignore file is slightly tricky on Windows. When you try to create it in Windows Explorer, it interprets the gitignore part of the file name as the file extension, and so thinks that you are trying to create a file without a name. You get the aptly named "You must type a file name." error message.
 
 ![windows error](/images/gitignore-windows-error.png)
 
