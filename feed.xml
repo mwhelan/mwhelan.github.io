@@ -1,4 +1,63 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-08-02T13:06:10+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/gitignore-files/</id><title type="text">gitignore Files</title><summary type="html">&lt;p&gt;There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named &lt;code&gt;.gitignore&lt;/code&gt;, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from &lt;a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files"&gt;Pro Git&lt;/a&gt;.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-08-03T14:09:01+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/code-katas-for-practicing-tdd/</id><title type="text">TDD Katas</title><summary type="html">&lt;p&gt;A kata is a form of deliberate practice, with its roots in the martial arts world. It describes a choreographed pattern of movements used to train yourself to the level of muscle memory. In the world of programming, katas are small coding exercises that a programmer completes on a daily basis. They can be a great exercise for practicing TDD in particular. &lt;/p&gt;
+
+&lt;p&gt;Rather than attempt a new kata each day, it's recommended that you work on the same one repeatedly until completing it is almost like muscle memory. Katas can be a great way to try out a new programning language, or a new programming technique, or a new framework. For example, if you wanted to move from Moq to NSubstitute (which I recommend) you could replace Moq with NSubstitute when doing a familiar kata.   &lt;/p&gt;
+
+</summary><published>2014-08-02T23:00:00Z</published><updated>2014-08-02T23:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/code-katas-for-practicing-tdd/" /><content type="html">&lt;p&gt;A kata is a form of deliberate practice, with its roots in the martial arts world. It describes a choreographed pattern of movements used to train yourself to the level of muscle memory. In the world of programming, katas are small coding exercises that a programmer completes on a daily basis. They can be a great exercise for practicing TDD in particular. &lt;/p&gt;
+
+&lt;p&gt;Rather than attempt a new kata each day, it's recommended that you work on the same one repeatedly until completing it is almost like muscle memory. Katas can be a great way to try out a new programning language, or a new programming technique, or a new framework. For example, if you wanted to move from Moq to NSubstitute (which I recommend) you could replace Moq with NSubstitute when doing a familiar kata.   &lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;p&gt;When doing the kata, focus on the TDD process:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Write a failing test&lt;/li&gt;
+&lt;li&gt;Write the simplest code to pass the test&lt;/li&gt;
+&lt;li&gt;Refactor to remove duplication &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Good habits for effective TDD&lt;/h2&gt;
+
+&lt;p&gt;I first came across the idea of TDD katas when I attended the Codemanship &lt;a href="http://codemanship.co.uk/tdd.html"&gt;TDD Master Class&lt;/a&gt;, a two-day weekend course put on by Jason Gorman, in 2010. The course really opened my eyes to a new way of programming with TDD, and also the idea of software craftsmanship. I became "test infected" as they say. I would highly recommend the Codemanship courses to anyone living in London, as they still run regularly! &lt;/p&gt;
+
+&lt;p&gt;I was just looking back at my notes from that course today, and I think that the good habits for effective TDD that Jason recommended are worth repeating here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;When writing a test, write the assertion first and work backwards.&lt;/li&gt;
+&lt;li&gt;Always run the test to see it fail in the way that you expect it to fail before writing the application code to make the test pass.&lt;/li&gt;
+&lt;li&gt;Write meaningful tests that are self-explanatory. That is, the names of variables and methods should communicate your intention. I write all of my code now (test and application) thinking of the "Reader" - the person who is reading my code. Will my intention now be clearly communicated to that reader some time in the future?&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://codemanship.co.uk/parlezuml/blog/?postid=987"&gt;Triangulate&lt;/a&gt; through concrete examples towards general solutions. Work through a sequence of tests that lead you towards a more general solution&lt;/li&gt;
+&lt;li&gt;Keep test code and model code separate&lt;/li&gt;
+&lt;li&gt;Isolate tests so that they run independently&lt;/li&gt;
+&lt;li&gt;Organise tests to reflect organisation of model code &lt;/li&gt;
+&lt;li&gt;Maintain your tests&lt;/li&gt;
+&lt;li&gt;Tests should test one thing&lt;/li&gt;
+&lt;li&gt;Don’t refactor when a test is failing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Although my practice has evolved a bit, I think I follow most of them still!&lt;/p&gt;
+
+&lt;h2&gt;TDD Katas&lt;/h2&gt;
+
+&lt;p&gt;I have collected a number of TDD Kata exercises over the past few years. I keep them in a repository on GitHub for easy reference. You can find them &lt;a href="https://github.com/mwhelan/Katas"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.Anagrams"&gt;Anagrams&lt;/a&gt;: Write a program to generate all potential anagrams of an input string. From a &lt;a href="http://www.codeproject.com/Articles/498404/TDD-the-Anagrams-Kata"&gt;code project article&lt;/a&gt; by Richard Dalton.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.BankTransfer"&gt;Bank Transfer&lt;/a&gt;: Create a simple bank account program. From &lt;a href="http://codemanship.co.uk"&gt;Codemanship&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.Fibonacci"&gt;Fibonacci Generator&lt;/a&gt;: Write some code to generate the Fibonacci sequence up to a specific length which is no shorter than 8 numbers and no longer than 50. &lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.FibonacciSequence"&gt;Fibonacci Sequence&lt;/a&gt;: Write a program that writes out the number for a given position in the Fibonacci Sequence From &lt;a href="http://codemanship.co.uk"&gt;Codemanship&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.FizzBuzz"&gt;Fizz Buzz&lt;/a&gt;: Generate a string of integers, starting at 1 and going up to 100, substituting any integer which is divisible by 3 with "Fizz", and any integer which is divisible by 5 with "Buzz", and any integer divisible by 3 and 5 with "FizzBuzz".&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.FizzBuzzWhiz"&gt;Fizz Buzz Whiz&lt;/a&gt;: Same as FizzBuzz but substitute prime numbers with "Whiz."&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.Pager"&gt;Pager&lt;/a&gt;: Write the underlying data model for a pager control. I haven't done this one yet, but I think it will be a great kata. From &lt;a href="http://kaczanowscy.pl/tomek/2013-04/code-kata-pager"&gt;Tomek Kaczanowski&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.PrimeNumbers"&gt;Prime Numbers&lt;/a&gt;: A bit simpler than the famous Uncle Bob one. Create a method that, given an integer, returns true if it is a prime and false if it is not.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.StringCalculator"&gt;String Calculator&lt;/a&gt;: One of the better known katas. The essence is a method that, given a delimited string, returns the sum of the values. From &lt;a href="http://osherove.com/tdd-kata-1/"&gt;Roy Osherove&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mwhelan/Katas/tree/master/Katas.WordCounter"&gt;Word Counter&lt;/a&gt;: A method that, given a delimited string, returns a collection of all of the unique words in it and the count of how many times they occurred. Start off with a space between words, but later other delimiters wil be added.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Coding Dojos&lt;/h2&gt;
+
+&lt;p&gt;A coding dojo is an extension of TDD katas. A coding dojo is a regular meeting where you and your team meet up to focus on improving practical coding skills, perhaps working on katas together and discussing lessons learned. &lt;a href="http://pluralsight.com/training/Authors/Details/emily-bache"&gt;Emily Bache&lt;/a&gt; has a great course on &lt;a href="http://pluralsight.com/training/Courses/TableOfContents/the-coding-dojo"&gt;coding dojos for TDD&lt;/a&gt; on Pluralsight.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/gitignore-files/</id><title type="text">gitignore Files</title><summary type="html">&lt;p&gt;There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named &lt;code&gt;.gitignore&lt;/code&gt;, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from &lt;a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files"&gt;Pro Git&lt;/a&gt;.&lt;/p&gt;
 
 </summary><published>2014-08-01T23:00:00Z</published><updated>2014-08-01T23:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/gitignore-files/" /><content type="html">&lt;p&gt;There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named &lt;code&gt;.gitignore&lt;/code&gt;, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from &lt;a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files"&gt;Pro Git&lt;/a&gt;.&lt;/p&gt;
 
