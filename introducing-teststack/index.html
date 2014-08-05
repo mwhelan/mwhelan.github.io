@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-08-03T14:08:58.7159640+01:00" />
+    <meta http-equiv="last-modified" content="2014-08-05T17:03:03.5451472+01:00" />
     <meta name="keywords" content="TestStack" />
 
     <title>Michael Whelan</title>
@@ -115,10 +115,6 @@
 
 <!--excerpt-->
 
-<p><a href="http://teststack.net/">TestStack</a> is a collection of open source projects which mainly focus on making the left side of Marrick’s agile testing quadrant easier!</p>
-
-<p>Early last year, <a href="https://twitter.com/MehdiKhalili">Mehdi Khalili</a> created <a href="http://teststack.github.com/TestStack.BDDfy/">BDDfy</a> (then called bddify), a simple yet powerful and extensible BDD framework for .Net. I became a very active user of BDDfy, and eventually a contributor. This year Mehdi and I decided to setup a new open source project for automated UI testing with Selenium, called Seleno, and a GitHub organisation, TestStack, for the two projects. Since then, we have been joined by <a href="https://twitter.com/kkozmic">Krzysztof Kozmic</a>, <a href="https://twitter.com/JakeGinnivan">Jake Ginnivan</a> and <a href="https://twitter.com/robdmoore">Rob Moore</a>. </p>
-
 <h2>What are the Agile Testing Quadrants?</h2>
 
 <p>I first learned about Brian Marrick’s agile testing quadrants (pictured below) when I read <a href="http://www.amazon.com/Agile-Testing-Practical-Addison-Wesley-Signature/dp/0321534468/ref=pd_ts_b_2?ie=UTF8&amp;s=books">Agile Testing</a>, by Lisa Crispin and Janet Gregory. I was just getting into acceptance testing and Domain Driven Design at the time, so it really made a lot of sense. The tests on the right, the ones that “critique the product,” are what you might consider the traditional testing that testers have done after a feature is developed.</p>
@@ -127,9 +123,9 @@
 
 <p>TestStack is focused on the tests on the left (Q1 and Q2). These tests support the agile team and are the ones that I am familiar with as a developer (or should I say as part of The Three Amigos/Triad?) They are test first, promoting the “testing as design” mindset, and tend to be automated. Things like unit and integration tests, acceptance tests, and UI tests and methodologies like Behaviour Driven Development and Acceptance Test Driven Development.</p>
 
-<p>Quadrant 1 has unit tests and component tests (or integration tests as I prefer to call them) which are the tests written by developers, usually(?) following TDD, to test whether the system does what they intended it to do. These tests tell you that your code is technically correct and that you are “doing things right.” </p>
+<p>Quadrant 1 has unit tests and component tests (or integration tests as I prefer to call them) which are the tests written by developers, usually(?) following TDD, to test whether the system does what they intended it to do. These tests tell you that your code is technically correct and that you are “doing things right.” They provide <a href="http://softwaretestingfundamentals.com/verification-vs-validation/">verification</a>.</p>
 
-<p>Quadrant 2 tests tells you that you are “doing the right thing”, meaning you are actually building what the customer wants. Tests in this quadrant attempt to solve the biggest problem in software development – communication - so that the customer, testers and developers can agree on what will be built. They are functional tests, consisting mainly of story-level acceptance tests that the teams use to validate that each story works the way the customer intended. When developers automate the acceptance tests they become executable specifications, which is expressing requirements such that they are also tests. The benefits of executable specifications are that they are meaningful to all interested parties, they unambiguously demonstrate if the requirement is met, and they drive out a testable application design. They help the developer know where to start testing and when they are finished, and keep them on track to only implement the required functionality. They also provide a form of living documentation, such as the BDDfy report below, where the documentation is always in sync with the code.</p>
+<p>Quadrant 2 tests tells you that you are “doing the right thing”, meaning you are actually building what the customer wants. They provide <a href="http://softwaretestingfundamentals.com/verification-vs-validation/">validation</a>. Tests in this quadrant attempt to solve the biggest problem in software development – communication - so that the customer, testers and developers can agree on what will be built. They are functional tests, consisting mainly of story-level acceptance tests that the teams use to validate that each story works the way the customer intended. When developers automate the acceptance tests they become executable specifications, which is expressing requirements such that they are also tests. The benefits of executable specifications are that they are meaningful to all interested parties, they unambiguously demonstrate if the requirement is met, and they drive out a testable application design. They help the developer know where to start testing and when they are finished, and keep them on track to only implement the required functionality. They also provide a form of living documentation, such as the BDDfy report below, where the documentation is always in sync with the code.</p>
 
 <p><img src="/images/bddfy_rocks.png" alt="alt text" /></p>
 
