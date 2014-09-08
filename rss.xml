@@ -1,4 +1,31 @@
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/code-katas-for-practicing-tdd/</guid><link>http://www.michael-whelan.net/code-katas-for-practicing-tdd/</link><author>mjmwdev@gmail.com</author><category>Programming</category><title>TDD Katas</title><description>&lt;p&gt;A kata is a form of deliberate practice, with its roots in the martial arts world. It describes a choreographed pattern of movements used to train yourself to the level of muscle memory. In the world of programming, katas are small coding exercises that a programmer completes on a daily basis. They can be a great exercise for practicing TDD in particular. &lt;/p&gt;
+<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/restoring-nuget-packages-in-teamcity/</guid><link>http://www.michael-whelan.net/restoring-nuget-packages-in-teamcity/</link><author>mjmwdev@gmail.com</author><category>Configuration</category><title>Restoring NuGet Packages in TeamCity</title><description>&lt;p&gt;NuGet package restore used to be MSBuild-based and you would enable it by selecting &lt;code&gt;Enable NuGet Package Restore&lt;/code&gt; in Visual Studio. Nowadays, it is &lt;a href="http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore"&gt;recommended&lt;/a&gt; that you don't use this approach, but instead just set the option in Visual Studio to &lt;code&gt;Allow NuGet to download missing packages&lt;/code&gt;. This works really well in Visual Studio, but when you select the Visual Studio build runner in TeamCity it does not go ahead and restore all the NuGet packages for you in the same way, so you get a compilation error. Instead, you  have to explicitly create a separate step to run before the Visual Studio build step.&lt;/p&gt;
+
+</description><pubDate>Sun, 07 Sep 2014 09:00:00 Z</pubDate><a10:updated>2014-09-07T09:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;NuGet package restore used to be MSBuild-based and you would enable it by selecting &lt;code&gt;Enable NuGet Package Restore&lt;/code&gt; in Visual Studio. Nowadays, it is &lt;a href="http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore"&gt;recommended&lt;/a&gt; that you don't use this approach, but instead just set the option in Visual Studio to &lt;code&gt;Allow NuGet to download missing packages&lt;/code&gt;. This works really well in Visual Studio, but when you select the Visual Studio build runner in TeamCity it does not go ahead and restore all the NuGet packages for you in the same way, so you get a compilation error. Instead, you  have to explicitly create a separate step to run before the Visual Studio build step.&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;p&gt;To enable NuGet Package Restore with TeamCity you need to add a build step before the Visual Studio solution build with a runner type of &lt;code&gt;NuGet Installer&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/teamcity-nuget-installer.png" alt="TeamCity NuGet Installer" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The first time you create this installer, there might not be a NuGet.exe to choose. Just select the NuGet Settings option and you are presented with the option to download the latest version. Select Fetch NuGet and you are able to select a NuGet.exe version to be downloaded for use by TeamCity.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/teamcity-nuget-add.png" alt="TeamCity NuGet Installer" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you have selected the NuGet.exe you just have to provide the path to your Visual Studio solution file, which you can do with the useful file tree (pictured):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/teamcity-nuget-installer-final.png" alt="TeamCity NuGet Installer" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;Find out more&lt;/h2&gt;
+
+&lt;p&gt;I can recommend some great resources on using TeamCity for continuous integration/delivery from my fellow TestStackers:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mehdi Khalili has a &lt;a href="http://www.mehdi-khalili.com/continuous-integration-delivery-github-teamcity"&gt;definitive post&lt;/a&gt; on doing continuous integration and delivery for GitHub with TeamCity.&lt;/li&gt;
+&lt;li&gt;Rob Moore and Matt Davies have a great &lt;a href="http://robdmoore.id.au/blog/2012/08/12/maintainable-large-scale-continuous-delivery-with-teamcity/"&gt;series of posts&lt;/a&gt; on creating a deployment pipeline with TeamCity.&lt;/li&gt;
+&lt;li&gt;Jake Ginnivan has a ton of great posts on &lt;a href="http://jake.ginnivan.net/blog/categories/teamcity"&gt;TeamCity&lt;/a&gt; and &lt;a href="http://jake.ginnivan.net/blog/categories/teamcity"&gt;continuous delivery&lt;/a&gt;. I particularly like this &lt;a href="http://jake.ginnivan.net/teamcity-ui-test-agent/"&gt;one&lt;/a&gt;, on setting up a UI test build agent with TeamCity.&lt;/li&gt;
+&lt;/ul&gt;
+</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/code-katas-for-practicing-tdd/</guid><link>http://www.michael-whelan.net/code-katas-for-practicing-tdd/</link><author>mjmwdev@gmail.com</author><category>Programming</category><title>TDD Katas</title><description>&lt;p&gt;A kata is a form of deliberate practice, with its roots in the martial arts world. It describes a choreographed pattern of movements used to train yourself to the level of muscle memory. In the world of programming, katas are small coding exercises that a programmer completes on a daily basis. They can be a great exercise for practicing TDD in particular. &lt;/p&gt;
 
 &lt;p&gt;Rather than attempt a new kata each day, it's recommended that you work on the same one repeatedly until completing it is almost like muscle memory. Katas can be a great way to try out a new programning language, or a new programming technique, or a new framework. For example, if you wanted to move from Moq to NSubstitute (which I recommend) you could replace Moq with NSubstitute when doing a familiar kata.   &lt;/p&gt;
 

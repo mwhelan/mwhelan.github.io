@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="last-modified" content="2014-09-08T16:05:14.1594679+01:00" />
-    <meta name="keywords" content="General" />
+    <meta name="keywords" content="Configuration" />
 
     <title>Michael Whelan</title>
 
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/deleting-nested-node-modules-folders/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/restoring-nuget-packages-in-teamcity/" />
 </head>
 <body>
     <div class="container">
@@ -102,35 +102,41 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">Deleting Nested node_modules Folders</h1>
+    <h1 class="blog-post-title">Restoring NuGet Packages in TeamCity</h1>
 
     <div class="blog-post-meta">
-        posted on 09 Jul 2014
-            | <a class="label label-primary" href="/category/general">General</a>
+        posted on 07 Sep 2014
+            | <a class="label label-primary" href="/category/configuration">Configuration</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p>When using Node Package Manager (NPM) on Windows, it has an annoying habit of creating massively nested <code>node_modules</code> folders that exceed the 260 character path length limit. This makes it extremely painful to try to delete and causes problems with most windows tools. In Visual Studio, for example, I cannot <code>Refresh Folder</code> when I am in a website project (as opposed to a web application project).</p>
-
-<p>Fortunately, the fix is pretty simple.</p>
+        <p>NuGet package restore used to be MSBuild-based and you would enable it by selecting <code>Enable NuGet Package Restore</code> in Visual Studio. Nowadays, it is <a href="http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore">recommended</a> that you don't use this approach, but instead just set the option in Visual Studio to <code>Allow NuGet to download missing packages</code>. This works really well in Visual Studio, but when you select the Visual Studio build runner in TeamCity it does not go ahead and restore all the NuGet packages for you in the same way, so you get a compilation error. Instead, you  have to explicitly create a separate step to run before the Visual Studio build step.</p>
 
 <!--excerpt-->
 
-<p>First, you need to install <a href="http://technet.microsoft.com/en-us/library/cc733145.aspx">RoboCopy</a>. If you are on Windows 8, I suggest you use the version from the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=17657">Windows Server 2003 resource kit</a> as there appear to be <a href="http://www.matrix44.net/blog/?p=1355">issues</a> with the Windows 8 version. Next, create an empty directory and use the RoboCopy mirror flag to mirror the empty directory to the problematic <code>node_modules</code> folder. You can then delete the empty directory in the normal way. Cunningly, deleting the mirrored directory also deletes the <code>node_modules</code> directory. </p>
+<p>To enable NuGet Package Restore with TeamCity you need to add a build step before the Visual Studio solution build with a runner type of <code>NuGet Installer</code>.</p>
 
-<pre><code>robocopy new_empty_directory node_modules /MIR
-</code></pre>
+<p><img src="/images/teamcity-nuget-installer.png" alt="TeamCity NuGet Installer" /></p>
 
-<p>Credit to <a href="http://toby1kenobi.com/2014/04/how-to-delete-the-node_modules-folder-when-windows-complains-that-file-or-path-names-are-too-long/">toby1kenobi</a> for this clever solution!</p>
+<p>The first time you create this installer, there might not be a NuGet.exe to choose. Just select the NuGet Settings option and you are presented with the option to download the latest version. Select Fetch NuGet and you are able to select a NuGet.exe version to be downloaded for use by TeamCity.</p>
 
-<p>Finally, you just have to restore the deleted node packages. From the application directory, just run <a href="https://www.npmjs.org/doc/cli/npm-update.html">npm update</a>:</p>
+<p><img src="/images/teamcity-nuget-add.png" alt="TeamCity NuGet Installer" /></p>
 
-<pre><code>npm update
-</code></pre>
+<p>Once you have selected the NuGet.exe you just have to provide the path to your Visual Studio solution file, which you can do with the useful file tree (pictured):</p>
 
-<p>This command will update all the packages listed in the packages.json file to the latest version. It will also install missing packages.</p>
+<p><img src="/images/teamcity-nuget-installer-final.png" alt="TeamCity NuGet Installer" /></p>
+
+<h2>Find out more</h2>
+
+<p>I can recommend some great resources on using TeamCity for continuous integration/delivery from my fellow TestStackers:</p>
+
+<ul>
+<li>Mehdi Khalili has a <a href="http://www.mehdi-khalili.com/continuous-integration-delivery-github-teamcity">definitive post</a> on doing continuous integration and delivery for GitHub with TeamCity.</li>
+<li>Rob Moore and Matt Davies have a great <a href="http://robdmoore.id.au/blog/2012/08/12/maintainable-large-scale-continuous-delivery-with-teamcity/">series of posts</a> on creating a deployment pipeline with TeamCity.</li>
+<li>Jake Ginnivan has a ton of great posts on <a href="http://jake.ginnivan.net/blog/categories/teamcity">TeamCity</a> and <a href="http://jake.ginnivan.net/blog/categories/teamcity">continuous delivery</a>. I particularly like this <a href="http://jake.ginnivan.net/teamcity-ui-test-agent/">one</a>, on setting up a UI test build agent with TeamCity.</li>
+</ul>
 
     </div>
     
@@ -154,14 +160,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/deleting-nested-node-modules-folders/';
+                this.page.url = 'http://www.michael-whelan.net/restoring-nuget-packages-in-teamcity/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/deleting-nested-node-modules-folders/';
+    var disqus_url = 'http://www.michael-whelan.net/restoring-nuget-packages-in-teamcity/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
