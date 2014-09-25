@@ -19,7 +19,7 @@ The Mockaroo website provides an intuitive interface that makes it extremely eas
 
 ![Mockaroo new schema](/images/mockaroo-new-schema.png)
 
-You simply enter a field name and select a data type. You can move fields up using the handle bars on the left, or delete fields using the cross on the right. Most field types are simple like this but some, like the URL shown above, allow you to specificy additional customisations. 
+You simply enter a field name and select a data type. You can move fields up using the handle bars on the left, or delete fields using the cross on the right. Most field types are simple like this but some, like the URL shown above, allow you to specify additional customisations. 
 
 Here is a sample of the data that Mockaroo generates for this schema. Note that data is related across fields in the same row, so *Judy Barnes* has an email address of *jbarnes@nymag.com*.
 
@@ -44,7 +44,7 @@ Here is a sample of the data that Mockaroo generates for this schema. Note that 
 	    }
 	]
 
-The data types are the real power of Mockaroo. It supports 74 different types which provide a range of sample data which is used to populate the field. You can see the list of 74 types on the [API docs page](http://www.mockaroo.com/api/docs). When you select the data type in the schema editor you are presented with a great dialog which makes it easy to filter and choose the appropriate data type.
+The data types are the real power of Mockaroo. It supports 74 different types, each of which provide a range of appropriate sample data that is used to populate the field. You can see the list of 74 types on the [API docs page](http://www.mockaroo.com/api/docs). When you select the data type in the schema editor you are presented with a great dialog which makes it easy to filter and choose the appropriate data type.
 
 ![Choose a type](/images/mockaroo-choose-a-type.png)
 
@@ -60,7 +60,7 @@ The API contains a single GET method, `generate`, which will return CSV or JSON 
 
 The docs page provides JavaScript and Java examples, so I thought I would provide one here using .Net and `HttpClient`. I will define the fields at runtime rather than using a saved schema.
 
-The fields must be defined as a JSON array and can be passed in the request body or in the query string as a `fields` element. Here, I've created a simple `MockerooParameter` class for each field specification and then serialized the collection to a JSON array using ServiceStack's `JsonSerializer`. You don't need to create a parameter class like this, but I found the serialization produced cleaner JSON this way. Note the call to `EmitCamelClassNames` which tells the `JsonSerializer` to emit the proper case property names to camel case in the JSON.
+The fields must be defined as a JSON array and can be passed in the request body or in the query string as a `fields` element. Here, I've created a simple `MockerooParameter` class for each field specification and then serialized the collection to a JSON array using ServiceStack's `JsonSerializer`. You don't need to create a parameter class like this, but I found the serialization produced cleaner JSON this way. Note the call to `EmitCamelClassNames` which tells the `JsonSerializer` to emit the property names with camel case in the JSON, even though the class uses title case.
 
     private static string CreateSchema()
     {
@@ -178,7 +178,7 @@ First, I created a [schema](http://www.mockaroo.com/f3624170) that contained a f
         public string US_ZipCode { get; set; }
     }
 
-Then, it's just a case of taking a distinct list of data from the specified field and saving them to a text file:
+Then, it's just a case of taking a distinct list of words from the specified field and saving it to a text file:
 
     private void CreateFile(Func<MockarooRow, string> selector, string dictionaryName, bool sort = true)
     {
