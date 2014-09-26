@@ -132,7 +132,7 @@ I mentioned that I was working on a test data project. I needed to create dictio
 
 First, I created a [schema](http://www.mockaroo.com/f3624170) that contained a field for each of the 74 data types, then I used the web interface to generate a JSON file with the maximum 100,000 records. Visual Studio has a really great feature that lets you take a row of JSON and paste it as a class (I wrote about it [last year](http://www.michael-whelan.net/paste-json-as-classes/)). That produces this strongly-typed class:
 
-    public class MockarooFull
+    public class MockarooRow
     {
         public int Id { get; set; }
         public string BitcoinAddress { get; set; }
@@ -198,7 +198,18 @@ which is called like this:
 
 	CreateFile(x => x.City, "City");
 
+and produces a text file of city names:
+
+	Adelanto
+	Agoura Hills
+	Alameda
+	Albany
+	Alhambra
+	Aliso Viejo
+	...
+
+
 ## Check it out
-Mockaroo is a really great product. It's creator, Mark Brocato, was incredibly responsive and helpful to my questions by email when I was putting my test data together, so a big thanks to him for that. Features are frequently being added to Mockaroo and you can see those reported on [twitter](https://twitter.com/mockaroodev).
+Mockaroo is a really great product. Its creator, Mark Brocato, was incredibly responsive and helpful to my questions by email when I was putting my test data together, so a big thanks to him for that. Features are frequently being added to Mockaroo and you can see those reported on [twitter](https://twitter.com/mockaroodev).
 
 All the code from this post is on [github](https://github.com/mwhelan/MockarooSandbox).
