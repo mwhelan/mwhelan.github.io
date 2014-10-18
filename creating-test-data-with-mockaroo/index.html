@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-09-25T13:19:11.4866838+01:00" />
+    <meta http-equiv="last-modified" content="2014-10-18T09:43:19.9820519+01:00" />
     <meta name="keywords" content="Automated Testing,Test Data" />
 
     <title>Michael Whelan</title>
@@ -131,7 +131,7 @@
 
 <p><img src="/images/mockaroo-new-schema.png" alt="Mockaroo new schema" /></p>
 
-<p>You simply enter a field name and select a data type. You can move fields up using the handle bars on the left, or delete fields using the cross on the right. Most field types are simple like this but some, like the URL shown above, allow you to specificy additional customisations. </p>
+<p>You simply enter a field name and select a data type. You can move fields up using the handle bars on the left, or delete fields using the cross on the right. Most field types are simple like this but some, like the URL shown above, allow you to specify additional customisations. </p>
 
 <p>Here is a sample of the data that Mockaroo generates for this schema. Note that data is related across fields in the same row, so <em>Judy Barnes</em> has an email address of <em>jbarnes@nymag.com</em>.</p>
 
@@ -157,7 +157,7 @@
 ]
 </code></pre>
 
-<p>The data types are the real power of Mockaroo. It supports 74 different types which provide a range of sample data which is used to populate the field. You can see the list of 74 types on the <a href="http://www.mockaroo.com/api/docs">API docs page</a>. When you select the data type in the schema editor you are presented with a great dialog which makes it easy to filter and choose the appropriate data type.</p>
+<p>The data types are the real power of Mockaroo. It supports 74 different types, each of which provide a range of appropriate sample data that is used to populate the field. You can see the list of 74 types on the <a href="http://www.mockaroo.com/api/docs">API docs page</a>. When you select the data type in the schema editor you are presented with a great dialog which makes it easy to filter and choose the appropriate data type.</p>
 
 <p><img src="/images/mockaroo-choose-a-type.png" alt="Choose a type" /></p>
 
@@ -175,7 +175,7 @@ http://www.mockaroo.com/api/generate.csv
 
 <p>The docs page provides JavaScript and Java examples, so I thought I would provide one here using .Net and <code>HttpClient</code>. I will define the fields at runtime rather than using a saved schema.</p>
 
-<p>The fields must be defined as a JSON array and can be passed in the request body or in the query string as a <code>fields</code> element. Here, I've created a simple <code>MockerooParameter</code> class for each field specification and then serialized the collection to a JSON array using ServiceStack's <code>JsonSerializer</code>. You don't need to create a parameter class like this, but I found the serialization produced cleaner JSON this way. Note the call to <code>EmitCamelClassNames</code> which tells the <code>JsonSerializer</code> to emit the proper case property names to camel case in the JSON.</p>
+<p>The fields must be defined as a JSON array and can be passed in the request body or in the query string as a <code>fields</code> element. Here, I've created a simple <code>MockerooParameter</code> class for each field specification and then serialized the collection to a JSON array using ServiceStack's <code>JsonSerializer</code>. You don't need to create a parameter class like this, but I found the serialization produced cleaner JSON this way. Note the call to <code>EmitCamelClassNames</code> which tells the <code>JsonSerializer</code> to emit the property names with camel case in the JSON, even though the class uses title case.</p>
 
 <pre><code>private static string CreateSchema()
 {
@@ -251,7 +251,7 @@ public class MockarooInfo
 
 <p>First, I created a <a href="http://www.mockaroo.com/f3624170">schema</a> that contained a field for each of the 74 data types, then I used the web interface to generate a JSON file with the maximum 100,000 records. Visual Studio has a really great feature that lets you take a row of JSON and paste it as a class (I wrote about it <a href="http://www.michael-whelan.net/paste-json-as-classes/">last year</a>). That produces this strongly-typed class:</p>
 
-<pre><code>public class MockarooFull
+<pre><code>public class MockarooRow
 {
     public int Id { get; set; }
     public string BitcoinAddress { get; set; }
@@ -298,7 +298,7 @@ public class MockarooInfo
 }
 </code></pre>
 
-<p>Then, it's just a case of taking a distinct list of data from the specified field and saving them to a text file:</p>
+<p>Then, it's just a case of taking a distinct list of words from the specified field and saving it to a text file:</p>
 
 <pre><code>private void CreateFile(Func&lt;MockarooRow, string&gt; selector, string dictionaryName, bool sort = true)
 {
@@ -320,9 +320,20 @@ public class MockarooInfo
 <pre><code>CreateFile(x =&gt; x.City, "City");
 </code></pre>
 
+<p>and produces a text file of city names:</p>
+
+<pre><code>Adelanto
+Agoura Hills
+Alameda
+Albany
+Alhambra
+Aliso Viejo
+...
+</code></pre>
+
 <h2>Check it out</h2>
 
-<p>Mockaroo is a really great product. It's creator, Mark Brocato, was incredibly responsive and helpful to my questions by email when I was putting my test data together, so a big thanks to him for that. Features are frequently being added to Mockaroo and you can see those reported on <a href="https://twitter.com/mockaroodev">twitter</a>.</p>
+<p>Mockaroo is a really great product. Its creator, Mark Brocato, was incredibly responsive and helpful to my questions by email when I was putting my test data together, so a big thanks to him for that. Features are frequently being added to Mockaroo and you can see those reported on <a href="https://twitter.com/mockaroodev">twitter</a>.</p>
 
 <p>All the code from this post is on <a href="https://github.com/mwhelan/MockarooSandbox">github</a>.</p>
 
