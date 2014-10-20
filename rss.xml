@@ -1,4 +1,176 @@
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/selenium-webdriver-and-ie11/</guid><link>http://www.michael-whelan.net/selenium-webdriver-and-ie11/</link><author>mjmwdev@gmail.com</author><category>Automated Testing</category><category>Seleno</category><title>Selenium WebDriver and IE11</title><description>&lt;p&gt;I was updating the browser WebDrivers for &lt;a href="https://github.com/TestStack/TestStack.Seleno"&gt;Seleno&lt;/a&gt; when I hit an issue with the InternetExplorerDriver. I was running Selenium WebDriver 2.43.1 on Windows 8.1 and using Internet Explorer 11. The test was just opening the google web page. Internet Explorer opened correctly and displayed the google page but then the test failed with the error:&lt;/p&gt;
+<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/testing-date-time/</guid><link>http://www.michael-whelan.net/testing-date-time/</link><author>mjmwdev@gmail.com</author><category>Automated Testing</category><title>Testing DateTime</title><description>&lt;p&gt;Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. &lt;/p&gt;
+
+</description><pubDate>Sun, 19 Oct 2014 23:00:00 Z</pubDate><a10:updated>2014-10-19T23:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. &lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;p&gt;The offending piece of code that inspired me to write this post was a method I was adding to Seleno today. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public void TakeScreenshotAndThrow(string imageName, string errorMessage)
+{
+    Camera.TakeScreenshot(string.Format(imageName + DateTime.Now().ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
+    throw new SelenoException(errorMessage);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;DateTime Abstraction&lt;/h2&gt;
+
+&lt;p&gt;Often  this problem can be solved by abstracting the static away behind an interface and then using dependency injection to inject the implementation of the interface. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public interface ISystemTime
+{
+    DateTime Now { get; }
+}
+
+public class TheSystemTime : ISystemTime
+{
+    public DateTime Now { get { return DateTime.Now; } }
+}
+
+public class SelenoApplication
+{
+    private ISystemTime _systemTime;
+    public SelenoApplication(ISystemTime systemTime)
+    {
+        _systemTime = systemTime;
+    }
+
+    public void TakeScreenshotAndThrow(string imageName, string errorMessage)
+    {
+        Camera.TakeScreenshot(string.Format(imageName + _systemTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
+        throw new SelenoException(errorMessage);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then you can easily mock the interface in your tests. I'm using NSubstitute here.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var dateTime = new DateTime(2014, 05, 11, 10, 29, 33);
+var systemTime = Substitute.For&amp;lt;ISystemTime&amp;gt;();
+systemTime.Now.Returns(dateTime);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is the solution that I would normally use to test a static, but DateTime is a bit different. Firstly, the use of DateTime can be quite extensive and you can quickly find you have too many of these interfaces polluting your constructors. Secondly, if you are doing DDD then you don't want to use dependency injection with your domain entities, yet they often need DateTime functions as well. &lt;/p&gt;
+
+&lt;h2&gt;SystemTime static class with function&lt;/h2&gt;
+
+&lt;p&gt;The solution I like to use is one Ayende &lt;a href="http://ayende.com/blog/3408/dealing-with-time-in-tests"&gt;blogged about in 2008&lt;/a&gt; where you use a static class with a func as a replacement for the DateTime.Now call.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public static class SystemTime
+{
+    public static Func&amp;lt;DateTime&amp;gt; Now = () =&amp;gt; DateTime.Now;
+
+    public static void Reset()
+    {
+        Now = () =&amp;gt; DateTime.Now;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, now you call &lt;code&gt;SystemTime.Now()&lt;/code&gt; instead of &lt;code&gt;DateTime.Now&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public void TakeScreenshotAndThrow(string imageName, string errorMessage)
+{
+    Camera.TakeScreenshot(string.Format(imageName + SystemTime.Now().ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
+    throw new SelenoException(errorMessage);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And set the value of Now in your test, not forgetting to reset it at the end of the test.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SystemTime.Now = () =&amp;gt; new DateTime(2014, 05, 11, 10, 29, 33);
+Action result = () =&amp;gt; _host.Application.TakeScreenshotAndThrow(imageName, errorMessage);
+result.ShouldThrow&amp;lt;SelenoException&amp;gt;()
+    .WithMessage(errorMessage);
+SystemTime.Reset();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;TestableSystemTime&lt;/h2&gt;
+
+&lt;p&gt;One objection to this approach is that the developer might forget to reset the time at the end of the test. Which leads me to the point of this post. Utilising the dispose pattern is a nice way to get around this objection.&lt;/p&gt;
+
+&lt;p&gt;I'm not sure where I saw this solution applied to testing DateTime, so apologies if I am not giving credit where it's due. I do remember where I learned about using the dispose pattern in this way - from my good friend Mehdi Khalili in the BDDfy codebase. He used it to &lt;a href="https://github.com/TestStack/TestStack.BDDfy/blob/master/TestStack.BDDfy/Reporters/Html/HtmlReportTag.cs"&gt;close HTML tags&lt;/a&gt; in the BDDfy HTML Report.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class TestableSystemTime : IDisposable
+{
+    public TestableSystemTime(DateTime dateTime)
+    {
+        SystemTime.Now = () =&amp;gt; dateTime;
+    }
+
+    public TestableSystemTime(Func&amp;lt;DateTime&amp;gt; dateTimeFactory)
+    {
+        SystemTime.Now = dateTimeFactory;
+    }
+
+    public void Dispose()
+    {
+        SystemTime.Reset();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we can use it in a using statement in tests and be sure that the &lt;code&gt;Reset&lt;/code&gt; method gets called at the end of the using statement when &lt;code&gt;Dispose&lt;/code&gt; is called.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;using (new TestableSystemTime(dateTime))
+{
+    Action result = () =&amp;gt; _host.Application.TakeScreenshotAndThrow(imageName, errorMessage);
+    result.ShouldThrow&amp;lt;SelenoException&amp;gt;()
+        .WithMessage(errorMessage);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Alternatively you can create the date on the fly with the func constructor:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;using (new TestableSystemTime(() =&amp;gt; new DateTime(2014, 05, 11, 10, 29, 33)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;What about BDD-style tests?&lt;/h2&gt;
+
+&lt;p&gt;It's not always desirable to use a using statement. For example, if you are using a BDD-style, which I tend to do, then your statements are broken over multiple methods, and a using statement is not an option. In that case, you just call the Reset method at the end of the test yourself, as you can see in the TearDown method in this example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class When_taking_screenshot : SelenoApplicationSpecification
+{
+    private string _imageName = "screenshot";
+    private string _errorMessage = "there was an error";
+    private string _fileName;
+    private Exception _result;
+
+    public override void EstablishContext()
+    {
+        var dateTime = new DateTime(2014, 05, 11, 10, 29, 33);
+        _fileName = string.Format(@"{0}{1}.png", _imageName, dateTime.ToString("yyyy-MM-dd_HH-mm-ss"));
+        SystemTime.Now = () =&amp;gt; dateTime;
+    }
+
+    public void Given_initialised_application()
+    {
+        SUT.Initialize();
+    }
+
+    public void When_taking_screenshot_and_throwing()
+    {
+        _result = Catch.Exception(() =&amp;gt; SUT.TakeScreenshotAndThrow(_imageName, _errorMessage));
+    }
+
+    public void Then_should_take_screenshot()
+    {
+        SubstituteFor&amp;lt;ICamera&amp;gt;().Received().TakeScreenshot(_fileName);
+    }
+
+    public void AndThen_should_throw_SelenoException()
+    {
+        _result.Should().BeOfType&amp;lt;SelenoException&amp;gt;()
+            .Which.Message.Should().Be(_errorMessage);
+    }
+
+    public override void TearDown()
+    {
+        SystemTime.Reset();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/selenium-webdriver-and-ie11/</guid><link>http://www.michael-whelan.net/selenium-webdriver-and-ie11/</link><author>mjmwdev@gmail.com</author><category>Automated Testing</category><category>Seleno</category><title>Selenium WebDriver and IE11</title><description>&lt;p&gt;I was updating the browser WebDrivers for &lt;a href="https://github.com/TestStack/TestStack.Seleno"&gt;Seleno&lt;/a&gt; when I hit an issue with the InternetExplorerDriver. I was running Selenium WebDriver 2.43.1 on Windows 8.1 and using Internet Explorer 11. The test was just opening the google web page. Internet Explorer opened correctly and displayed the google page but then the test failed with the error:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;OpenQA.Selenium.NoSuchWindowException : Unable to get browser
 &lt;/code&gt;&lt;/pre&gt;

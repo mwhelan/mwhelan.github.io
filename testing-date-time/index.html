@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="last-modified" content="2014-10-20T16:53:29.3143428+01:00" />
-    <meta name="keywords" content="Seleno,TestStack" />
+    <meta name="keywords" content="Automated Testing" />
 
     <title>Michael Whelan</title>
 
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/automated-ui-testing-done-right/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/testing-date-time/" />
 </head>
 <body>
     <div class="container">
@@ -108,88 +108,186 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">Automated UI Testing Done Right</h1>
+    <h1 class="blog-post-title">Testing DateTime</h1>
 
     <div class="blog-post-meta">
-        posted on 06 Jun 2013
-            | <a class="label label-primary" href="/category/seleno">Seleno</a>
-            | <a class="label label-primary" href="/category/teststack">TestStack</a>
+        posted on 20 Oct 2014
+            | <a class="label label-primary" href="/category/automated-testing">Automated Testing</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p>It's coming up to a year since Mehdi Khalili and I started the <a href="http://teststack.net/pages/Seleno.html">Seleno</a> open source project, a framework to help you write automated web UI tests in the "right way."</p>
-
-<p>About that time, Mehdi presented a session at DDD Sydney 2012 titled "<a href="http://lanyrd.com/2012/dddsydney/strqy/">Automated UI Testing Done Right!</a>" In it, he shared a lot of the ideas that have gone into Seleno. Mehdi is a great teacher and his strength is taking complex topics and explaining them in a way that is simple and easy to understand. The video of the presentation has recently been published on the SSW TV website and I highly recommend that you <a href="http://tv.ssw.com/3444/ddd-sydney-2012-mehdi-khalili-automated-ui-testing-done-right">check it out</a>. You can also see the slides from the talk <a href="http://www.slideshare.net/MehdiKhalili/automated-ui-testing-done-right-13493067">here</a>.</p>
+        <p>Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. </p>
 
 <!--excerpt-->
 
-<p>It's coming up to a year since Mehdi Khalili and I started the <a href="http://teststack.net/pages/Seleno.html">Seleno</a> open source project, a framework to help you write automated web UI tests in the "right way."</p>
+<p>The offending piece of code that inspired me to write this post was a method I was adding to Seleno today. </p>
 
-<p>About that time, Mehdi presented a session at DDD Sydney 2012 titled "<a href="http://lanyrd.com/2012/dddsydney/strqy/">Automated UI Testing Done Right!</a>" In it, he shared a lot of the ideas that have gone into Seleno. Mehdi is a great teacher and his strength is taking complex topics and explaining them in a way that is simple and easy to understand. The video of the presentation has recently been published on the SSW TV website and I highly recommend that you <a href="http://tv.ssw.com/3444/ddd-sydney-2012-mehdi-khalili-automated-ui-testing-done-right">check it out</a>. You can also see the slides from the talk <a href="http://www.slideshare.net/MehdiKhalili/automated-ui-testing-done-right-13493067">here</a>.</p>
-
-<p>In the video, Mehdi talks about some of the patterns that you can use to improve the maintainability of your UI tests. He starts off with this horribly brittle test</p>
-
-<pre><code>// much of the code has been removed for brevity
-public void Can_buy_an_Album_when_registered()
+<pre><code>public void TakeScreenshotAndThrow(string imageName, string errorMessage)
 {
-    _driver.Navigate().GoToUrl(Application.HomePage.Url);
-    _driver.FindElement(By.LinkText("Disco")).Click();
-    _driver.FindElement(By.CssSelector("img[alt=\"Le Freak\"]")).Click();
-    _driver.FindElement(By.LinkText("Add to cart")).Click();
-    _driver.FindElement(By.LinkText("Checkout &gt;&gt;")).Click();
-    _driver.FindElement(By.Id("FirstName")).Clear();
-    _driver.FindElement(By.Id("FirstName")).SendKeys("Homer");
-    _driver.FindElement(By.Id("LastName")).Clear();
-    _driver.FindElement(By.Id("LastName")).SendKeys("Simpson");
-    _driver.FindElement(By.Id("Address")).Clear();
-    _driver.FindElement(By.Id("Address")).SendKeys("742 Evergreen Terrace");
-    _driver.FindElement(By.Id("City")).Clear();
-    _driver.FindElement(By.Id("City")).SendKeys("Springfield");
-    _driver.FindElement(By.Id("State")).Clear();
-    _driver.FindElement(By.Id("State")).SendKeys("Kentucky");
-    _driver.FindElement(By.Id("Email")).Clear();
-    _driver.FindElement(By.Id("Email")).SendKeys("chunkylover53@aol.com");
-    _driver.FindElement(By.Id("PromoCode")).Clear();
-    _driver.FindElement(By.Id("PromoCode")).SendKeys("FREE");
-    _driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
-
-    Assert.IsTrue(_driver.PageSource.Contains("Checkout Complete"));
+    Camera.TakeScreenshot(string.Format(imageName + DateTime.Now().ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
+    throw new SelenoException(errorMessage);
 }
 </code></pre>
 
-<p>and evolves it into this more maintainable test in three steps:</p>
+<h2>DateTime Abstraction</h2>
 
-<pre><code>public void Can_buy_an_Album_when_registered()
+<p>Often  this problem can be solved by abstracting the static away behind an interface and then using dependency injection to inject the implementation of the interface. </p>
+
+<pre><code>public interface ISystemTime
 {
-    var orderedPage = Application
-        .HomePage
-        .Menu
-        .GoToAdminForAnonymousUser()
-        .GoToRegisterPage()
-        .CreateValidUser(ObjectMother.ValidUser)
-        .GenreMenu
-        .SelectGenreByName("Disco")
-        .SelectAlbumByName("Le Freak")
-        .AddAlbumToCart()
-        .Checkout()
-        .SubmitShippingInfo(ObjectMother.ShippingInfo, "Free");
+    DateTime Now { get; }
+}
 
-    orderedPage.Title.Should().Be("Checkout Complete");
+public class TheSystemTime : ISystemTime
+{
+    public DateTime Now { get { return DateTime.Now; } }
+}
+
+public class SelenoApplication
+{
+    private ISystemTime _systemTime;
+    public SelenoApplication(ISystemTime systemTime)
+    {
+        _systemTime = systemTime;
+    }
+
+    public void TakeScreenshotAndThrow(string imageName, string errorMessage)
+    {
+        Camera.TakeScreenshot(string.Format(imageName + _systemTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
+        throw new SelenoException(errorMessage);
+    }
 }
 </code></pre>
 
-<p>Although Mehdi uses Seleno, BDDfy and Selenium in the talk, it is worth noting that the ideas, patterns and tips are not related to any particular testing frameworks. The samples used are taken directly from the <a href="https://github.com/TestStack/TestStack.Seleno/tree/master/src/Samples/MusicStore">Seleno samples code</a> though, so I would encourage you to check out Seleno (and <a href="http://teststack.net/pages/BDDfy.html">BDDfy</a>) if you like the ideas presented in the talk. The samples are structured in a way to make it easy to read and follow and you should be able to easily compare the steps to see how each step improves the tests.</p>
+<p>Then you can easily mock the interface in your tests. I'm using NSubstitute here.</p>
 
-<p>I intend to blog more about Seleno soon, but in the meantime you might also find these posts helpful:</p>
+<pre><code>var dateTime = new DateTime(2014, 05, 11, 10, 29, 33);
+var systemTime = Substitute.For&lt;ISystemTime&gt;();
+systemTime.Now.Returns(dateTime);
+</code></pre>
 
-<ul>
-<li><a href="getting-started-with-seleno">Getting started with Seleno</a></li>
-<li><a href="seleno-04/">Seleno 0.4 Released</a></li>
-</ul>
+<p>This is the solution that I would normally use to test a static, but DateTime is a bit different. Firstly, the use of DateTime can be quite extensive and you can quickly find you have too many of these interfaces polluting your constructors. Secondly, if you are doing DDD then you don't want to use dependency injection with your domain entities, yet they often need DateTime functions as well. </p>
 
-<p>Any ideas, comments, feedback and suggestions about Seleno and BDDfy are welcome.</p>
+<h2>SystemTime static class with function</h2>
+
+<p>The solution I like to use is one Ayende <a href="http://ayende.com/blog/3408/dealing-with-time-in-tests">blogged about in 2008</a> where you use a static class with a func as a replacement for the DateTime.Now call.</p>
+
+<pre><code>public static class SystemTime
+{
+    public static Func&lt;DateTime&gt; Now = () =&gt; DateTime.Now;
+
+    public static void Reset()
+    {
+        Now = () =&gt; DateTime.Now;
+    }
+}
+</code></pre>
+
+<p>So, now you call <code>SystemTime.Now()</code> instead of <code>DateTime.Now</code>.</p>
+
+<pre><code>public void TakeScreenshotAndThrow(string imageName, string errorMessage)
+{
+    Camera.TakeScreenshot(string.Format(imageName + SystemTime.Now().ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
+    throw new SelenoException(errorMessage);
+}
+</code></pre>
+
+<p>And set the value of Now in your test, not forgetting to reset it at the end of the test.</p>
+
+<pre><code>SystemTime.Now = () =&gt; new DateTime(2014, 05, 11, 10, 29, 33);
+Action result = () =&gt; _host.Application.TakeScreenshotAndThrow(imageName, errorMessage);
+result.ShouldThrow&lt;SelenoException&gt;()
+    .WithMessage(errorMessage);
+SystemTime.Reset();
+</code></pre>
+
+<h2>TestableSystemTime</h2>
+
+<p>One objection to this approach is that the developer might forget to reset the time at the end of the test. Which leads me to the point of this post. Utilising the dispose pattern is a nice way to get around this objection.</p>
+
+<p>I'm not sure where I saw this solution applied to testing DateTime, so apologies if I am not giving credit where it's due. I do remember where I learned about using the dispose pattern in this way - from my good friend Mehdi Khalili in the BDDfy codebase. He used it to <a href="https://github.com/TestStack/TestStack.BDDfy/blob/master/TestStack.BDDfy/Reporters/Html/HtmlReportTag.cs">close HTML tags</a> in the BDDfy HTML Report.</p>
+
+<pre><code>public class TestableSystemTime : IDisposable
+{
+    public TestableSystemTime(DateTime dateTime)
+    {
+        SystemTime.Now = () =&gt; dateTime;
+    }
+
+    public TestableSystemTime(Func&lt;DateTime&gt; dateTimeFactory)
+    {
+        SystemTime.Now = dateTimeFactory;
+    }
+
+    public void Dispose()
+    {
+        SystemTime.Reset();
+    }
+}
+</code></pre>
+
+<p>Now we can use it in a using statement in tests and be sure that the <code>Reset</code> method gets called at the end of the using statement when <code>Dispose</code> is called.</p>
+
+<pre><code>using (new TestableSystemTime(dateTime))
+{
+    Action result = () =&gt; _host.Application.TakeScreenshotAndThrow(imageName, errorMessage);
+    result.ShouldThrow&lt;SelenoException&gt;()
+        .WithMessage(errorMessage);
+}
+</code></pre>
+
+<p>Alternatively you can create the date on the fly with the func constructor:</p>
+
+<pre><code>using (new TestableSystemTime(() =&gt; new DateTime(2014, 05, 11, 10, 29, 33)))
+</code></pre>
+
+<h2>What about BDD-style tests?</h2>
+
+<p>It's not always desirable to use a using statement. For example, if you are using a BDD-style, which I tend to do, then your statements are broken over multiple methods, and a using statement is not an option. In that case, you just call the Reset method at the end of the test yourself, as you can see in the TearDown method in this example:</p>
+
+<pre><code>class When_taking_screenshot : SelenoApplicationSpecification
+{
+    private string _imageName = "screenshot";
+    private string _errorMessage = "there was an error";
+    private string _fileName;
+    private Exception _result;
+
+    public override void EstablishContext()
+    {
+        var dateTime = new DateTime(2014, 05, 11, 10, 29, 33);
+        _fileName = string.Format(@"{0}{1}.png", _imageName, dateTime.ToString("yyyy-MM-dd_HH-mm-ss"));
+        SystemTime.Now = () =&gt; dateTime;
+    }
+
+    public void Given_initialised_application()
+    {
+        SUT.Initialize();
+    }
+
+    public void When_taking_screenshot_and_throwing()
+    {
+        _result = Catch.Exception(() =&gt; SUT.TakeScreenshotAndThrow(_imageName, _errorMessage));
+    }
+
+    public void Then_should_take_screenshot()
+    {
+        SubstituteFor&lt;ICamera&gt;().Received().TakeScreenshot(_fileName);
+    }
+
+    public void AndThen_should_throw_SelenoException()
+    {
+        _result.Should().BeOfType&lt;SelenoException&gt;()
+            .Which.Message.Should().Be(_errorMessage);
+    }
+
+    public override void TearDown()
+    {
+        SystemTime.Reset();
+    }
+}
+</code></pre>
 
     </div>
     
@@ -213,14 +311,14 @@ public void Can_buy_an_Album_when_registered()
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/automated-ui-testing-done-right/';
+                this.page.url = 'http://www.michael-whelan.net/testing-date-time/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/automated-ui-testing-done-right/';
+    var disqus_url = 'http://www.michael-whelan.net/testing-date-time/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
