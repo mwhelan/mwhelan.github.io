@@ -56,7 +56,8 @@ Then you can easily mock the interface in your tests. I'm using NSubstitute here
 
 This is the solution that I would normally use to test a static, but DateTime is a bit different. Firstly, the use of DateTime can be quite extensive and you can quickly find you have too many of these interfaces polluting your constructors. Secondly, if you are doing DDD then you don't want to use dependency injection with your domain entities, yet they often need DateTime functions as well. 
 
-The solution I like to use is one Ayende [blogged about in 2008](http://ayende.com/blog/3408/dealing-with-time-in-tests) where you use a func as a replacement for the DateTime.Now call.
+## SystemTime static class with function
+The solution I like to use is one Ayende [blogged about in 2008](http://ayende.com/blog/3408/dealing-with-time-in-tests) where you use a static class with a func as a replacement for the DateTime.Now call.
 
     public static class SystemTime
     {
@@ -107,7 +108,7 @@ I'm not sure where I saw this solution applied to testing DateTime, so apologies
         }
     }
 
-Now we can use it in a using statement in tests and be sure that the `Reset` method gets call at the end of the using statement when `Dispose` is called.
+Now we can use it in a using statement in tests and be sure that the `Reset` method gets called at the end of the using statement when `Dispose` is called.
 
     using (new TestableSystemTime(dateTime))
     {
