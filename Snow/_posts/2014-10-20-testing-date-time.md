@@ -122,7 +122,7 @@ Alternatively you can create the date on the fly with the func constructor:
 	using (new TestableSystemTime(() => new DateTime(2014, 05, 11, 10, 29, 33)))
 
 ##What about BDD-style tests?
-It's not always desirable to use a using statement. For example, if you are using a BDD-style, which I tend to do, then your statements are broken over multiple methods, and a using statement is not an option. In that case, you just call the Reset method at the end of the test yourself, as you can see in the TearDown method in this example:
+It's not always desirable to use a using statement. For example, if you are using a BDD-style, which I tend to do, then your statements are broken over multiple methods, and a using statement is not an option. In that case, you can just call the Dispose method at the end of the test yourself, as you can see in the TearDown method in this example:
 
     class When_taking_screenshot : SelenoApplicationSpecification
     {
@@ -130,12 +130,13 @@ It's not always desirable to use a using statement. For example, if you are usin
         private string _errorMessage = "there was an error";
         private string _fileName;
         private Exception _result;
+		private TestableDateTime _systemTime
 
         public override void EstablishContext()
         {
             var dateTime = new DateTime(2014, 05, 11, 10, 29, 33);
             _fileName = string.Format(@"{0}{1}.png", _imageName, dateTime.ToString("yyyy-MM-dd_HH-mm-ss"));
-            SystemTime.Now = () => dateTime;
+            _systemTime = new TestableSystemTime(dateTime);
         }
 
         public void Given_initialised_application()
@@ -161,6 +162,6 @@ It's not always desirable to use a using statement. For example, if you are usin
 
         public override void TearDown()
         {
-            SystemTime.Reset();
+            _systemTime.Dispose();
         }
     }
