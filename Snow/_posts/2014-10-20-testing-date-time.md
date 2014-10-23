@@ -130,7 +130,7 @@ It's not always desirable to use a using statement. For example, if you are usin
         private string _errorMessage = "there was an error";
         private string _fileName;
         private Exception _result;
-		private TestableDateTime _systemTime
+		private TestableSystemTime _systemTime
 
         public override void EstablishContext()
         {
