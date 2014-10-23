@@ -1,4 +1,4 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-10-23T10:48:52+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/testing-date-time/</id><title type="text">Testing DateTime</title><summary type="html">&lt;p&gt;Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-10-23T10:52:44+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/testing-date-time/</id><title type="text">Testing DateTime</title><summary type="html">&lt;p&gt;Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. &lt;/p&gt;
 
 </summary><published>2014-10-19T23:00:00Z</published><updated>2014-10-19T23:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-date-time/" /><content type="html">&lt;p&gt;Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. &lt;/p&gt;
 
@@ -135,7 +135,7 @@ SystemTime.Reset();
     private string _errorMessage = "there was an error";
     private string _fileName;
     private Exception _result;
-    private TestableDateTime _systemTime
+    private TestableSystemTime _systemTime
 
     public override void EstablishContext()
     {
