@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-10-20T16:53:29.3143428+01:00" />
+    <meta http-equiv="last-modified" content="2014-10-23T10:48:47.5377767+01:00" />
     <meta name="keywords" content="Automated Testing" />
 
     <title>Michael Whelan</title>
@@ -245,7 +245,7 @@ SystemTime.Reset();
 
 <h2>What about BDD-style tests?</h2>
 
-<p>It's not always desirable to use a using statement. For example, if you are using a BDD-style, which I tend to do, then your statements are broken over multiple methods, and a using statement is not an option. In that case, you just call the Reset method at the end of the test yourself, as you can see in the TearDown method in this example:</p>
+<p>It's not always desirable to use a using statement. For example, if you are using a BDD-style, which I tend to do, then your statements are broken over multiple methods, and a using statement is not an option. In that case, you can just call the Dispose method at the end of the test yourself, as you can see in the TearDown method in this example:</p>
 
 <pre><code>class When_taking_screenshot : SelenoApplicationSpecification
 {
@@ -253,12 +253,13 @@ SystemTime.Reset();
     private string _errorMessage = "there was an error";
     private string _fileName;
     private Exception _result;
+    private TestableDateTime _systemTime
 
     public override void EstablishContext()
     {
         var dateTime = new DateTime(2014, 05, 11, 10, 29, 33);
         _fileName = string.Format(@"{0}{1}.png", _imageName, dateTime.ToString("yyyy-MM-dd_HH-mm-ss"));
-        SystemTime.Now = () =&gt; dateTime;
+        _systemTime = new TestableSystemTime(dateTime);
     }
 
     public void Given_initialised_application()
@@ -284,7 +285,7 @@ SystemTime.Reset();
 
     public override void TearDown()
     {
-        SystemTime.Reset();
+        _systemTime.Dispose();
     }
 }
 </code></pre>
