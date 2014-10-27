@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-10-23T10:52:40.5873718+01:00" />
+    <meta http-equiv="last-modified" content="2014-10-27T14:45:01.2414200+00:00" />
     <meta name="keywords" content="Automated Testing,Azure,BDDfy,Configuration,General,Learning,Programming,Seleno,Snow,Test Data,TestStack,Visual Studio" />
 
     <title>Michael Whelan</title>
@@ -110,6 +110,19 @@
 
 
     <div class="blog-main">
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/nuget-add-bindingredirect/">NuGet Add-BindingRedirect</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 09 Jan 2013</p>
+
+        
+        <p>This is one of those "note to self" posts. I recently came across this NuGet feature which is useful on those infrequent occasions when I need to do binding redirects. Hopefully others will find it useful too! </p>
+
+<p>I was wanting to use <a href="https://github.com/robdmoore/AutofacContrib.NSubstitute">AutoSubstitute</a>, the cool little auto mocking container from fellow TestStacker <a href="http://robdmoore.id.au/">Rob Moore</a> that uses Autofac to resolve unknown dependencies from NSubstitute. The problem was that AutoSubstitute is strongly named and when an assembly has a strong name, the binding to that assembly becomes very strict. Because AutoSubstitute currently binds to NSubstitute 1.4.0 and I was using 1.4.3 I was getting a FileLoadException. </p>
+
+
+          <p><a class="btn btn-primary" href="/nuget-add-bindingredirect/">Read more</a></p>
+          <hr/>
+      </div>
       <div class="blog-post">
         <h2 class="blog-post-title"><a href="/using-phantomjs-with-webdriver/">Using PhantomJS and GhostDriver with Selenium WebDriver in .Net</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 09 Jan 2013</p>
