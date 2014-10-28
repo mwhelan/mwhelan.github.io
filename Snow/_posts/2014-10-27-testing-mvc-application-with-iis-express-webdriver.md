@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Testing ASP.Net MVC with IIS Express and Selenium WebDriver
-categories: Automated Testing
+title: Testing MVC: IIS Express and Selenium WebDriver
+categories: Automated Testing, Testing MVC Series
 date: 2014-10-27
 comments: true
 sharing: true
