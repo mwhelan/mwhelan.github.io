@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-10-27T14:45:01.2414200+00:00" />
-    <meta name="keywords" content="Automated Testing,Azure,BDDfy,Configuration,General,Learning,Programming,Seleno,Snow,Test Data,TestStack,Visual Studio" />
+    <meta http-equiv="last-modified" content="2014-10-30T11:34:58.2130714+00:00" />
+    <meta name="keywords" content="Automated Testing,Azure,BDDfy,Black-Box Testing ASP.Net Series,Configuration,General,Learning,Programming,Seleno,Snow,Test Data,TestStack,Visual Studio" />
 
     <title>Michael Whelan</title>
 
@@ -45,6 +45,9 @@
                                         </li>
                                         <li>
                                             <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
                                         </li>
                                         <li>
                                             <a href="/category/configuration" title="Configuration">Configuration</a>
@@ -110,6 +113,19 @@
 
 
     <div class="blog-main">
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/deleting-nested-node-modules-folders/">Deleting Nested node_modules Folders</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 09 Jul 2014</p>
+
+        
+        <p>When using Node Package Manager (NPM) on Windows, it has an annoying habit of creating massively nested <code>node_modules</code> folders that exceed the 260 character path length limit. This makes it extremely painful to try to delete and causes problems with most windows tools. In Visual Studio, for example, I cannot <code>Refresh Folder</code> when I am in a website project (as opposed to a web application project).</p>
+
+<p>Fortunately, the fix is pretty simple.</p>
+
+
+          <p><a class="btn btn-primary" href="/deleting-nested-node-modules-folders/">Read more</a></p>
+          <hr/>
+      </div>
       <div class="blog-post">
         <h2 class="blog-post-title"><a href="/new-site-design/">New Site Design</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 21 Jun 2014</p>
@@ -211,16 +227,6 @@
 
 
           <p><a class="btn btn-primary" href="/automated-ui-testing-done-right/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/using-bddfy-for-unit-tests/">BDDfy In Action: Using BDDfy for Unit Tests</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 01 Jun 2013</p>
-
-        
-        <p>I’ve been using BDDfy with NUnit for writing acceptance tests for quite awhile now. But for unit testing I have continued to use mspec with <a href="https://github.com/machine/machine.fakes">machine fakes</a> and Moq for auto-mocking. The more I used BDDfy, the more I liked it, and the less I liked the context switch into another framework. I found myself wanting to write unit tests in the Given When Then format and didn't like having to maintain two sets of helper code for NUnit and mspec. I loved the reporting in BDDfy and started to think it would be pretty cool to have similar reporting for my unit tests. Basically, I wanted a consistent experience across all my automated testing.</p>
-
-          <p><a class="btn btn-primary" href="/using-bddfy-for-unit-tests/">Read more</a></p>
           <hr/>
       </div>
     </div>

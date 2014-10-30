@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="last-modified" content="2014-10-30T11:34:58.2130714+00:00" />
-    <meta name="keywords" content="Automated Testing,Seleno" />
+    <meta name="keywords" content="Automated Testing,Black-Box Testing ASP.Net Series" />
 
     <title>Michael Whelan</title>
 
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/selenium-webdriver-and-ie11/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/" />
 </head>
 <body>
     <div class="container">
@@ -111,45 +111,170 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">Selenium WebDriver and IE11</h1>
+    <h1 class="blog-post-title">Black-Box Testing ASP.Net: Configuring Application Under Test</h1>
 
     <div class="blog-post-meta">
-        posted on 18 Oct 2014
+        posted on 30 Oct 2014
             | <a class="label label-primary" href="/category/automated-testing">Automated Testing</a>
-            | <a class="label label-primary" href="/category/seleno">Seleno</a>
+            | <a class="label label-primary" href="/category/black-box-testing-asp.net-series">Black-Box Testing ASP.Net Series</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p>I was updating the browser WebDrivers for <a href="https://github.com/TestStack/TestStack.Seleno">Seleno</a> when I hit an issue with the InternetExplorerDriver. I was running Selenium WebDriver 2.43.1 on Windows 8.1 and using Internet Explorer 11. The test was just opening the google web page. Internet Explorer opened correctly and displayed the google page but then the test failed with the error:</p>
-
-<pre><code>OpenQA.Selenium.NoSuchWindowException : Unable to get browser
-</code></pre>
-
-<p>It turns out this is an <a href="https://code.google.com/p/selenium/issues/detail?id=6511">issue with Internet Explorer 11 rather than the InternetExplorerDriver</a>. This causes the InternetExplorerDriver to lose the connection to the instance of Internet Explorer it created.</p>
+        <p>As I mentioned in the <a href="/testing-mvc-application-with-iis-express-webdriver/">previous post</a>, UI tests for an ASP.Net MVC application are <a href="http://en.wikipedia.org/wiki/Black-box_testing">black-box tests</a> and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on <a href="https://github.com/mwhelan/MvcTestingSamples">GitHub</a>. </p>
 
 <!--excerpt-->
 
-<h2>All security zones should be set to the same Protected Mode setting</h2>
+<p>Some of the code is taken straight from <a href="https://github.com/TestStack/TestStack.Seleno">Seleno</a>, the Selenium WebDriver browser automation framework from <a href="http://teststack.net/">TestStack</a>, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application.</p>
 
-<p>I found that setting the Local Intranet zone's <code>Enable Protected Mode</code> setting to true solved my problem for me.</p>
+<p>For more of the conceptual information on this topic, Mehdi Khalili has a great post on <a href="http://www.mehdi-khalili.com/changing-runtime-behavior-of-application-under-test">changing the runtime behaviour of the application under test</a> on his blog.</p>
 
-<ol>
-<li>Press the <code>Alt</code> key to bring up the IE11 menu bar.  </li>
-<li>Select <code>Tools &gt; Internet Options</code> and go to the <code>Security</code> tab.</li>
-<li>Select each zone (Internet, Local intranet, Trusted sites, Restricted sites) and check the <code>Enable Protected Mode</code> check box.</li>
-</ol>
+<h2>Environment Variables</h2>
 
-<h2>Other Options</h2>
-
-<p>A number of people reported that adding the domain they were testing to the list of "Trusted Sites" solved this problem for them. You can also do this on the Security tab of Internet Options. </p>
-
-<p>The <a href="https://code.google.com/p/selenium/wiki/InternetExplorerDriver">wiki page</a> for the InternetExplorer also details a registry setting that you can apply to deal with this problem.</p>
+<p>When you create a process to host your ASP.Net web application, you are able to pass in environment variables as key/value pairs. Your application code can then check for these variables and choose different configuration behaviour depending on the value of the variable. Mehdi sums up the benefits of this approach quite nicely:</p>
 
 <blockquote>
-  <p>For IE 11 only, you will need to set a registry entry on the target computer so that the driver can maintain a connection to the instance of Internet Explorer it creates. For 32-bit Windows installations, the key you must examine in the registry editor is HKEY<em>LOCAL</em>MACHINE\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE<em>BFCACHE. For 64-bit Windows installations, the key is HKEY</em>LOCAL<em>MACHINE\SOFTWARE\Wow6432Node\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE</em>BFCACHE. Please note that the FEATURE_BFCACHE subkey may or may not be present, and should be created if it is not present. Important: Inside this key, create a DWORD value named iexplore.exe with the value of 0.</p>
+  <p>The beauty of this approach is that the injected environment variables are scoped and isolated to the process you run which means they won't impact other applications running on the same machine and they are forgotten as soon as the process exits. Also you can dynamically set them at runtime for each test run.</p>
 </blockquote>
+
+<p>In the previous post, I did not show the code for the <code>WebApplication</code> class. This class just captures the configuration information that is passed to the <code>IisExpressWebServer</code>.</p>
+
+<pre><code>public class WebApplication
+{
+    public Dictionary&lt;string, string&gt; EnvironmentVariables { get; set; }
+
+    public void AddEnvironmentVariable(string key, string value = null)
+    {
+        EnvironmentVariables.Add(key, value ?? string.Empty);
+    }
+
+    // other code removed for brevity
+}
+</code></pre>
+
+<p>So, we can modify our setup code to add an environment variable with the key of <code>FunctionalTests</code>. Note, it is not necessary to provide a <code>value</code> for the key/value pair.</p>
+
+<pre><code>[SetUp]
+public void SetUp()
+{
+    var app = new WebApplication(ProjectLocation.FromFolder("ContosoUniversity"), 12365);
+    app.AddEnvironmentVariable("FunctionalTests");
+    WebServer = new IisExpressWebServer(app);
+    WebServer.Start();
+    Browser = Browsers.Phantom;
+}
+</code></pre>
+
+<h3>Configuring the database connection string at runtime</h3>
+
+<p>In the Contoso University sample that I'm using for these posts, the <code>SchoolContext</code> gets its connection string in a standard way from the web.config, using a <code>ConnectionStrings</code> key with the same name - "SchoolContext." With a minimal tweak, it can check the <code>FunctionalTests</code> environment variable, and switch to a "SchoolContext-FunctionalTests" connection string when it finds it present - which will only be when we pass it in from the functional tests code.</p>
+
+<pre><code>public class SchoolContext : DbContext
+{
+    public SchoolContext():base(GetConnectionString())
+    {
+    }
+
+    private static string GetConnectionString()
+    {
+        var environmentVariable = Environment.GetEnvironmentVariable("FunctionalTests");
+        return environmentVariable == null 
+            ? ConfigurationManager.ConnectionStrings["SchoolContext"].ConnectionString 
+            : ConfigurationManager.ConnectionStrings["SchoolContext-FunctionalTests"].ConnectionString;
+    }
+
+    // code omitted for brevity
+}
+</code></pre>
+
+<h3>Verifying that the behaviour has been changed</h3>
+
+<p>You want to be really sure that the application is using the modified configuration in your tests. The first thing that you can do is just set a breakpoint in the GetConnectionString method, attach to the application process (as I illustrated in the <a href="/testing-mvc-application-with-iis-express-webdriver/">previous post</a>) and step through the code to see which connection string is being used.</p>
+
+<p>Here is another approach. Obviously, this is test code and not something you would want to keep in production code. Just add a controller action to the web application, somewhere out of the way...</p>
+
+<pre><code>public ActionResult TestingEnvVariable()
+{
+    var envVar = Environment.GetEnvironmentVariable("FunctionalTests");
+    if (envVar == null)
+        throw new Exception("Environment Variable was not injected!!");
+    return RedirectToAction("Index");
+}
+</code></pre>
+
+<p>And then write a test that navigates to the page. If you are redirected to the home page without the exception being thrown then the environment variable has been set.</p>
+
+<pre><code>[Test]
+public void CanInjectEnvironmentVariables()
+{
+    string url = string.Format("{0}/Home/TestingEnvVariable", Host.WebServer.BaseUrl);
+    Host.Browser.Navigate().GoToUrl(url);
+    Host.Browser.Title.Should().Be("Home Page - Contoso University");
+}
+</code></pre>
+
+<h2>Configuration Transforms</h2>
+
+<p>The standard way to change configuration per environment in .Net is to use config transformation files. There are plenty of articles that show how to set this up in the web application, but configuring the test project to take advantage of this is not so well documented. Up until now, we have just pointed IIS Express at the web application folder. To apply web.config transforms we need to deploy the web application to a new folder with the specified transform applied, and point IIS Express to this folder instead. </p>
+
+<p>You can do this by calling msbuild, which will deploy to the specified local folder with the specified transform applied. That is the approach I will demonstrate here. In my experience, this approach can sometimes be a bit brittle , with msbuild sometimes acting differently on different machines or with different versions. An alternative to consider might be to perform the config transform yourself and use xcopy deploy to a separate folder . Microsoft have released the <a href="https://www.nuget.org/packages/Microsoft.Web.Xdt/">XDT library on NuGet</a> for this purpose, though I've not had a chance to try this approach out myself yet.</p>
+
+<pre><code>public class MsBuildDeployer
+{
+    private readonly IProjectLocation _projectLocation;
+
+    public MsBuildDeployer(IProjectLocation projectLocation)
+    {
+        _projectLocation = projectLocation;
+    }
+
+    public void Deploy(string configTransformName, string deployPath)
+    {
+        var loggers = new ILogger[] { new ConsoleLogger(LoggerVerbosity.Normal) };
+        var parameters = new BuildParameters { Loggers = loggers };
+
+        var globalProperties = new Dictionary&lt;string, string&gt;
+        {
+            { "Configuration", configTransformName },
+            { "_PackageTempDir", deployPath }
+        };
+
+        var requestData = new BuildRequestData(_projectLocation.ProjectName, globalProperties, null, 
+            new[] { "Clean", "Package" }, null);
+
+        var result = BuildManager.DefaultBuildManager.Build(parameters, requestData);
+
+        if (result.OverallResult != BuildResultCode.Success || !Directory.Exists(deployPath))
+        {
+            throw new Exception("Build failed.");
+        }
+    }
+}
+</code></pre>
+
+<p>The deploy method takes in the config transform name, such as <code>Debug</code>, <code>Release</code>, or <code>Test</code>, and the path to the local folder to deploy the transformed application to. This is the path that IIS Express will use to host the application.</p>
+
+<p>I've tried to make minimal changes to the IisExpressWebServer code so as to demonstrate both approaches. If a config transform value is passed in then the code is transformed and deployed to the specified deployment folder. If not, then it runs as before with the web application folder. </p>
+
+<pre><code>public void Start(string configTransform = null)
+{
+    ProcessStartInfo webHostStartInfo;
+    if (configTransform == null)
+    {
+        webHostStartInfo = InitializeIisExpress(_application);
+    }
+    else
+    {
+        var siteDeployer = new MsBuildDeployer(_application.Location);
+        var deployPath = Path.Combine(Environment.CurrentDirectory, "TestSite");
+        siteDeployer.Deploy(configTransform, deployPath);
+        webHostStartInfo = InitializeIisExpress(_application, deployPath);
+    }
+    _webHostProcess = Process.Start(webHostStartInfo);
+    _webHostProcess.TieLifecycleToParentProcess();
+}
+</code></pre>
 
     </div>
     
@@ -173,14 +298,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/selenium-webdriver-and-ie11/';
+                this.page.url = 'http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/selenium-webdriver-and-ie11/';
+    var disqus_url = 'http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

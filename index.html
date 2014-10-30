@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-10-27T14:45:01.2414200+00:00" />
-    <meta name="keywords" content="Automated Testing,Azure,BDDfy,Configuration,General,Learning,Programming,Seleno,Snow,Test Data,TestStack,Visual Studio" />
+    <meta http-equiv="last-modified" content="2014-10-30T11:34:58.2130714+00:00" />
+    <meta name="keywords" content="Automated Testing,Azure,BDDfy,Black-Box Testing ASP.Net Series,Configuration,General,Learning,Programming,Seleno,Snow,Test Data,TestStack,Visual Studio" />
 
     <title>Michael Whelan</title>
 
@@ -45,6 +45,9 @@
                                         </li>
                                         <li>
                                             <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
                                         </li>
                                         <li>
                                             <a href="/category/configuration" title="Configuration">Configuration</a>
@@ -111,13 +114,24 @@
 
     <div class="blog-main">
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/testing-mvc-application-with-iis-express-webdriver/">Testing ASP.Net MVC with IIS Express and Selenium WebDriver</a></h2>
+        <h2 class="blog-post-title"><a href="/testing-mvc-configuring-application-under-test/">Black-Box Testing ASP.Net: Configuring Application Under Test</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 30 Oct 2014</p>
+
+        
+        <p>As I mentioned in the <a href="/testing-mvc-application-with-iis-express-webdriver/">previous post</a>, UI tests for an ASP.Net MVC application are <a href="http://en.wikipedia.org/wiki/Black-box_testing">black-box tests</a> and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on <a href="https://github.com/mwhelan/MvcTestingSamples">GitHub</a>. </p>
+
+
+          <p><a class="btn btn-primary" href="/testing-mvc-configuring-application-under-test/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/testing-mvc-application-with-iis-express-webdriver/">Black-Box Testing ASP.Net: IIS Express and Selenium WebDriver</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 Oct 2014</p>
 
         
-        <p>In the next couple of posts I am going to look at some of the practical aspects of performing UI testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are <a href="http://en.wikipedia.org/wiki/White-box_testing">white box tests</a>, making it straightforward to change the behaviour and configuration of the SUT. UI tests are <a href="http://en.wikipedia.org/wiki/Black-box_testing">black box tests</a>, and run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration.  </p>
+        <p>In the next couple of posts I am going to look at some of the practical aspects of performing black-box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are <a href="http://en.wikipedia.org/wiki/White-box_testing">white-box tests</a>, making it straightforward to change the behaviour and configuration of the SUT. <a href="http://en.wikipedia.org/wiki/Black-box_testing">Black-box tests</a>, such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration.  </p>
 
-<p>I'm going to focus less on concepts and more on the code. I've produced a working sample on <a href="https://github.com/mwhelan/MvcTestingSamples">GitHub</a>, so you should be able to take it, run it, and use some of the code in your own applications if you want to. Some of the code is taken straight from <a href="https://github.com/TestStack/TestStack.Seleno">Seleno</a>, the Selenium WebDriver browser automation framework from <a href="http://teststack.net/">TestStack</a>, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application.</p>
+<p>In these posts, I'm going to focus less on concepts and more on the code. I've produced a working sample on <a href="https://github.com/mwhelan/MvcTestingSamples">GitHub</a>, so you should be able to take it, run it, and use some of the code in your own applications if you want to. Some of the code is taken straight from <a href="https://github.com/TestStack/TestStack.Seleno">Seleno</a>, the Selenium WebDriver browser automation framework from <a href="http://teststack.net/">TestStack</a>, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application.</p>
 
 
           <p><a class="btn btn-primary" href="/testing-mvc-application-with-iis-express-webdriver/">Read more</a></p>
@@ -216,19 +230,6 @@
 
 
           <p><a class="btn btn-primary" href="/deploying-sandra-snow-to-github-pages-with-gulp/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/deleting-nested-node-modules-folders/">Deleting Nested node_modules Folders</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 09 Jul 2014</p>
-
-        
-        <p>When using Node Package Manager (NPM) on Windows, it has an annoying habit of creating massively nested <code>node_modules</code> folders that exceed the 260 character path length limit. This makes it extremely painful to try to delete and causes problems with most windows tools. In Visual Studio, for example, I cannot <code>Refresh Folder</code> when I am in a website project (as opposed to a web application project).</p>
-
-<p>Fortunately, the fix is pretty simple.</p>
-
-
-          <p><a class="btn btn-primary" href="/deleting-nested-node-modules-folders/">Read more</a></p>
           <hr/>
       </div>
     </div>
