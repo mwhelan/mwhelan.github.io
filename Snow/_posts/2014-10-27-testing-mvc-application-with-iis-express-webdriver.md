@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Testing MVC: IIS Express and Selenium WebDriver
-categories: Automated Testing, Testing MVC Series
+title: Black-Box Testing ASP.Net: IIS Express and Selenium WebDriver
+categories: Automated Testing, Black-Box Testing ASP.Net Series
 date: 2014-10-27
 comments: true
 sharing: true
@@ -9,7 +9,7 @@ footer: true
 permalink: /testing-mvc-with-iis-express-webdriver/
 ---
 
-In the next couple of posts I am going to look at some of the practical aspects of performing black box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are [white box tests](http://en.wikipedia.org/wiki/White-box_testing), making it straightforward to change the behaviour and configuration of the SUT. [Black box tests](http://en.wikipedia.org/wiki/Black-box_testing), such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration.  
+In the next couple of posts I am going to look at some of the practical aspects of performing black-box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are [white-box tests](http://en.wikipedia.org/wiki/White-box_testing), making it straightforward to change the behaviour and configuration of the SUT. [Black-box tests](http://en.wikipedia.org/wiki/Black-box_testing), such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration.  
 
 In these posts, I'm going to focus less on concepts and more on the code. I've produced a working sample on [GitHub](https://github.com/mwhelan/MvcTestingSamples), so you should be able to take it, run it, and use some of the code in your own applications if you want to. Some of the code is taken straight from [Seleno](https://github.com/TestStack/TestStack.Seleno), the Selenium WebDriver browser automation framework from [TestStack](http://teststack.net/), and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application.
 <!--excerpt-->
