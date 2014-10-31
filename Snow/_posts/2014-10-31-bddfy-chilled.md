@@ -62,7 +62,7 @@ Chill uses the same [testcase class per fixture](http://xunitpatterns.com/Testca
         }
     }
 
-Now I can create my test implementation class, combining the best of both worlds of BDDfy and Chill. BDDfy uses reflection to discover and run all of the test methods, and Chill provides all sorts of infrastructure to manage the Subject (or System Under Test), its dependencies, and other test data. Awesome stuff!
+Now I can create my test implementation class, combining the best of both worlds of BDDfy and Chill. BDDfy uses reflection to discover and run all of the test methods, and Chill provides all sorts of infrastructure to manage the Subject (or System Under Test), its dependencies, and other test data. Chill is handling the setup (the Givens), the execution (When). [Fluent Assertions](http://www.fluentassertions.com/) rounds out the combination by handling the assertions (Thens) for a nice, terse specification. Awesome stuff!
 
     [ChillTestInitializer(typeof(DefaultChillTestInitializer<AutofacNSubstituteChillContainer>))]
     public class RetrievingExistingCustomerAsynchronously : SpecificationFor<CustomerController, View>
