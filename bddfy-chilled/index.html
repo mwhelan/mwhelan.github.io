@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="last-modified" content="2014-10-31T13:34:53.9228900+00:00" />
-    <meta name="keywords" content="Learning" />
+    <meta name="keywords" content="Automated Testing,BDDfy" />
 
     <title>Michael Whelan</title>
 
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/a-javascript-calculator/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/bddfy-chilled/" />
 </head>
 <body>
     <div class="container">
@@ -111,154 +111,203 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">A JavaScript Calculator</h1>
+    <h1 class="blog-post-title">BDDfy Chilled</h1>
 
     <div class="blog-post-meta">
-        posted on 19 Jun 2014
-            | <a class="label label-primary" href="/category/learning">Learning</a>
+        posted on 31 Oct 2014
+            | <a class="label label-primary" href="/category/automated-testing">Automated Testing</a>
+            | <a class="label label-primary" href="/category/bddfy">BDDfy</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p><strong>This article is part of a series on <a href="/learning-angularjs">Learning AngularJS</a>.</strong></p>
+        <p>I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same <code>Given When Then</code> style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.</p>
 
-<p>Before getting into any AngularJS, the first project on Thinkful's Angular course is to create a JavaScript calculator to review front end basics with HTML, CSS and JavaScript. It provides some interesting challenges. You can see my working version <a href="http://www.michael-whelan.net/thinkful-angular-adder-subtractor/">here</a>. The source code is also on <a href="https://github.com/mwhelan/thinkful-angular-adder-subtractor">GitHub</a>. </p>
+<p>I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on Chill, and found out that Erwin van der Valk was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   </p>
 
-<p><img src="/images/learning-angularjs-adder-subtractor.png" alt="JavaScript calculator" /></p>
+<!--excerpt-->
 
-<p>I am tending to build all of my applications with Twitter Bootstrap at the moment. I really like how easy it is to put together reasonable looking applications quite quickly.</p>
+<blockquote>
+  <p>If you stick it in a container, Chill will keep it cool.</p>
+</blockquote>
 
-<h2>Field Validation</h2>
+<p>So, I messed around with combining BDDfy with Chill and thought the initial findings were worth sharing. I think this investigation will more than likely be superceded by Chill, as Erwin mentioned he is interested in the possibility of combining BDDfy with Chill. As usual, you can get the code on <a href="https://github.com/mwhelan/BDDfyChilled">GitHub</a>.  </p>
 
-<p>The application requires that users can only enter integers. There are a number of ways to achieve this and I've tried different approaches on different projects. You can write a JavaScript function, or use the HTML5 number input type, to pop up an alert if the user does not enter the right value. Alerts are not a very nice user experience though, and the HTML5 one is particularly ugly.</p>
+<h2>Specification For</h2>
 
-<p>For this project I thought I would try the <a href="http://jqueryvalidation.org/">jQuery validation plugin</a>. This performs client-side validation on the form as the user leaves each control, preventing form submit if it is invalid, which I think makes for a better user experience. Alternatively, if you write code that is not in the submit event you can check if the form is valid by calling the <a href="http://jqueryvalidation.org/valid/">valid method</a> on the form (see the examples below).</p>
+<p>Chill uses the same <a href="http://xunitpatterns.com/Testcase%20Class%20per%20Fixture.html">testcase class per fixture</a> , inheritance-based, style that I favour, so the first step was just to inherit from the <code>Subject</code> base classes. I need to add a method with the test framework attribute, [Test] for NUnit and [Fact] for xUnit, and call out to BDDFy to run the test. Thankfully, this is the only time I need to do that and all of my test implementation classes do not need any attributes. I would put each of these namespaces in its own library per test framework - I've not managed to find a way around that yet - but I've just combined them here for illustrative purposes.</p>
 
-<p>The jQuery Validation plugin is very easy to setup. You simply call the <code>validate()</code> method on the form during page initialisation and use the input fields' names to specify rules and messages. Alternatively, you can specify rules as attributes on the field if you prefer. </p>
-
-<p>In the example below, I am providing validation rules for two input fields named <code>inputX</code> and <code>inputY</code>.</p>
-
-<pre><code>function setupFormValidation() {
-    $("#convertForm").validate({
-        rules: {
-            inputX: {
-                required: true,
-                digits: true
-            },
-            inputY: {
-                required: true,
-                digits: true
-            }
-        },
-        messages: {
-            inputX: "Please enter an integer for X",
-            inputY: "Please enter an integer for Y"
-        },
-        highlight: function (element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function (element) {
-            $(element).closest('.form-group').removeClass('has-error');
+<pre><code>namespace BDDfyChilled.xUnit
+{
+    public abstract class SpecificationFor&lt;TSubject&gt; : GivenSubject&lt;TSubject&gt; where TSubject : class
+    {
+        [Fact]
+        public void Run()
+        {
+            this.BDDfy();
         }
-    });
-}
-</code></pre>
-
-<p>In this case, the digits rule will ensure the user can only enter integers. The plugin provides pretty basic styling, but it is easy enough to add your own styles. I am using Twitter Bootstrap so I just need to add the highlight and unhighlight functions (as in the code above). The <code>highlight</code> function is called when a validation error occurs, and I add the Twitter Bootstrap <code>has-error</code> CSS class to that control's form group. The <code>unhighlight</code> function is called when the user corrects the error, and that simply removes the CSS class.</p>
-
-<p><img src="/images/learning-angularjs-adder-subtractor-validation.png" alt="JavaScript calculator" /></p>
-
-<h2>Data Binding</h2>
-
-<p>One of the things I'm looking forward to with Angular is its two way data binding. With plain old JavaScript though, there are a lot of options for reading and writing form field data and it's hard to know which is the most elegant. I'm only having to read data from the fields here but I still wanted to encapsulate this logic in one place. The first approach I took was to create a "class" that encapsulates all of the calculator logic in one place and is able to read the data from the form itself. </p>
-
-<pre><code>function Calculator() {
-    this.x = parseInt($("#inputX").val());
-    this.y = parseInt($("#inputY").val());
-
-    this.plus = function () {
-        return this.x + this.y;
-    };
-    this.minus = function () {
-        return this.x - this.y;
-    };
-}
-</code></pre>
-
-<p>I don't really like it though, to be honest. While it does hide away the reading of data, it is too tightly bound to the UI and that would seem to make it a real pain to test. So, instead I have gone for a plain old class that receives its parameters in the constructor. This would be very easy to test - just pass in the data, call the method I'm interested in, and inspect the result. The app can create the calculator with a  factory function, <code>createCalculator()</code>, which provides sufficient encapsulation for the reading of the form data.</p>
-
-<pre><code>function Calculator(x, y) {
-    this.x = x;
-    this.y = y;
-    this.plus = function () {
-        return x + y;
-    };
-    this.minus = function () {
-        return x - y;
-    };
-}
-
-function createCalculator() {
-    var x = parseInt($("#inputX").val());
-    var y = parseInt($("#inputY").val());
-    return new Calculator(x, y);
-}
-</code></pre>
-
-<h2>Event Handling</h2>
-
-<p>In my first pass, I just coded the plus and minus button clicks separately. </p>
-
-<pre><code>$("#plus").click(function (event) {
-    if (("#convertForm").valid()) {
-        var calculator = createCalculator();
-        var result = calculator.add();
-        var message = "X plus Y is " + result;
-        $("#result").text(message);
     }
-});
 
-$("#minus").click(function (event) {
-    if (("#convertForm").valid()) {
-        var calculator = createCalculator();
-        var result = calculator.subtract();
-        var message = "X minus Y is " + result;
-        $("#result").text(message);
+    public abstract class SpecificationFor&lt;TSubject, TResult&gt; : GivenSubject&lt;TSubject, TResult&gt; where TSubject : class
+    {
+        [Fact]
+        public void Run()
+        {
+            this.BDDfy();
+        }
     }
-});
-</code></pre>
-
-<p>There is pretty obvious duplication though. My first refactoring was just to move the common code into a calculate method and pass in the operation - "plus" or "minus".</p>
-
-<pre><code>$("#plus").click(function (event) {
-    calculate("plus");
-});
-
-$("#minus").click(function (event) {
-    calculate("minus");
-});
-
-function calculate( operation) {
-    if (("#convertForm").valid()) {
-        var calculator = createCalculator();
-        var result = calculator[operation]();
-        var message = calculator.x + " " + operation + " " + calculator.y + " is " + result;
-        $("#result").text(message);
+}
+namespace BDDfyChilled.NUnit
+{
+    public abstract class SpecificationFor&lt;TSubject&gt; : GivenSubject&lt;TSubject&gt; where TSubject : class
+    {
+        [Test]
+        public void Run()
+        {
+            this.BDDfy();
+        }
+    }
+    public abstract class SpecificationFor&lt;TSubject, TResult&gt; : GivenSubject&lt;TSubject, TResult&gt; where TSubject : class
+    {
+        [Test]
+        public void Run()
+        {
+            this.BDDfy();
+        }
     }
 }
 </code></pre>
 
-<p>The cool thing about JavaScript is that you can call methods on objects using bracket notation, as you can see with the call to <code>calculator[operation]()</code> above. So, the same value can be used as a string in message, and as a function pointer. That's not something you can do in C#!</p>
+<p>Now I can create my test implementation class, combining the best of both worlds of BDDfy and Chill. BDDfy uses reflection to discover and run all of the test methods, and Chill provides all sorts of infrastructure to manage the Subject (or System Under Test), its dependencies, and other test data. Awesome stuff!</p>
 
-<p>There is still one more improvement to do though - at least one that I can see, there are probably more! :-) In JavaScript, I only need one event handler for all of the buttons. I can name each button the same as the operation ("plus" and "minus") and then retrieve that name value with <code>event.target.name</code> to pass into the function as the operation parameter.</p>
+<pre><code>[ChillTestInitializer(typeof(DefaultChillTestInitializer&lt;AutofacNSubstituteChillContainer&gt;))]
+public class RetrievingExistingCustomerAsynchronously : SpecificationFor&lt;CustomerController, View&gt;
+{
+    const int customerId = 12;
 
-<pre><code>$("button").on("click", function (event) {
-    calculate(event.target.name);
-});
+    public void Given_an_existing_customer()
+    {
+        Given(() =&gt;
+        {
+            The&lt;Customer&gt;()
+                .With(x =&gt; x.Id = customerId);
+
+            The&lt;ICustomerStore&gt;()
+                .GetCustomerAsync(customerId)
+                .Returns(The&lt;Customer&gt;().Asynchronously());
+        });
+    }
+
+    public void When_retrieving_the_customer_asynchronously()
+    {
+
+        When(() =&gt; Subject.GetAsync(customerId));
+    }
+
+    public void Then_view_is_returned()
+    {
+        Result.Should().NotBeNull();
+    }
+
+    public void AndThen_model_is_the_existing_custmoer()
+    {
+        Result.Model.Should().Be(The&lt;Customer&gt;());
+    }
+}
 </code></pre>
 
-<p>I'm pretty happy with that, but please do let me know if there are better ways of doing things!</p>
+<h2>Custom BDDfy Method Name Step Scanner</h2>
+
+<p>Understandably, because Chill and BDDfy are both BDD frameworks, they both use the Given When Then syntax. When I run the test right now I get this error. BDDfy is calling the Given, When, and TheNamed methods on the Chill base class.</p>
+
+<pre><code>Specifications For: CustomerController
+
+Scenario: Retrieving existing customer asynchronously
+    Given an existing customer                        [Passed] 
+    Given                                             [Failed] [Parameter count mismatch.] [Details at 1 below]
+    When retrieving the customer asynchronously       [Not executed] 
+    When                                              [Not executed] 
+    When                                              [Not executed] 
+    Then view is returned                             [Not executed] 
+    The named                                         [Not executed] 
+      And model is the existing custmoer              [Not executed] 
+</code></pre>
+
+<p>We don't want BDDfy to run the Chill methods that conform to its Given When Then pattern. Fortunately, BDDfy allows you to replace the reflection method name step scanner. Here are the key changes - telling BDDfy to ignore the Chill methods named <code>Given</code>, <code>When</code> and <code>TheNamed</code>.</p>
+
+<pre><code>AddMatcher(new MethodNameMatcher(s =&gt; s.StartsWith("Given", StringComparison.OrdinalIgnoreCase) 
+    &amp;&amp; s != "Given", ExecutionOrder.SetupState));
+AddMatcher(new MethodNameMatcher(s =&gt; s.StartsWith("When", StringComparison.OrdinalIgnoreCase) 
+    &amp;&amp; s != "When", ExecutionOrder.Transition));
+AddMatcher(new MethodNameMatcher(s =&gt; s.StartsWith("Then", StringComparison.OrdinalIgnoreCase) 
+    &amp;&amp; s != "TheNamed", ExecutionOrder.Assertion) { Asserts = true });
+</code></pre>
+
+<p>and then tell BDDfy to use the new scanner:</p>
+
+<pre><code>Configurator.Scanners.DefaultMethodNameStepScanner.Disable();
+Configurator.Scanners.Add(() =&gt; new ChillMethodNameStepScanner());
+</code></pre>
+
+<p>Quite simple really, and now BDDfy and Chill play nicely together.</p>
+
+<p><img src="/images/bddfy-chilled-report.png" alt="BDDfy report" /></p>
+
+<h2>Custom Report</h2>
+
+<p>Because these are just unit tests, and don't have user stories, I've created a custom metadata scanner to display <code>Specifications For: [Subject]</code> (in this case the Subject is the CustomerController), which just uses reflection to grab the name of the Subject type.</p>
+
+<pre><code>public class ChillStoryMetadataScanner : IStoryMetadataScanner
+{
+    public virtual StoryMetadata Scan(object testObject, Type explicityStoryType = null)
+    {
+        string specificationTitle = GetSubject(testObject);
+        var story = new StoryAttribute() { Title = specificationTitle, TitlePrefix = "Specifications For: " };
+        return new StoryMetadata(testObject.GetType(), story);
+    }
+
+    private string GetSubject(object testObject)
+    {
+        return testObject
+            .GetType()
+            .GetProperty("Subject", BindingFlags.Instance | BindingFlags.NonPublic)
+            .PropertyType
+            .Name;
+    }
+}
+</code></pre>
+
+<p>I've also created a report configuration to change the header:</p>
+
+<pre><code>public class ChillBDDfyReportConfig : DefaultHtmlReportConfiguration
+{
+    public override string ReportHeader { get { return "BDDfy Chilled!"; }}
+}
+</code></pre>
+
+<p>And plugged them both in using the BDDfy Configurator before any of the tests run.</p>
+
+<pre><code>[SetUpFixture]
+public class Host
+{
+    [SetUp]
+    public void SetUp()
+    {
+        Configurator.Scanners.DefaultMethodNameStepScanner.Disable();
+        Configurator.Scanners.Add(() =&gt; new ChillMethodNameStepScanner());
+
+        Configurator.Scanners.StoryMetadataScanner = () =&gt; new ChillStoryMetadataScanner();
+
+        Configurator.BatchProcessors.HtmlReport.Disable();
+        Configurator.BatchProcessors.Add(new HtmlReporter(new ChillBDDfyReportConfig()));
+    }
+}
+</code></pre>
+
+<h2>Conclusion</h2>
+
+<p>I think BDDfy and Chill are a great combination and I'm looking forward to keeping an eye on the new features that Eriwn is adding to Chill to see more ways that I might be able to use them together. </p>
 
     </div>
     
@@ -282,14 +331,14 @@ function calculate( operation) {
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/a-javascript-calculator/';
+                this.page.url = 'http://www.michael-whelan.net/bddfy-chilled/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/a-javascript-calculator/';
+    var disqus_url = 'http://www.michael-whelan.net/bddfy-chilled/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

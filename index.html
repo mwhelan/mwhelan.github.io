@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-10-30T11:34:58.2130714+00:00" />
+    <meta http-equiv="last-modified" content="2014-10-31T13:34:53.9228900+00:00" />
     <meta name="keywords" content="Automated Testing,Azure,BDDfy,Black-Box Testing ASP.Net Series,Configuration,General,Learning,Programming,Seleno,Snow,Test Data,TestStack,Visual Studio" />
 
     <title>Michael Whelan</title>
@@ -114,6 +114,19 @@
 
     <div class="blog-main">
       <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/bddfy-chilled/">BDDfy Chilled</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 31 Oct 2014</p>
+
+        
+        <p>I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same <code>Given When Then</code> style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.</p>
+
+<p>I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on Chill, and found out that Erwin van der Valk was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   </p>
+
+
+          <p><a class="btn btn-primary" href="/bddfy-chilled/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
         <h2 class="blog-post-title"><a href="/testing-mvc-configuring-application-under-test/">Black-Box Testing ASP.Net: Configuring Application Under Test</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 30 Oct 2014</p>
 
@@ -219,17 +232,6 @@
 
 
           <p><a class="btn btn-primary" href="/customizing-metro-report-in-bddfyv4/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/deploying-sandra-snow-to-github-pages-with-gulp/">Deploying Sandra.Snow to GitHub Pages with Gulp</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 18 Jul 2014</p>
-
-        
-        <p>When I was planning a git work flow for my Sandra.Snow blog, which is hosted on GitHub Pages, I expected that I would store the project files in the master branch, then publish the site to the gh-pages branch. The point I overlooked is that this is the work flow for project sites, but user and organisation sites, like my blog, work slightly differently. With user and organisation sites you publish the website content to the master branch of your GitHub repository. This was far from ideal, as it meant that my content was mixed with the generated output. Even the slightest tweak to a post would lead to the whole site being generated, meaning monster commits and hiding the changes to the content. I suspect Sandra.Snow has a few solutions to this problem, but here is the solution I came up with.</p>
-
-
-          <p><a class="btn btn-primary" href="/deploying-sandra-snow-to-github-pages-with-gulp/">Read more</a></p>
           <hr/>
       </div>
     </div>

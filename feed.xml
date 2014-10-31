@@ -1,4 +1,194 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-10-30T11:35:02Z</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/</id><title type="text">Black-Box Testing ASP.Net: Configuring Application Under Test</title><summary type="html">&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2014-10-31T13:34:57Z</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/bddfy-chilled/</id><title type="text">BDDfy Chilled</title><summary type="html">&lt;p&gt;I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same &lt;code&gt;Given When Then&lt;/code&gt; style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.&lt;/p&gt;
+
+&lt;p&gt;I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on Chill, and found out that Erwin van der Valk was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   &lt;/p&gt;
+
+</summary><published>2014-10-31T00:00:00Z</published><updated>2014-10-31T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/bddfy-chilled/" /><content type="html">&lt;p&gt;I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same &lt;code&gt;Given When Then&lt;/code&gt; style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.&lt;/p&gt;
+
+&lt;p&gt;I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on Chill, and found out that Erwin van der Valk was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   &lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;If you stick it in a container, Chill will keep it cool.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, I messed around with combining BDDfy with Chill and thought the initial findings were worth sharing. I think this investigation will more than likely be superceded by Chill, as Erwin mentioned he is interested in the possibility of combining BDDfy with Chill. As usual, you can get the code on &lt;a href="https://github.com/mwhelan/BDDfyChilled"&gt;GitHub&lt;/a&gt;.  &lt;/p&gt;
+
+&lt;h2&gt;Specification For&lt;/h2&gt;
+
+&lt;p&gt;Chill uses the same &lt;a href="http://xunitpatterns.com/Testcase%20Class%20per%20Fixture.html"&gt;testcase class per fixture&lt;/a&gt; , inheritance-based, style that I favour, so the first step was just to inherit from the &lt;code&gt;Subject&lt;/code&gt; base classes. I need to add a method with the test framework attribute, [Test] for NUnit and [Fact] for xUnit, and call out to BDDFy to run the test. Thankfully, this is the only time I need to do that and all of my test implementation classes do not need any attributes. I would put each of these namespaces in its own library per test framework - I've not managed to find a way around that yet - but I've just combined them here for illustrative purposes.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;namespace BDDfyChilled.xUnit
+{
+    public abstract class SpecificationFor&amp;lt;TSubject&amp;gt; : GivenSubject&amp;lt;TSubject&amp;gt; where TSubject : class
+    {
+        [Fact]
+        public void Run()
+        {
+            this.BDDfy();
+        }
+    }
+
+    public abstract class SpecificationFor&amp;lt;TSubject, TResult&amp;gt; : GivenSubject&amp;lt;TSubject, TResult&amp;gt; where TSubject : class
+    {
+        [Fact]
+        public void Run()
+        {
+            this.BDDfy();
+        }
+    }
+}
+namespace BDDfyChilled.NUnit
+{
+    public abstract class SpecificationFor&amp;lt;TSubject&amp;gt; : GivenSubject&amp;lt;TSubject&amp;gt; where TSubject : class
+    {
+        [Test]
+        public void Run()
+        {
+            this.BDDfy();
+        }
+    }
+    public abstract class SpecificationFor&amp;lt;TSubject, TResult&amp;gt; : GivenSubject&amp;lt;TSubject, TResult&amp;gt; where TSubject : class
+    {
+        [Test]
+        public void Run()
+        {
+            this.BDDfy();
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now I can create my test implementation class, combining the best of both worlds of BDDfy and Chill. BDDfy uses reflection to discover and run all of the test methods, and Chill provides all sorts of infrastructure to manage the Subject (or System Under Test), its dependencies, and other test data. Awesome stuff!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[ChillTestInitializer(typeof(DefaultChillTestInitializer&amp;lt;AutofacNSubstituteChillContainer&amp;gt;))]
+public class RetrievingExistingCustomerAsynchronously : SpecificationFor&amp;lt;CustomerController, View&amp;gt;
+{
+    const int customerId = 12;
+
+    public void Given_an_existing_customer()
+    {
+        Given(() =&amp;gt;
+        {
+            The&amp;lt;Customer&amp;gt;()
+                .With(x =&amp;gt; x.Id = customerId);
+
+            The&amp;lt;ICustomerStore&amp;gt;()
+                .GetCustomerAsync(customerId)
+                .Returns(The&amp;lt;Customer&amp;gt;().Asynchronously());
+        });
+    }
+
+    public void When_retrieving_the_customer_asynchronously()
+    {
+
+        When(() =&amp;gt; Subject.GetAsync(customerId));
+    }
+
+    public void Then_view_is_returned()
+    {
+        Result.Should().NotBeNull();
+    }
+
+    public void AndThen_model_is_the_existing_custmoer()
+    {
+        Result.Model.Should().Be(The&amp;lt;Customer&amp;gt;());
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Custom BDDfy Method Name Step Scanner&lt;/h2&gt;
+
+&lt;p&gt;Understandably, because Chill and BDDfy are both BDD frameworks, they both use the Given When Then syntax. When I run the test right now I get this error. BDDfy is calling the Given, When, and TheNamed methods on the Chill base class.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Specifications For: CustomerController
+
+Scenario: Retrieving existing customer asynchronously
+    Given an existing customer                        [Passed] 
+    Given                                             [Failed] [Parameter count mismatch.] [Details at 1 below]
+    When retrieving the customer asynchronously       [Not executed] 
+    When                                              [Not executed] 
+    When                                              [Not executed] 
+    Then view is returned                             [Not executed] 
+    The named                                         [Not executed] 
+      And model is the existing custmoer              [Not executed] 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We don't want BDDfy to run the Chill methods that conform to its Given When Then pattern. Fortunately, BDDfy allows you to replace the reflection method name step scanner. Here are the key changes - telling BDDfy to ignore the Chill methods named &lt;code&gt;Given&lt;/code&gt;, &lt;code&gt;When&lt;/code&gt; and &lt;code&gt;TheNamed&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;AddMatcher(new MethodNameMatcher(s =&amp;gt; s.StartsWith("Given", StringComparison.OrdinalIgnoreCase) 
+    &amp;amp;&amp;amp; s != "Given", ExecutionOrder.SetupState));
+AddMatcher(new MethodNameMatcher(s =&amp;gt; s.StartsWith("When", StringComparison.OrdinalIgnoreCase) 
+    &amp;amp;&amp;amp; s != "When", ExecutionOrder.Transition));
+AddMatcher(new MethodNameMatcher(s =&amp;gt; s.StartsWith("Then", StringComparison.OrdinalIgnoreCase) 
+    &amp;amp;&amp;amp; s != "TheNamed", ExecutionOrder.Assertion) { Asserts = true });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and then tell BDDfy to use the new scanner:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Configurator.Scanners.DefaultMethodNameStepScanner.Disable();
+Configurator.Scanners.Add(() =&amp;gt; new ChillMethodNameStepScanner());
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Quite simple really, and now BDDfy and Chill play nicely together.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/bddfy-chilled-report.png" alt="BDDfy report" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;Custom Report&lt;/h2&gt;
+
+&lt;p&gt;Because these are just unit tests, and don't have user stories, I've created a custom metadata scanner to display &lt;code&gt;Specifications For: [Subject]&lt;/code&gt; (in this case the Subject is the CustomerController), which just uses reflection to grab the name of the Subject type.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class ChillStoryMetadataScanner : IStoryMetadataScanner
+{
+    public virtual StoryMetadata Scan(object testObject, Type explicityStoryType = null)
+    {
+        string specificationTitle = GetSubject(testObject);
+        var story = new StoryAttribute() { Title = specificationTitle, TitlePrefix = "Specifications For: " };
+        return new StoryMetadata(testObject.GetType(), story);
+    }
+
+    private string GetSubject(object testObject)
+    {
+        return testObject
+            .GetType()
+            .GetProperty("Subject", BindingFlags.Instance | BindingFlags.NonPublic)
+            .PropertyType
+            .Name;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I've also created a report configuration to change the header:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class ChillBDDfyReportConfig : DefaultHtmlReportConfiguration
+{
+    public override string ReportHeader { get { return "BDDfy Chilled!"; }}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And plugged them both in using the BDDfy Configurator before any of the tests run.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[SetUpFixture]
+public class Host
+{
+    [SetUp]
+    public void SetUp()
+    {
+        Configurator.Scanners.DefaultMethodNameStepScanner.Disable();
+        Configurator.Scanners.Add(() =&amp;gt; new ChillMethodNameStepScanner());
+
+        Configurator.Scanners.StoryMetadataScanner = () =&amp;gt; new ChillStoryMetadataScanner();
+
+        Configurator.BatchProcessors.HtmlReport.Disable();
+        Configurator.BatchProcessors.Add(new HtmlReporter(new ChillBDDfyReportConfig()));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I think BDDfy and Chill are a great combination and I'm looking forward to keeping an eye on the new features that Eriwn is adding to Chill to see more ways that I might be able to use them together. &lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/</id><title type="text">Black-Box Testing ASP.Net: Configuring Application Under Test</title><summary type="html">&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
 
 </summary><published>2014-10-30T00:00:00Z</published><updated>2014-10-30T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/" /><content type="html">&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
 
