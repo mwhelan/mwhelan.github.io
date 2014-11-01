@@ -11,7 +11,7 @@ permalink: /bddfy-chilled/
 
 I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same `Given When Then` style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.
 
-I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on Chill, and found out that Erwin van der Valk was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   
+I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on [Chill](https://github.com/erwinvandervalk/chill), and found out that [Erwin van der Valk](https://twitter.com/ErwinVanDerValk) was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   
 <!--excerpt-->
 
 
@@ -181,3 +181,5 @@ And plugged them both in using the BDDfy Configurator before any of the tests ru
 
 ## Conclusion
 I think BDDfy and Chill are a great combination and I'm looking forward to keeping an eye on the new features that Eriwn is adding to Chill to see more ways that I might be able to use them together. 
+
+You can read more about Chill on Erwin's [blog](http://www.erwinvandervalk.net/2014/10/introducing-chill-bdd-style-testing.html). And, of course, you can learn more about [TestStack](http://teststack.net/) and our [BDDfy](https://github.com/TestStack/TestStack.BDDfy) framework. Finally, you can learn all about Fluent Assertions [here](http://www.fluentassertions.com/).
