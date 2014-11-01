@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "Source for my blog, using the Snow Template.",
   "main": "gulpfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-gh-pages": "^0.4.0"
+  },
   "devDependencies": {
     "gh-pages": "^0.2.0",
     "gulp": "^3.8.8",

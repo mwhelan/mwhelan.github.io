@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Restoring NuGet Packages in TeamCity
-categories: Configuration
+categories: Visual Studio
 image: images/sswtvthumb.jpg
 date: 2014-09-07 10:00:00
 comments: true
