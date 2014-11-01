@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-10-31T13:34:53.9228900+00:00" />
+    <meta http-equiv="last-modified" content="2014-11-01T09:56:21.6594106+00:00" />
     <meta name="keywords" content="Automated Testing,BDDfy" />
 
     <title>Michael Whelan</title>
@@ -48,9 +48,6 @@
                                         </li>
                                         <li>
                                             <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
-                                        </li>
-                                        <li>
-                                            <a href="/category/configuration" title="Configuration">Configuration</a>
                                         </li>
                                         <li>
                                             <a href="/category/general" title="General">General</a>
@@ -124,7 +121,7 @@
 
         <p>I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same <code>Given When Then</code> style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.</p>
 
-<p>I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on Chill, and found out that Erwin van der Valk was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   </p>
+<p>I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on <a href="https://github.com/erwinvandervalk/chill">Chill</a>, and found out that <a href="https://twitter.com/ErwinVanDerValk">Erwin van der Valk</a> was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   </p>
 
 <!--excerpt-->
 
@@ -179,7 +176,7 @@ namespace BDDfyChilled.NUnit
 }
 </code></pre>
 
-<p>Now I can create my test implementation class, combining the best of both worlds of BDDfy and Chill. BDDfy uses reflection to discover and run all of the test methods, and Chill provides all sorts of infrastructure to manage the Subject (or System Under Test), its dependencies, and other test data. Awesome stuff!</p>
+<p>Now I can create my test implementation class, combining the best of both worlds of BDDfy and Chill. BDDfy uses reflection to discover and run all of the test methods, and Chill provides all sorts of infrastructure to manage the Subject (or System Under Test), its dependencies, and other test data. Chill is handling the setup (the Givens), the execution (When). <a href="http://www.fluentassertions.com/">Fluent Assertions</a> rounds out the combination by handling the assertions (Thens) for a nice, terse specification. Awesome stuff!</p>
 
 <pre><code>[ChillTestInitializer(typeof(DefaultChillTestInitializer&lt;AutofacNSubstituteChillContainer&gt;))]
 public class RetrievingExistingCustomerAsynchronously : SpecificationFor&lt;CustomerController, View&gt;
@@ -219,7 +216,7 @@ public class RetrievingExistingCustomerAsynchronously : SpecificationFor&lt;Cust
 
 <h2>Custom BDDfy Method Name Step Scanner</h2>
 
-<p>Understandably, because Chill and BDDfy are both BDD frameworks, they both use the Given When Then syntax. When I run the test right now I get this error. BDDfy is calling the Given, When, and TheNamed methods on the Chill base class.</p>
+<p>Understandably, because Chill and BDDfy are both BDD frameworks, they both use the Given When Then syntax. When I run the test right now I get this error. BDDfy is calling the <code>Given</code>, <code>When</code>, and <code>TheNamed</code> methods on the Chill base class.</p>
 
 <pre><code>Specifications For: CustomerController
 
@@ -308,6 +305,8 @@ public class Host
 <h2>Conclusion</h2>
 
 <p>I think BDDfy and Chill are a great combination and I'm looking forward to keeping an eye on the new features that Eriwn is adding to Chill to see more ways that I might be able to use them together. </p>
+
+<p>You can read more about Chill on Erwin's <a href="http://www.erwinvandervalk.net/2014/10/introducing-chill-bdd-style-testing.html">blog</a>. And, of course, you can learn more about <a href="http://teststack.net/">TestStack</a> and our <a href="https://github.com/TestStack/TestStack.BDDfy">BDDfy</a> framework. Finally, you can learn all about Fluent Assertions <a href="http://www.fluentassertions.com/">here</a>.</p>
 
     </div>
     
