@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2014-11-01T09:56:21.6594106+00:00" />
-    <meta name="keywords" content="Automated Testing,Azure,BDDfy,Black-Box Testing ASP.Net Series,General,Learning,Programming,Seleno,Snow,Test Data,TestStack,Visual Studio" />
+    <meta http-equiv="last-modified" content="2015-01-04T10:27:31.2463705+00:00" />
+    <meta name="keywords" content="Automated Testing,Azure,BDDfy,Black-Box Testing ASP.Net Series,General,Learning,Programming,Seleno,Snow,SQL Server,Test Data,TestStack,Visual Studio" />
 
     <title>Michael Whelan</title>
 
@@ -65,6 +65,9 @@
                                             <a href="/category/snow" title="Snow">Snow</a>
                                         </li>
                                         <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
                                             <a href="/category/test-data" title="Test Data">Test Data</a>
                                         </li>
                                         <li>
@@ -111,6 +114,28 @@
 
     <div class="blog-main">
       <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/testing-mvc-reducing-use-of-magic-strings/">Black-Box Testing ASP.Net: Reducing the Use of Magic Strings</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 03 Jan 2015</p>
+
+        
+        <p>Although UI tests for an ASP.Net MVC application are <a href="http://en.wikipedia.org/wiki/Black-box_testing">black-box tests</a>, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. </p>
+
+
+          <p><a class="btn btn-primary" href="/testing-mvc-reducing-use-of-magic-strings/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/sql-server-localdb-2014-connection-string/">SQL Server LocalDB 2014 Connection String</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 23 Nov 2014</p>
+
+        
+        <p>I spent way too much time today trying to figure out why I could not connect to my newly installed SQL Server LocalDB 2014 instance. I assumed that I could just update my connection string from <code>v11.0</code> to <code>v12.0</code> but it seems that Microsoft have changed the naming scheme for this version. Now the automatic instance is named <code>MSSQLLocalDB</code>.</p>
+
+
+          <p><a class="btn btn-primary" href="/sql-server-localdb-2014-connection-string/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
         <h2 class="blog-post-title"><a href="/bddfy-chilled/">BDDfy Chilled</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 31 Oct 2014</p>
 
@@ -139,9 +164,7 @@
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 Oct 2014</p>
 
         
-        <p>In the next couple of posts I am going to look at some of the practical aspects of performing black-box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are <a href="http://en.wikipedia.org/wiki/White-box_testing">white-box tests</a>, making it straightforward to change the behaviour and configuration of the SUT. <a href="http://en.wikipedia.org/wiki/Black-box_testing">Black-box tests</a>, such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration.  </p>
-
-<p>In these posts, I'm going to focus less on concepts and more on the code. I've produced a working sample on <a href="https://github.com/mwhelan/MvcTestingSamples">GitHub</a>, so you should be able to take it, run it, and use some of the code in your own applications if you want to. Some of the code is taken straight from <a href="https://github.com/TestStack/TestStack.Seleno">Seleno</a>, the Selenium WebDriver browser automation framework from <a href="http://teststack.net/">TestStack</a>, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application.</p>
+        <p>In the next couple of posts I am going to look at some of the practical aspects of performing black-box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are <a href="http://en.wikipedia.org/wiki/White-box_testing">white-box tests</a>, making it straightforward to change the behaviour and configuration of the SUT. <a href="http://en.wikipedia.org/wiki/Black-box_testing">Black-box tests</a>, such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration. In these posts, I'm going to focus less on concepts and more on the code.  </p>
 
 
           <p><a class="btn btn-primary" href="/testing-mvc-application-with-iis-express-webdriver/">Read more</a></p>
@@ -207,28 +230,6 @@
 
 
           <p><a class="btn btn-primary" href="/code-katas-for-practicing-tdd/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/gitignore-files/">gitignore Files</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 02 Aug 2014</p>
-
-        
-        <p>There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named <code>.gitignore</code>, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from <a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files">Pro Git</a>.</p>
-
-
-          <p><a class="btn btn-primary" href="/gitignore-files/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/customizing-metro-report-in-bddfyv4/">Customizing the New Metro HTML Report in BDDfy v4</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 Jul 2014</p>
-
-        
-        <p>BDDfy v4 is out and it provides a new metro-style HTML report - thanks to <a href="https://twitter.com/robertsjason">Jason Roberts</a> for this excellent contribution. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.</p>
-
-
-          <p><a class="btn btn-primary" href="/customizing-metro-report-in-bddfyv4/">Read more</a></p>
           <hr/>
       </div>
     </div>
