@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Exporting a SQL Server Database to SQL Azure
-categories: Azure
+categories: Azure, SQL Server
 image: images/sswtvthumb.jpg
 date: 2014-06-10
 comments: true
