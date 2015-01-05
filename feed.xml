@@ -1,4 +1,261 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2015-01-04T10:27:37Z</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/</id><title type="text">Black-Box Testing ASP.Net: Reducing the Use of Magic Strings</title><summary type="html">&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2015-01-05T08:55:37Z</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/</id><title type="text">Black-Box Testing ASP.Net: Using ASP.Net MVC View Models with Selenium WebDriver</title><summary type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-the-use-of-magic-strings"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
+
+</summary><published>2015-01-04T00:00:00Z</published><updated>2015-01-04T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/" /><content type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-the-use-of-magic-strings"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Some of the sample code is taken straight from &lt;a href="https://github.com/TestStack/TestStack.Seleno"&gt;Seleno&lt;/a&gt;, the Selenium WebDriver browser automation framework from &lt;a href="http://teststack.net/"&gt;TestStack&lt;/a&gt;, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application. I've produced a working sample on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;, so you should be able to take it, run it, and use some of the code in your own applications if you want to.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2&gt;Input View Model Property into Web Page&lt;/h2&gt;
+
+&lt;p&gt;When you use strongly typed views (with models) and generate HTML for the model properties with expression-based HTML helpers, such as &lt;code&gt;Html.EditorFor()&lt;/code&gt;, MVC will produce controls with predictable names for the properties of the model. This view code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@model ContosoUniversity.ViewModels.CreateStudentForm
+...
+@Html.EditorFor(model =&amp;gt; model.LastName)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;will produce this HTML:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;input name="LastName" class="text-box single-line" id="LastName" type="text" value="" &amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can leverage this MVC infrastructure in our UI tests to input a model property into a form field. System.Web.Mvc provides the &lt;code&gt;ExpressionHelper.GetExpressionText&lt;/code&gt; method to provide the same control name from the model property that the expression-based HTML helpers provide in the views.&lt;/p&gt;
+
+&lt;p&gt;We can derive a strongly typed base page object from the base page object used in the previous post, where &lt;code&gt;TModel&lt;/code&gt; is the view model class used by that view. The &lt;code&gt;TextBoxFor&lt;/code&gt; method uses ExpressionHelper to derive the name of the control from the model property expression, then uses WebDriver to find the element and populate it with the specified value.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Page&amp;lt;TModel&amp;gt; : Page
+{
+    public Page&amp;lt;TModel&amp;gt; TextBoxFor&amp;lt;TField&amp;gt;(Expression&amp;lt;Func&amp;lt;TModel, TField&amp;gt;&amp;gt; field, TField value)
+    {
+        var name = ExpressionHelper.GetExpressionText(field);
+
+        var element = Host.Browser.FindElement(By.Name(name));
+        element.Clear();
+        element.SendKeys(value.ToString());
+
+        return this;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we can modify the &lt;code&gt;NewStudentPage&lt;/code&gt; page object to use the strongly typed page object and specify the &lt;code&gt;CreateStudentForm&lt;/code&gt; view model, which is the one that the view uses. The various Input methods are able to enter data into the web page using the appropriate property expression in a strongly typed way. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class NewStudentPage : Page&amp;lt;CreateStudentForm&amp;gt;
+{
+    public string HeaderTitle
+    {
+        get
+        {
+            var header = Host.Browser.FindElement(By.Id("title"));
+            return header.Text;
+        }
+    }
+
+    public NewStudentPage InputLastName(string lastName)
+    {
+        TextBoxFor(x =&amp;gt; x.LastName, lastName);
+        return this;
+    }
+
+    public NewStudentPage InputFirstName(string firstName)
+    {
+        TextBoxFor(x =&amp;gt; x.FirstMidName, firstName);
+        return this;
+    }
+
+    public NewStudentPage InputEnrollmentDate(DateTime enrollmentDate)
+    {
+        TextBoxFor(x =&amp;gt; x.EnrollmentDate, enrollmentDate);
+        return this;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In keeping with the page object design pattern each method returns the page so that test code can set multiple properties in the fluent style, as you can see from this test.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Test]
+public void CanPopulateAFormFieldFromModelProperty()
+{
+    var student = Builder&amp;lt;CreateStudentForm&amp;gt;
+        .CreateNew()
+        .Build();
+    var newStudentPage = Host.NavigateTo&amp;lt;StudentController, NewStudentPage&amp;gt;(x =&amp;gt; x.Create());
+
+    newStudentPage
+        .InputFirstName(student.FirstMidName)
+        .InputLastName(student.LastName)
+        .InputEnrollmentDate(student.EnrollmentDate);
+
+    Host.Browser.FindElement(By.Id("FirstMidName")).GetAttribute("value").Should().Be(student.FirstMidName);
+    Host.Browser.FindElement(By.Id("LastName")).GetAttribute("value").Should().Be(student.LastName);
+    Host.Browser.FindElement(By.Id("EnrollmentDate")).GetAttribute("value").Should().Be(student.EnrollmentDate.ToString());
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Input Whole View Model into Web Page&lt;/h2&gt;
+
+&lt;p&gt;To be honest, I strongly dislike this approach of the page object exposing every property of the view model individually. It lends itself to script-style code, with lots of repetitive calls to set each property, obfuscating the meaning of the test. I prefer more of a specification style of test, where each method on the page object is representative of a behaviour of the application (more than likely representative of a single request/response  - a single controller action). This improves the API of the Page Object layer, and makes for a better Domain Specific Language (DSL) for your tests. &lt;/p&gt;
+
+&lt;p&gt;Ignoring the assertions in this test - which are for demo purposes only - I prefer this test. One or two lines to setup the context and one call to the page object for the action I'm testing. This reads much more like a specification, which I think makes it a lot easier for the Test Reader to quickly see what is going on, and makes the tests a lot easier to maintain over time.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Test]
+public void CanPopulateFormFromModel()
+{
+    var student = Builder&amp;lt;CreateStudentForm&amp;gt;
+        .CreateNew()
+        .Build();
+    var newStudentPage = Host.NavigateTo&amp;lt;StudentController, NewStudentPage&amp;gt;(x =&amp;gt; x.Create());
+
+    newStudentPage.AddValidStudent(student);
+
+    Host.Browser.FindElement(By.Id("FirstMidName")).GetAttribute("value").Should().Be(student.FirstMidName);
+    Host.Browser.FindElement(By.Id("LastName")).GetAttribute("value").Should().Be(student.LastName);
+    Host.Browser.FindElement(By.Id("EnrollmentDate")).GetAttribute("value").Should().Be(student.EnrollmentDate.ToString());
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We have code in Seleno that &lt;a href="https://github.com/TestStack/TestStack.Seleno/blob/master/src/TestStack.Seleno/PageObjects/Actions/PageWriter.cs"&gt;inputs a whole model like this&lt;/a&gt; and handles the different data types and other complexities. Here is a cut down version that works for the 3 text boxes in this example.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Page&amp;lt;TModel&amp;gt; : Page
+{
+    ...
+    public Page&amp;lt;TModel&amp;gt; InputModel(TModel model)
+    {
+        var type = model.GetType();
+        foreach (var property in type.GetProperties())
+        {
+            var element = Host.Browser.FindElement(By.Name(property.Name));
+            element.Clear();
+            element.SendKeys(property.GetValue(model).ToString());
+        }
+        return this;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And the additional method on the page object.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class NewStudentPage : Page&amp;lt;CreateStudentForm&amp;gt;
+{
+    ...
+    public StudentDetailsPage AddValidStudent(CreateStudentForm student)
+    {
+        InputModel(student);
+        return new StudentDetailsPage();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Display Templates do not generate IDs for controls&lt;/h2&gt;
+
+&lt;p&gt;By default MVC only adds ID and name properties to form controls with the expression-based HTML helpers. It does not do the same with the display expressions (such as &lt;code&gt;Html.DisplayFor()&lt;/code&gt;). Fortunately, you can add the display templates to your project and override the views control output to include IDs. &lt;/p&gt;
+
+&lt;p&gt;For example, this code from the Student Details view (Views\Student\Details.cshtml):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dt&amp;gt;
+    @Html.DisplayNameFor(model =&amp;gt; model.LastName)
+&amp;lt;/dt&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;produces the following HTML:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dd&amp;gt;
+    Alexander
+&amp;lt;/dd&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can read all about ASP.Net MVC's templating system in &lt;a href="http://bradwilson.typepad.com/blog/2009/10/aspnet-mvc-2-templates-part-1-introduction.html"&gt;this series of posts&lt;/a&gt; from Brad Wilson. Suffice to say, for the purposes of this discussion, you can override the display templates by adding a DisplayTemplates folder to your &lt;code&gt;Views\Shared&lt;/code&gt; folder in your web project. You can copy the DisplayTemplates folder from your Visual Studio installation, or you can install the MvcDisplayTemplates package, provided by &lt;a href="https://twitter.com/matthoneycutt"&gt;Matt Honeycutt&lt;/a&gt; on NuGet:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Install-Package MvcDisplayTemplates
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This overrides the &lt;code&gt;_Layout.cshtml&lt;/code&gt; file in the &lt;code&gt;Views\Shared\DisplayTemplates&lt;/code&gt; folder to wrap each model property in the view with a span that uses the &lt;code&gt;Html.IdForModel&lt;/code&gt; Html Helper from System.Web.Mvc to generate an ID for the property control. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@model dynamic
+@if (HttpContext.Current.IsDebuggingEnabled)
+{ 
+    &amp;lt;span id="@Html.IdForModel()"&amp;gt;@RenderBody()&amp;lt;/span&amp;gt;
+}
+else
+{
+    @RenderBody()
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now the Html.DisplayNameFor expression above generates this HTML, with the value wrapped in a span with an ID. Now that all of our view model properties are named with a well-known, predictable, naming convention, we can set about automating the reading of these properties into a view model in our tests in an automated fashion.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;dd&amp;gt;
+    &amp;lt;span id="LastName"&amp;gt;Alexander&amp;lt;/span&amp;gt;
+&amp;lt;/dd&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Read View Model Property from Web Page&lt;/h2&gt;
+
+&lt;p&gt;We can extend the strongly typed base page with a method to read the value from a view page, again utilising the &lt;code&gt;ExpressionHelper&lt;/code&gt; class from System.Web.Mvc. The &lt;a href="http://msdn.microsoft.com/en-us/library/system.web.mvc.tagbuilder.createsanitizedid%28v=vs.111%29.aspx"&gt;TagBuilder.CreateSanitizedId&lt;/a&gt; method is another System.Web.Mvc helper that ensures only valid HTML characters are used .&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public string DisplayFor&amp;lt;TField&amp;gt;(Expression&amp;lt;Func&amp;lt;TModel, TField&amp;gt;&amp;gt; field)
+{
+    string name = ExpressionHelper.GetExpressionText(field);
+    string id = TagBuilder.CreateSanitizedId(name);
+
+    var span = Host.Browser.FindElement(By.Id(id));
+
+    return span.Text;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Which can be used in tests in the following way:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Test]
+public void CanReadFormFieldFromModelProperty()
+{
+    var studentDetailsPage = Host.NavigateTo&amp;lt;StudentController, StudentDetailsPage&amp;gt;(x =&amp;gt; x.Details(1));
+
+    studentDetailsPage
+        .DisplayFor(x =&amp;gt; x.LastName)
+        .Should().Be("Alexander");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Read Whole View Model From Web Page&lt;/h2&gt;
+
+&lt;p&gt;As with writing view model data to the page, we can extend this concept to read the whole view model from the page. Again, Seleno has a more fully featured &lt;a href="https://github.com/TestStack/TestStack.Seleno/blob/master/src/TestStack.Seleno/PageObjects/Actions/PageReader.cs"&gt;PageReader&lt;/a&gt; class. Here is a cut down version to illustrate the principle:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public TModel ReadModel()
+{
+    var type = typeof(TModel);
+    var instance = new TModel();
+
+    foreach (var property in type.GetProperties())
+    {
+        string name = ExpressionHelper.GetExpressionText(property.Name);
+        string id = TagBuilder.CreateSanitizedId(name);
+
+        var span = Host.Browser.FindElement(By.Id(id));
+        property.SetValue(instance, span.Text, null);
+    }
+
+    return instance;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Which you could use in tests similar to this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Test]
+public void CanReadModelFromPage()
+{
+    var studentDetailsPage = Host.NavigateTo&amp;lt;StudentController, StudentDetailsPage&amp;gt;(x =&amp;gt; x.Details(1));
+
+    StudentDetailsViewModel model = studentDetailsPage.ReadModel();
+
+    model.FirstMidName.Should().Be("Carson");
+    model.LastName.Should().Be("Alexander");
+}
+&lt;/code&gt;&lt;/pre&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/</id><title type="text">Black-Box Testing ASP.Net: Reducing the Use of Magic Strings</title><summary type="html">&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
 
 </summary><published>2015-01-03T00:00:00Z</published><updated>2015-01-03T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/" /><content type="html">&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
 
