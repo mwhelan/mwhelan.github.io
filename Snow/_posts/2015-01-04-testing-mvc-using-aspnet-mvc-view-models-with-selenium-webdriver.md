@@ -146,7 +146,7 @@ And the additional method on the page object.
 	}
 
 ## Display Templates do not generate IDs for controls
-By default MVC only adds ID and name properties to form controls (via the **Editor Templates**) with the expression-based HTML helpers. It does not do the same with the display expressions (such as `Html.DisplayFor()`) that use the ** Display Templates**). 
+By default MVC only adds ID and name properties to form controls (via the **Editor Templates**) with the expression-based HTML helpers. It does not do the same with the display expressions (such as `Html.DisplayFor()`) that use the **Display Templates**). 
 
 For example, this code from the Student Details view (Views\Student\Details.cshtml):
 
@@ -154,7 +154,7 @@ For example, this code from the Student Details view (Views\Student\Details.csht
 	    @Html.DisplayNameFor(model => model.LastName)
 	</dt>
 
-produces the following HTML:
+produces the following HTML with the standard Display Templates:
 
 	<dd>
     	Alexander
@@ -176,7 +176,7 @@ This overrides the `_Layout.cshtml` file in the `Views\Shared\DisplayTemplates` 
 		@RenderBody()
 	}
 
-Now the Html.DisplayNameFor expression above generates this HTML, with the value wrapped in a span with an ID. Now that all of our view model properties are named with a well-known, predictable, naming convention, we can set about automating the reading of these properties into a view model in our tests in an automated fashion.
+Now the `Html.DisplayNameFor` expression above generates this HTML, with the value wrapped in a span with an ID. Now that all of our view model properties are named with a well-known, predictable, naming convention, we can set about automating the reading of these properties into a view model in our tests in an automated fashion.
 
     <dd>
         <span id="LastName">Alexander</span>
@@ -211,7 +211,7 @@ Which can be used in tests in the following way:
 
 
 ## Read Whole View Model From Web Page
-As with writing view model data to the page, we can extend this concept to read the whole view model from the page. Again, Seleno has a more fully featured [PageReader](https://github.com/TestStack/TestStack.Seleno/blob/master/src/TestStack.Seleno/PageObjects/Actions/PageReader.cs) class. Here is a cut down version to illustrate the principle:
+As with writing view model data to the page, we can extend this concept to read the whole view model from the page. Again, Seleno has a more fully featured [PageReader](https://github.com/TestStack/TestStack.Seleno/blob/master/src/TestStack.Seleno/PageObjects/Actions/PageReader.cs) class, but here is a cut down version to illustrate the principle:
 
     public TModel ReadModel()
     {
