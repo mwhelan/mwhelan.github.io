@@ -9,7 +9,7 @@ footer: true
 permalink: /using-aspnet-mvc-view-models-with-selenium-webdriver/
 ---
 
-This post continues the theme of the [previous post](/testing-mvc-reducing-the-use-of-magic-strings), in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).
+This post continues the theme of the [previous post](/testing-mvc-reducing-use-of-magic-strings/), in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).
 <!--excerpt-->
 
 > Some of the sample code is taken straight from [Seleno](https://github.com/TestStack/TestStack.Seleno), the Selenium WebDriver browser automation framework from [TestStack](http://teststack.net/), and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application. I've produced a working sample on [GitHub](https://github.com/mwhelan/MvcTestingSamples), so you should be able to take it, run it, and use some of the code in your own applications if you want to.
@@ -146,7 +146,7 @@ And the additional method on the page object.
 	}
 
 ## Display Templates do not generate IDs for controls
-By default MVC only adds ID and name properties to form controls with the expression-based HTML helpers. It does not do the same with the display expressions (such as `Html.DisplayFor()`). Fortunately, you can add the display templates to your project and override the views control output to include IDs. 
+By default MVC only adds ID and name properties to form controls (via the **Editor Templates**) with the expression-based HTML helpers. It does not do the same with the display expressions (such as `Html.DisplayFor()`) that use the ** Display Templates**). 
 
 For example, this code from the Student Details view (Views\Student\Details.cshtml):
 
@@ -160,7 +160,7 @@ produces the following HTML:
     	Alexander
     </dd>
 
-You can read all about ASP.Net MVC's templating system in [this series of posts](http://bradwilson.typepad.com/blog/2009/10/aspnet-mvc-2-templates-part-1-introduction.html) from Brad Wilson. Suffice to say, for the purposes of this discussion, you can override the display templates by adding a DisplayTemplates folder to your `Views\Shared` folder in your web project. You can copy the DisplayTemplates folder from your Visual Studio installation, or you can install the MvcDisplayTemplates package, provided by [Matt Honeycutt](https://twitter.com/matthoneycutt) on NuGet:
+Fortunately, you can override both the Editor and Display templates if you add them to your web project. You can read all about ASP.Net MVC's templating system in [this series of posts](http://bradwilson.typepad.com/blog/2009/10/aspnet-mvc-2-templates-part-1-introduction.html) from Brad Wilson. Suffice to say, for the purposes of this discussion, you can override the display templates by adding a DisplayTemplates folder to your `Views\Shared` folder in your web project. You can copy the DisplayTemplates folder from your Visual Studio installation, or you can install the MvcDisplayTemplates package, provided by [Matt Honeycutt](https://twitter.com/matthoneycutt) on NuGet:
 
 	Install-Package MvcDisplayTemplates
 
