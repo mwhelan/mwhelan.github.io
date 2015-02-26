@@ -1,4 +1,126 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2015-01-05T09:23:32Z</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/</id><title type="text">Black-Box Testing ASP.Net: Using ASP.Net MVC View Models with Selenium WebDriver</title><summary type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2015-02-26T04:51:37Z</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/</id><title type="text">Black-Box Testing ASP.Net: Extending Strongly Typed Navigation</title><summary type="html">&lt;p&gt;In a &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt; in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.&lt;/p&gt;
+
+</summary><published>2015-02-22T00:00:00Z</published><updated>2015-02-22T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/" /><content type="html">&lt;p&gt;In a &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt; in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;p&gt;Here is a test that illustrates the behaviour. This is a standard situation where the URL simply contains the controller and the action, as well as the ID as a route argument. &lt;code&gt;RouteConfig.RegisterRoutes()&lt;/code&gt; is the method in the application that intialises its route table.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Test]
+public void MvcUrlHelper_should_return_correct_route_for_controller_action()
+{
+    var routes = RouteConfig.RegisterRoutes(new RouteCollection());
+    var sut = new MvcUrlHelper(routes);
+
+    sut.GetRelativeUrlFor&amp;lt;StudentController&amp;gt;(x =&amp;gt; x.Details(1))
+        .Should().Be("/Student/Details/1");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Recently, I've had a couple of reasons to extend this class. Firstly, I've been testing applications that use Areas. Secondly, I've needed to be able to pass in additional route values.&lt;/p&gt;
+
+&lt;p&gt;I will start off with the final class and then discuss the additional behaviour:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class MvcUrlHelper
+{
+    private readonly RouteCollection routeCollection;
+
+    public MvcUrlHelper(RouteCollection routeCollection)
+    {
+        this.routeCollection = routeCollection;
+    }
+
+    public string GetRelativeUrlFor&amp;lt;TController&amp;gt;(Expression&amp;lt;Action&amp;lt;TController&amp;gt;&amp;gt; action, IDictionary&amp;lt;string, object&amp;gt; routeValues = null)
+        where TController : Controller
+    {
+        var requestContext = new RequestContext(FakeHttpContext.Root(), new RouteData());
+
+        // Get controller and action values
+        var actionRouteValues = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
+
+        var area = GetArea(typeof(TController));
+        if (!string.IsNullOrEmpty(area))
+        {
+            actionRouteValues.Add("Area", area);
+        }
+
+        if (routeValues != null)
+        {
+            foreach (var v in routeValues) actionRouteValues[v.Key] = v.Value;
+        }
+
+        var urlHelper = new UrlHelper(requestContext, this.routeCollection);
+        var relativeUrl = urlHelper.RouteUrl(new RouteValueDictionary(actionRouteValues));
+
+        return relativeUrl;
+    }
+
+    private static string GetArea(Type controllerType)
+    {
+        var routeAreaAttributes = controllerType.GetCustomAttributes(typeof(RouteAreaAttribute), true);
+        if (routeAreaAttributes.Length &amp;gt; 0)
+        {
+            var routeArea = (RouteAreaAttribute)(routeAreaAttributes[0]);
+            return routeArea.AreaName;
+        }
+
+        var nameSpace = controllerType.Namespace;
+        if (nameSpace == null)
+        {
+            return string.Empty;
+        }
+
+        const string AreasStartSearchString = "Areas.";
+        var areasIndexOf = nameSpace.IndexOf(AreasStartSearchString, StringComparison.Ordinal);
+        if (areasIndexOf &amp;lt; 0)
+        {
+            return string.Empty;
+        }
+
+        var areaStart = areasIndexOf + AreasStartSearchString.Length;
+        var areaString = nameSpace.Substring(areaStart);
+        if (areaString.Contains("."))
+        {
+            areaString = areaString.Remove(areaString.IndexOf(".", StringComparison.Ordinal));
+        }
+
+        return areaString;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Areas&lt;/h2&gt;
+
+&lt;p&gt;The MVC5 Futures &lt;code&gt;ExpressionHelper&lt;/code&gt; class does not return the area in the URL (unless you use its Area attribute). Here is the test that illustrates the behaviour I want, where University is the Area and Student the controller. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[TestMethod]
+public void should_return_area_in_url()
+{
+    var routes = RouteConfig.RegisterRoutes(new RouteCollection());
+    var sut = new MvcUrlHelper(routes);
+    var result = sut.GetRelativeUrlFor&amp;lt;StudentController&amp;gt;(c =&amp;gt; c.Create());
+    result.ShouldBe("/University/Student/Create");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;GetArea&lt;/code&gt; method tries to find area information by interrogating the controller type. Firstly, it looks for a &lt;code&gt;RouteAreaAttribute&lt;/code&gt; on the class. Secondly, it looks at the namespace to see if it is in the standard Areas namespace, and extracts the Area from the namespace if it is. If this method returns an area then it is added to the actionRouteValues &lt;code&gt;RouteValueDictionary&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Additional Route Values&lt;/h2&gt;
+
+&lt;p&gt;Sometimes, you must provide additional route values that the &lt;code&gt;UrlHelper&lt;/code&gt; class requires to construct a URL. This test shows the adding of an &lt;code&gt;application&lt;/code&gt; route value, with a value of &lt;code&gt;Books&lt;/code&gt;, which is used in the URL.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[TestMethod]
+public void should_return_application_in_url()
+{
+    var sut = new MvcUrlHelper(new RouteRegistrator().RegisterRoutes());
+    var application = new Dictionary&amp;lt;string, object&amp;gt; { { "application", "Books" } };
+    var result = sut.GetRelativeUrlFor&amp;lt;CollectionsController&amp;gt;(c =&amp;gt; c.Details(23), application);
+    Assert.AreEqual("/Editorial/Applications/Books/Collections/Details?collectionId=23", result);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;These additional values are used by UrlHelper in the creation of the full URL to make the test pass.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/</id><title type="text">Black-Box Testing ASP.Net: Using ASP.Net MVC View Models with Selenium WebDriver</title><summary type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
 
 </summary><published>2015-01-04T00:00:00Z</published><updated>2015-01-04T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/" /><content type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
 
@@ -2400,13 +2522,13 @@ public void Can_buy_an_Album_when_registered()
 
 &lt;p&gt;I’ve been using BDDfy with NUnit for writing acceptance tests for quite awhile now. But for unit testing I have continued to use mspec with &lt;a href="https://github.com/machine/machine.fakes"&gt;machine fakes&lt;/a&gt; and Moq for auto-mocking. The more I used BDDfy, the more I liked it, and the less I liked the context switch into another framework. I found myself wanting to write unit tests in the Given When Then format and didn't like having to maintain two sets of helper code for NUnit and mspec. I loved the reporting in BDDfy and started to think it would be pretty cool to have similar reporting for my unit tests. Basically, I wanted a consistent experience across all my automated testing.&lt;/p&gt;
 
-&lt;p&gt;MSpec uses the &lt;a href="http://xunitpatterns.com/Testcase%20Class%20per%20Fixture.html"&gt;testcase class per fixture&lt;/a&gt; style of testing, which is how I use BDDfy for acceptance testing, so it makes sense to continue with that style for the BDDfy unit tests. When I am doing acceptance tests I have a base ScenarioFor&amp;lt; T&gt; class, where the T represents the System Under Test (SUT). Because these are full system tests, I resolve this SUT using the same inversion of control container that my application uses, which works nicely. The IoC container acts as a &lt;a href="http://blog.ploeh.dk/2009/02/13/SUTFactory/"&gt;SUT factory&lt;/a&gt;. With unit tests, I also want to have a SUT factory, but instead I want it to be an auto-mocking container.&lt;/p&gt;
+&lt;p&gt;MSpec uses the &lt;a href="http://xunitpatterns.com/Testcase%20Class%20per%20Fixture.html"&gt;testcase class per fixture&lt;/a&gt; style of testing, which is how I use BDDfy for acceptance testing, so it makes sense to continue with that style for the BDDfy unit tests. When I am doing acceptance tests I have a base &lt;code&gt;ScenarioFor&amp;lt; T&amp;gt;&lt;/code&gt; class, where the &lt;code&gt;T&lt;/code&gt; represents the System Under Test (SUT). Because these are full system tests, I resolve this SUT using the same inversion of control container that my application uses, which works nicely. The IoC container acts as a &lt;a href="http://blog.ploeh.dk/2009/02/13/SUTFactory/"&gt;SUT factory&lt;/a&gt;. With unit tests, I also want to have a SUT factory, but instead I want it to be an auto-mocking container.&lt;/p&gt;
 
-&lt;p&gt;When we started writing unit tests for the &lt;a href="http://teststack.net/pages/Seleno.html"&gt;Seleno&lt;/a&gt; project, I thought it would be a good opportunity to try some of these ideas out.&lt;/p&gt;
+&lt;p&gt;When we started writing unit tests for the &lt;a href="https://github.com/TestStack/TestStack.Seleno"&gt;Seleno&lt;/a&gt; project, I thought it would be a good opportunity to try some of these ideas out.&lt;/p&gt;
 
 &lt;h2&gt;Specification Base Fixture&lt;/h2&gt;
 
-&lt;p&gt;The Specification base fixture class wires up BDDFy. It provides methods that BDDfy knows about in its default configuration for setting up and tearing down the fixture (each test class will implement its own specific Given When Then methods that BDDfy will also find). The Run method has the NUnit Test attribute and so will be called by the testing framework and it just calls BDDFy to run the test. I prefer to use NUnit myself, but you could just as easily substitute XUnit or MsTest attributes if you prefer. One thing I really like about this approach is that I only have to put the TestFixture and Test attributes in this one class and then all of the test classes I create inherit them and don't need any attributes. All the test runners still picks the classes up as tests and ReSharper even puts its little run test icons in each test class as normal. This class is also the one place that BDDfy gets called. &lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;Specification&lt;/code&gt; base fixture class wires up BDDFy. It provides methods that BDDfy knows about in its default configuration for setting up and tearing down the fixture (each test class will implement its own specific Given When Then methods that BDDfy will also find). The &lt;code&gt;Run&lt;/code&gt; method has the NUnit &lt;code&gt;Test&lt;/code&gt; attribute and so will be called by the testing framework and it just calls BDDFy to run the test. I prefer to use NUnit myself, but you could just as easily substitute XUnit or MsTest attributes if you prefer. One thing I really like about this approach is that I only have to put the &lt;code&gt;TestFixture&lt;/code&gt; and &lt;code&gt;Test&lt;/code&gt; attributes in this one class and then all of the test classes I create inherit them and don't need any attributes. All the test runners still pick the classes up as tests and ReSharper even puts its little run test icons in each test class as normal. This class is also the one place that BDDfy gets called. &lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;[TestFixture]
 public abstract class Specification : ISpecification
@@ -2436,9 +2558,9 @@ public abstract class Specification : ISpecification
 
 &lt;h2&gt;Auto-Mocking&lt;/h2&gt;
 
-&lt;p&gt;The SpecificationFor&lt;T&gt; class inherits from the Specification class and adds an auto-mocking container for creating the SUT. An auto-mocking container decouples a unit test from the mechanics of creating the SUT and automatically supplies dynamic mocks in place of all of the SUT's dependencies. They are commonly implemented by combining an IoC container with a mocking framework, which is what I will be doing here. I prefer &lt;a href="http://nsubstitute.github.io/"&gt;NSubstitute&lt;/a&gt; for mocking these days, so my friend &lt;a href="http://robdmoore.id.au/"&gt;Rob Moore's&lt;/a&gt; &lt;a href="http://www.nuget.org/packages/AutofacContrib.NSubstitute/"&gt;AutoSubstitute&lt;/a&gt; auto-mocking container is ideal.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;SpecificationFor&amp;lt;T&amp;gt;&lt;/code&gt; class inherits from the &lt;code&gt;Specification&lt;/code&gt; class and adds an auto-mocking container for creating the SUT. An auto-mocking container decouples a unit test from the mechanics of creating the SUT and automatically supplies dynamic mocks in place of all of the SUT's dependencies. They are commonly implemented by combining an IoC container with a mocking framework, which is what I will be doing here. I prefer &lt;a href="http://nsubstitute.github.io/"&gt;NSubstitute&lt;/a&gt; for mocking these days, so my friend &lt;a href="http://robdmoore.id.au/"&gt;Rob Moore's&lt;/a&gt; &lt;a href="http://www.nuget.org/packages/AutofacContrib.NSubstitute/"&gt;AutoSubstitute&lt;/a&gt; auto-mocking container is ideal.&lt;/p&gt;
 
-&lt;p&gt;The AutoSubstitute field provides access to the container for full access to its functionality. SubstituteFor is provided as a convenience method to gain access to NSubstitute substitutes.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;AutoSubstitute&lt;/code&gt; field provides access to the container for full access to its functionality. &lt;code&gt;SubstituteFor&lt;/code&gt; is provided as a convenience method to gain access to NSubstitute substitutes.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;public abstract class SpecificationFor&amp;lt;T&amp;gt; : Specification
 {
@@ -2477,13 +2599,13 @@ public abstract class Specification : ISpecification
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Notice that the InitialiseSystemUnderTest is virtual, so if you need to create the SUT yourself rather than having AutoSubstitute do it then you can just override it in your test class. It runs before any of the test methods so they can all safely interact with the SUT confident that it has been created.&lt;/p&gt;
+&lt;p&gt;Notice that the &lt;code&gt;InitialiseSystemUnderTest&lt;/code&gt; is virtual, so if you need to create the SUT yourself rather than having AutoSubstitute do it then you can just override it in your test class. It runs before any of the test methods so they can all safely interact with the SUT confident that it has been created.&lt;/p&gt;
 
 &lt;h2&gt;What's in a Story?&lt;/h2&gt;
 
 &lt;p&gt;When moving from scenarios to unit tests I had to think what I wanted to do with the Story that is part of BDD. BDDfy actually doesn't require stories, so one option was to do nothing. However, when you don't have a story the report shows the namespace instead, and I don't find that particularly helpful or attractive. A Story's purpose in BDD is to group related Scenarios and to provide metadata about that grouping, so I think the same logic can be applied to unit tests. &lt;/p&gt;
 
-&lt;p&gt;By creating a base specification class that related tests inherit from, they will all be grouped together on the report, and the name of that class will be used in the heading, much like a Story grouping would look like on a BDD report. This class is often a convenient place to create variables that are common to all of the test cases. So, for example, if you create a base class called PageNavigatorSpecification, the report grouping will read "Specifications For: Page Navigator." That is achieved by adding the following custom story metadata scanner.&lt;/p&gt;
+&lt;p&gt;By creating a base specification class that related tests inherit from, they will all be grouped together on the report, and the name of that class will be used in the heading, much like a Story grouping would look like on a BDD report. This class is often a convenient place to create variables that are common to all of the test cases. So, for example, if you create a base class called &lt;code&gt;PageNavigatorSpecification&lt;/code&gt;, the report grouping will read "Specifications For: Page Navigator." That is achieved by adding the following BDDfy custom story metadata scanner.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;public class SpecStoryMetaDataScanner : IStoryMetaDataScanner
 {
@@ -2515,7 +2637,7 @@ public abstract class Specification : ISpecification
 
 &lt;h2&gt;Unit Testing&lt;/h2&gt;
 
-&lt;p&gt;Here is an example of some tests that we have written for Seleno using this approach. Firstly, an example of a Specification class, the grouping class analagous to the BDDFy story that all the PageReader specification classes will inherit from. There is normally no need to override the Story as the SpecificationFor class will automatically convert the generic T into an English name. In this case though it will convert PageReader&amp;lt; TestViewModel&gt; into PageReader`, so it is a convenient hack to override the property with PageReaderSpecification which will more attractively produce "Page Reader" on the report.&lt;/p&gt;
+&lt;p&gt;Here is an example of some tests that we have written for Seleno using this approach. Firstly, an example of a &lt;code&gt;Specification&lt;/code&gt; class, the grouping class analagous to the BDDFy story that all the &lt;code&gt;PageReader&lt;/code&gt; specification classes will inherit from. There is normally no need to override the Story as the &lt;code&gt;SpecificationFor&lt;/code&gt; class will automatically convert the generic &lt;code&gt;T&lt;/code&gt; into an English name. In this case though it will convert &lt;code&gt;PageReader&amp;lt; TestViewModel&amp;gt;&lt;/code&gt; into &lt;code&gt;PageReader&lt;/code&gt;, so it is a convenient hack to override the property with &lt;code&gt;PageReaderSpecification&lt;/code&gt; which will more attractively produce "Page Reader" on the report.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;abstract class PageReaderSpecification : SpecificationFor&amp;lt;PageReader&amp;lt;TestViewModel&amp;gt;&amp;gt;
 {
@@ -2526,7 +2648,7 @@ public abstract class Specification : ISpecification
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Each specification for the PageReader component inherits from the PageReaderSpecification. There are often no Given steps as the auto-mocking container has taken care of instantiating the SUT for you. It has also created a Substitute for the IExecutor dependency of the PageReader class and in the verification phase of the test you can just call SubstituteFor&amp;lt; IExecutor&gt; to call NSubstitute verification methods on the substitute.  &lt;/p&gt;
+&lt;p&gt;Each specification for the &lt;code&gt;PageReader&lt;/code&gt; component inherits from the &lt;code&gt;PageReaderSpecification&lt;/code&gt;. There are often no Given steps as the auto-mocking container has taken care of instantiating the SUT for you. It has also created a Substitute for the &lt;code&gt;IExecutor&lt;/code&gt; dependency of the &lt;code&gt;PageReader&lt;/code&gt; class and in the verification phase of the test you can just call &lt;code&gt;SubstituteFor&amp;lt; IExecutor&amp;gt;&lt;/code&gt; to call NSubstitute verification methods on the substitute.  &lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;class When_checking_an_element_exists_and_is_visible_with_property : PageReaderSpecification
 {
@@ -2626,7 +2748,7 @@ public class processing_a__valid_command : given.the_command_is_valid
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;And this comes out very nicely on the report:&lt;/p&gt;
+&lt;p&gt;This example also shows how you can access the NSubstitute mocked dependencies in both the setup and verification phases of the specification. And this comes out very nicely on the report:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/bddfy-unit-test-report-2.png" alt="" /&gt;&lt;/p&gt;
 

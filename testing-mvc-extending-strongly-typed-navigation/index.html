@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="last-modified" content="2015-02-26T04:51:35.4075831+00:00" />
-    <meta name="keywords" content="SQL Server" />
+    <meta name="keywords" content="Automated Testing,Black-Box Testing ASP.Net Series" />
 
     <title>Michael Whelan</title>
 
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/sql-server-localdb-2014-connection-string/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/" />
 </head>
 <body>
     <div class="container">
@@ -111,43 +111,137 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">SQL Server LocalDB 2014 Connection String</h1>
+    <h1 class="blog-post-title">Black-Box Testing ASP.Net: Extending Strongly Typed Navigation</h1>
 
     <div class="blog-post-meta">
-        posted on 23 Nov 2014
-            | <a class="label label-primary" href="/category/sql-server">SQL Server</a>
+        posted on 22 Feb 2015
+            | <a class="label label-primary" href="/category/automated-testing">Automated Testing</a>
+            | <a class="label label-primary" href="/category/black-box-testing-asp.net-series">Black-Box Testing ASP.Net Series</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p>I spent way too much time today trying to figure out why I could not connect to my newly installed SQL Server LocalDB 2014 instance. I assumed that I could just update my connection string from <code>v11.0</code> to <code>v12.0</code> but it seems that Microsoft have changed the naming scheme for this version. Now the automatic instance is named <code>MSSQLLocalDB</code>.</p>
+        <p>In a <a href="/testing-mvc-reducing-use-of-magic-strings/">previous post</a> in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.</p>
 
 <!--excerpt-->
 
-<p>So, for SQL Server 2012 LocalDB, I had this connection string:</p>
+<p>Here is a test that illustrates the behaviour. This is a standard situation where the URL simply contains the controller and the action, as well as the ID as a route argument. <code>RouteConfig.RegisterRoutes()</code> is the method in the application that intialises its route table.</p>
 
-<pre><code>&lt;connectionStrings&gt;
-    &lt;add name="SchoolContext" 
-        connectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\ContosoUniversityDB.mdf;Integrated Security=True;" 
-        providerName="System.Data.SqlClient" /&gt;
-&lt;/connectionStrings&gt;
+<pre><code>[Test]
+public void MvcUrlHelper_should_return_correct_route_for_controller_action()
+{
+    var routes = RouteConfig.RegisterRoutes(new RouteCollection());
+    var sut = new MvcUrlHelper(routes);
+
+    sut.GetRelativeUrlFor&lt;StudentController&gt;(x =&gt; x.Details(1))
+        .Should().Be("/Student/Details/1");
+}
 </code></pre>
 
-<p>For SQL Server 2014 LocalDB the connection string should be:</p>
+<p>Recently, I've had a couple of reasons to extend this class. Firstly, I've been testing applications that use Areas. Secondly, I've needed to be able to pass in additional route values.</p>
 
-<pre><code>&lt;connectionStrings&gt;
-    &lt;add name="SchoolContext" 
-        connectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ContosoUniversityDB.mdf;Integrated Security=True;" 
-        providerName="System.Data.SqlClient" /&gt;
-&lt;/connectionStrings&gt;
+<p>I will start off with the final class and then discuss the additional behaviour:</p>
+
+<pre><code>public class MvcUrlHelper
+{
+    private readonly RouteCollection routeCollection;
+
+    public MvcUrlHelper(RouteCollection routeCollection)
+    {
+        this.routeCollection = routeCollection;
+    }
+
+    public string GetRelativeUrlFor&lt;TController&gt;(Expression&lt;Action&lt;TController&gt;&gt; action, IDictionary&lt;string, object&gt; routeValues = null)
+        where TController : Controller
+    {
+        var requestContext = new RequestContext(FakeHttpContext.Root(), new RouteData());
+
+        // Get controller and action values
+        var actionRouteValues = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
+
+        var area = GetArea(typeof(TController));
+        if (!string.IsNullOrEmpty(area))
+        {
+            actionRouteValues.Add("Area", area);
+        }
+
+        if (routeValues != null)
+        {
+            foreach (var v in routeValues) actionRouteValues[v.Key] = v.Value;
+        }
+
+        var urlHelper = new UrlHelper(requestContext, this.routeCollection);
+        var relativeUrl = urlHelper.RouteUrl(new RouteValueDictionary(actionRouteValues));
+
+        return relativeUrl;
+    }
+
+    private static string GetArea(Type controllerType)
+    {
+        var routeAreaAttributes = controllerType.GetCustomAttributes(typeof(RouteAreaAttribute), true);
+        if (routeAreaAttributes.Length &gt; 0)
+        {
+            var routeArea = (RouteAreaAttribute)(routeAreaAttributes[0]);
+            return routeArea.AreaName;
+        }
+
+        var nameSpace = controllerType.Namespace;
+        if (nameSpace == null)
+        {
+            return string.Empty;
+        }
+
+        const string AreasStartSearchString = "Areas.";
+        var areasIndexOf = nameSpace.IndexOf(AreasStartSearchString, StringComparison.Ordinal);
+        if (areasIndexOf &lt; 0)
+        {
+            return string.Empty;
+        }
+
+        var areaStart = areasIndexOf + AreasStartSearchString.Length;
+        var areaString = nameSpace.Substring(areaStart);
+        if (areaString.Contains("."))
+        {
+            areaString = areaString.Remove(areaString.IndexOf(".", StringComparison.Ordinal));
+        }
+
+        return areaString;
+    }
+}
 </code></pre>
 
-<p>According to <a href="https://connect.microsoft.com/SQLServer/feedback/details/845278/sql-server-2014-express-localdb-does-not-create-automatic-instance-v12-0">Microsoft</a></p>
+<h2>Areas</h2>
 
-<blockquote>
-  <p>In SQL14, we moved away from the numbering/versioning for the automatic instance and named it "MSSQLLocalDB" instead of "v12.0".</p>
-</blockquote>
+<p>The MVC5 Futures <code>ExpressionHelper</code> class does not return the area in the URL (unless you use its Area attribute). Here is the test that illustrates the behaviour I want, where University is the Area and Student the controller. </p>
+
+<pre><code>[TestMethod]
+public void should_return_area_in_url()
+{
+    var routes = RouteConfig.RegisterRoutes(new RouteCollection());
+    var sut = new MvcUrlHelper(routes);
+    var result = sut.GetRelativeUrlFor&lt;StudentController&gt;(c =&gt; c.Create());
+    result.ShouldBe("/University/Student/Create");
+}
+</code></pre>
+
+<p>The <code>GetArea</code> method tries to find area information by interrogating the controller type. Firstly, it looks for a <code>RouteAreaAttribute</code> on the class. Secondly, it looks at the namespace to see if it is in the standard Areas namespace, and extracts the Area from the namespace if it is. If this method returns an area then it is added to the actionRouteValues <code>RouteValueDictionary</code>.</p>
+
+<h2>Additional Route Values</h2>
+
+<p>Sometimes, you must provide additional route values that the <code>UrlHelper</code> class requires to construct a URL. This test shows the adding of an <code>application</code> route value, with a value of <code>Books</code>, which is used in the URL.</p>
+
+<pre><code>[TestMethod]
+public void should_return_application_in_url()
+{
+    var sut = new MvcUrlHelper(new RouteRegistrator().RegisterRoutes());
+    var application = new Dictionary&lt;string, object&gt; { { "application", "Books" } };
+    var result = sut.GetRelativeUrlFor&lt;CollectionsController&gt;(c =&gt; c.Details(23), application);
+    Assert.AreEqual("/Editorial/Applications/Books/Collections/Details?collectionId=23", result);
+}
+</code></pre>
+
+<p>These additional values are used by UrlHelper in the creation of the full URL to make the test pass.</p>
 
     </div>
     
@@ -171,14 +265,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/sql-server-localdb-2014-connection-string/';
+                this.page.url = 'http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/sql-server-localdb-2014-connection-string/';
+    var disqus_url = 'http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
