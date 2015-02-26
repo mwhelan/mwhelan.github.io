@@ -1,4 +1,4 @@
-``---
+---
 layout: post
 title: BDDfy In Action: Using BDDfy for Unit Tests
 categories: TestStack, BDDfy
