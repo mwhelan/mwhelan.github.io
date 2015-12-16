@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2015-12-16T11:02:36.7122880+00:00" />
+    <meta name="keywords" content="" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/2014/08/03/code-katas-for-practicing-tdd/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">TDD Katas</h1>
+
+    <div class="blog-post-meta">
+        posted on 03 Aug 2014
+            | <a class="label label-primary" href="/category/programming">Programming</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>A kata is a form of deliberate practice, with its roots in the martial arts world. It describes a choreographed pattern of movements used to train yourself to the level of muscle memory. In the world of programming, katas are small coding exercises that a programmer completes on a daily basis. They can be a great exercise for practicing TDD in particular. </p>
+
+<p>Rather than attempt a new kata each day, it's recommended that you work on the same one repeatedly until completing it is almost like muscle memory. Katas can be a great way to try out a new programning language, or a new programming technique, or a new framework. For example, if you wanted to move from Moq to NSubstitute (which I recommend) you could replace Moq with NSubstitute when doing a familiar kata.   </p>
+
+<!--excerpt-->
+
+<p>When doing the kata, focus on the TDD process:</p>
+
+<ol>
+<li>Write a failing test</li>
+<li>Write the simplest code to pass the test</li>
+<li>Refactor to remove duplication </li>
+</ol>
+
+<h2>Good habits for effective TDD</h2>
+
+<p>I first came across the idea of TDD katas when I attended the Codemanship <a href="http://codemanship.co.uk/tdd.html">TDD Master Class</a>, a two-day weekend course put on by Jason Gorman, in 2010. The course really opened my eyes to a new way of programming with TDD, and also the idea of software craftsmanship. I became "test infected" as they say. I would highly recommend the Codemanship courses to anyone living in London, as they still run regularly! </p>
+
+<p>I was just looking back at my notes from that course today, and I think that the good habits for effective TDD that Jason recommended are worth repeating here:</p>
+
+<ul>
+<li>When writing a test, write the assertion first and work backwards.</li>
+<li>Always run the test to see it fail in the way that you expect it to fail before writing the application code to make the test pass.</li>
+<li>Write meaningful tests that are self-explanatory. That is, the names of variables and methods should communicate your intention. I write all of my code now (test and application) thinking of the "Reader" - the person who is reading my code. Will my intention now be clearly communicated to that reader some time in the future?</li>
+<li><a href="http://codemanship.co.uk/parlezuml/blog/?postid=987">Triangulate</a> through concrete examples towards general solutions. Work through a sequence of tests that lead you towards a more general solution</li>
+<li>Keep test code and model code separate</li>
+<li>Isolate tests so that they run independently</li>
+<li>Organise tests to reflect organisation of model code </li>
+<li>Maintain your tests</li>
+<li>Tests should test one thing</li>
+<li>Don’t refactor when a test is failing</li>
+</ul>
+
+<p>Although my practice has evolved a bit, I think I follow most of them still!</p>
+
+<h2>TDD Katas</h2>
+
+<p>I have collected a number of TDD Kata exercises over the past few years. I keep them in a repository on GitHub for easy reference. You can find them <a href="https://github.com/mwhelan/Katas">here</a>.</p>
+
+<ul>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.Anagrams">Anagrams</a>: Write a program to generate all potential anagrams of an input string. From a <a href="http://www.codeproject.com/Articles/498404/TDD-the-Anagrams-Kata">code project article</a> by Richard Dalton.</li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.BankTransfer">Bank Transfer</a>: Create a simple bank account program. From <a href="http://codemanship.co.uk">Codemanship</a>.</li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.Fibonacci">Fibonacci Generator</a>: Write some code to generate the Fibonacci sequence up to a specific length which is no shorter than 8 numbers and no longer than 50. </li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.FibonacciSequence">Fibonacci Sequence</a>: Write a program that writes out the number for a given position in the Fibonacci Sequence From <a href="http://codemanship.co.uk">Codemanship</a>.</li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.FizzBuzz">Fizz Buzz</a>: Generate a string of integers, starting at 1 and going up to 100, substituting any integer which is divisible by 3 with "Fizz", and any integer which is divisible by 5 with "Buzz", and any integer divisible by 3 and 5 with "FizzBuzz".</li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.FizzBuzzWhiz">Fizz Buzz Whiz</a>: Same as FizzBuzz but substitute prime numbers with "Whiz."</li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.Pager">Pager</a>: Write the underlying data model for a pager control. I haven't done this one yet, but I think it will be a great kata. From <a href="http://kaczanowscy.pl/tomek/2013-04/code-kata-pager">Tomek Kaczanowski</a>.</li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.PrimeNumbers">Prime Numbers</a>: A bit simpler than the famous Uncle Bob one. Create a method that, given an integer, returns true if it is a prime and false if it is not.</li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.StringCalculator">String Calculator</a>: One of the better known katas. The essence is a method that, given a delimited string, returns the sum of the values. From <a href="http://osherove.com/tdd-kata-1/">Roy Osherove</a>.</li>
+<li><a href="https://github.com/mwhelan/Katas/tree/master/Katas.WordCounter">Word Counter</a>: A method that, given a delimited string, returns a collection of all of the unique words in it and the count of how many times they occurred. Start off with a space between words, but later other delimiters wil be added.</li>
+</ul>
+
+<h2>Coding Dojos</h2>
+
+<p>A coding dojo is an extension of TDD katas. A coding dojo is a regular meeting where you and your team meet up to focus on improving practical coding skills, perhaps working on katas together and discussing lessons learned. <a href="http://pluralsight.com/training/Authors/Details/emily-bache">Emily Bache</a> has a great course on <a href="http://pluralsight.com/training/Courses/TableOfContents/the-coding-dojo">coding dojos for TDD</a> on Pluralsight.</p>
+
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/2014/08/03/code-katas-for-practicing-tdd/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/2014/08/03/code-katas-for-practicing-tdd/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>
