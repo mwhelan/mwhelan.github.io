@@ -39,14 +39,14 @@ gulp.task('build', function(callback) {
 	runSequence('clean', 'snow', 'connect', 'open', callback);
 });
 
-// deploy 'Website' folder to mwhelan.github.io github repo, master branch
-var options = { 
-	remoteUrl: "https://github.com/mwhelan/mwhelan.github.io.git",
-	branch: "master"
-};
-
 gulp.task('deploy', function () {
-    gulp.src([config.snowOutputFolder + '**/*', config.snowOutputFolder + 'CNAME'])
+    // deploy 'Website' folder to mwhelan.github.io github repo, master branch
+    var options = { 
+        remoteUrl: "https://github.com/mwhelan/mwhelan.github.io.git",
+        branch: "master"
+    };
+    
+    return gulp.src([config.snowOutputFolder + '**/*', config.snowOutputFolder + 'CNAME'])
         .pipe(deploy(options));
 });
 

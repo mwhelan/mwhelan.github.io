@@ -120,6 +120,10 @@ pre code{
   margin-bottom: 20px;
   color: #999;
 }
+.aboutFooter {
+  border-top: 1px dotted #CCC;  
+  border-bottom: 1px dotted #CCC;  
+}
 .addThis {
     margin-bottom: 30px;
 }
