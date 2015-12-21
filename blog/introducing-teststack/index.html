@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2015-12-21T19:08:13.9937425+00:00" />
+    <meta name="keywords" content="" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/blog/introducing-teststack/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">Introducing TestStack</h1>
+
+    <div class="blog-post-meta">
+        posted on 31 Dec 2012
+            | <a class="label label-primary" href="/category/teststack">TestStack</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p><a href="http://teststack.net/">TestStack</a> is a collection of open source projects which mainly focus on making the left side of Marrick’s agile testing quadrant easier!</p>
+
+<p>Early last year, <a href="https://twitter.com/MehdiKhalili">Mehdi Khalili</a> created <a href="http://teststack.github.com/TestStack.BDDfy/">BDDfy</a> (then called bddify), a simple yet powerful and extensible BDD framework for .Net. I became a very active user of BDDfy, and eventually a contributor. This year Mehdi and I decided to setup a new open source project for automated UI testing with Selenium, called Seleno, and a GitHub organisation, TestStack, for the two projects. Since then, we have been joined by <a href="https://twitter.com/kkozmic">Krzysztof Kozmic</a>, <a href="https://twitter.com/JakeGinnivan">Jake Ginnivan</a> and <a href="https://twitter.com/robdmoore">Rob Moore</a>. </p>
+
+<!--excerpt-->
+
+<h2>What are the Agile Testing Quadrants?</h2>
+
+<p>I first learned about Brian Marrick’s agile testing quadrants (pictured below) when I read <a href="http://www.amazon.com/Agile-Testing-Practical-Addison-Wesley-Signature/dp/0321534468/ref=pd_ts_b_2?ie=UTF8&amp;s=books">Agile Testing</a>, by Lisa Crispin and Janet Gregory. I was just getting into acceptance testing and Domain Driven Design at the time, so it really made a lot of sense. The tests on the right, the ones that “critique the product,” are what you might consider the traditional testing that testers have done after a feature is developed.</p>
+
+<p><img src="/images/AgileTestingQuadrants.png" alt="alt text" /></p>
+
+<p>TestStack is focused on the tests on the left (Q1 and Q2). These tests support the agile team and are the ones that I am familiar with as a developer (or should I say as part of The Three Amigos/Triad?) They are test first, promoting the “testing as design” mindset, and tend to be automated. Things like unit and integration tests, acceptance tests, and UI tests and methodologies like Behaviour Driven Development and Acceptance Test Driven Development.</p>
+
+<p>Quadrant 1 has unit tests and component tests (or integration tests as I prefer to call them) which are the tests written by developers, usually(?) following TDD, to test whether the system does what they intended it to do. These tests tell you that your code is technically correct and that you are “doing things right.” They provide <a href="http://softwaretestingfundamentals.com/verification-vs-validation/">verification</a>.</p>
+
+<p>Quadrant 2 tests tells you that you are “doing the right thing”, meaning you are actually building what the customer wants. They provide <a href="http://softwaretestingfundamentals.com/verification-vs-validation/">validation</a>. Tests in this quadrant attempt to solve the biggest problem in software development – communication - so that the customer, testers and developers can agree on what will be built. They are functional tests, consisting mainly of story-level acceptance tests that the teams use to validate that each story works the way the customer intended. When developers automate the acceptance tests they become executable specifications, which is expressing requirements such that they are also tests. The benefits of executable specifications are that they are meaningful to all interested parties, they unambiguously demonstrate if the requirement is met, and they drive out a testable application design. They help the developer know where to start testing and when they are finished, and keep them on track to only implement the required functionality. They also provide a form of living documentation, such as the BDDfy report below, where the documentation is always in sync with the code.</p>
+
+<p><img src="/images/bddfy_rocks.png" alt="alt text" /></p>
+
+<h2>TestStack Projects</h2>
+
+<p>TestStack provides a number of projects that help with automated testing that supports the team:</p>
+
+<h3>BDDfy</h3>
+
+<p>The framework is called <a href="http://teststack.github.com/TestStack.BDDfy/">BDDfy</a> because it BDDfies (as in turns into BDD) your otherwise traditional unit tests. Pronounced B D Defy, it is very simple to turn your AAA tests into a BDD test/behavior. BDDfy can work with any and all testing frameworks. In fact, it works even if you are not using any testing framework.</p>
+
+<h3>Seleno</h3>
+
+<p><a href="http://teststack.github.com/TestStack.Seleno/">Seleno</a> helps you to write automated UI tests in the right way by implementing Page Objects and Page Components and by reading and writing web page data using strongly typed view models. It uses Selenium for browser automation.</p>
+
+<h3>Convention Tests</h3>
+
+<p>Convention over Configuration is a great way to cut down repetitive boilerplate code. But how do you validate that your code adheres to your conventions? <a href="http://teststack.github.com/ConventionTests/">ConventionTests</a> is a code-only NuGet that provides a simple API to build validation rules for convention validation tests. </p>
+
+<h3>White</h3>
+
+<p><a href="https://github.com/TestStack/White">White</a> is a framework for automating rich client applications based on Win32, WinForms, WPF, Silverlight and SWT (Java) platforms. It is .NET based and does not require the use of any proprietary scripting languages. Tests/automation programs using White can be written with whatever .NET language, IDE and tools you are already using. White provides a consistent object-oriented API, hiding the complexity of Microsoft's UI Automation library (on which White is based) and windows messages</p>
+
+<h3>Fluent MVC Testing</h3>
+
+<p>This library provides a fluent interface for creating terse and expressive tests against ASP.NET MVC controllers. The motivation behind this library is to provide a way to test MVC actions quickly and maintainably. </p>
+
+<h2>We're here to help!</h2>
+
+<p>I would encourage you to check us out on our website and download the code from github and try it out. Get in touch with us on twitter or email if you have any issues or questions about the projects or agile testing in general. We love this stuff and are happy to help!</p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/blog/introducing-teststack/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/blog/introducing-teststack/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>

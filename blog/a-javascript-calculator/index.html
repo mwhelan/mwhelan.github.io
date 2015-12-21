@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2015-12-21T19:08:13.9937425+00:00" />
+    <meta name="keywords" content="" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/blog/a-javascript-calculator/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">A JavaScript Calculator</h1>
+
+    <div class="blog-post-meta">
+        posted on 19 Jun 2014
+            | <a class="label label-primary" href="/category/learning">Learning</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p><strong>This article is part of a series on <a href="/learning-angularjs">Learning AngularJS</a>.</strong></p>
+
+<p>Before getting into any AngularJS, the first project on Thinkful's Angular course is to create a JavaScript calculator to review front end basics with HTML, CSS and JavaScript. It provides some interesting challenges. You can see my working version <a href="http://www.michael-whelan.net/thinkful-angular-adder-subtractor/">here</a>. The source code is also on <a href="https://github.com/mwhelan/thinkful-angular-adder-subtractor">GitHub</a>. </p>
+
+<p><img src="/images/learning-angularjs-adder-subtractor.png" alt="JavaScript calculator" /></p>
+
+<p>I am tending to build all of my applications with Twitter Bootstrap at the moment. I really like how easy it is to put together reasonable looking applications quite quickly.</p>
+
+<h2>Field Validation</h2>
+
+<p>The application requires that users can only enter integers. There are a number of ways to achieve this and I've tried different approaches on different projects. You can write a JavaScript function, or use the HTML5 number input type, to pop up an alert if the user does not enter the right value. Alerts are not a very nice user experience though, and the HTML5 one is particularly ugly.</p>
+
+<p>For this project I thought I would try the <a href="http://jqueryvalidation.org/">jQuery validation plugin</a>. This performs client-side validation on the form as the user leaves each control, preventing form submit if it is invalid, which I think makes for a better user experience. Alternatively, if you write code that is not in the submit event you can check if the form is valid by calling the <a href="http://jqueryvalidation.org/valid/">valid method</a> on the form (see the examples below).</p>
+
+<p>The jQuery Validation plugin is very easy to setup. You simply call the <code>validate()</code> method on the form during page initialisation and use the input fields' names to specify rules and messages. Alternatively, you can specify rules as attributes on the field if you prefer. </p>
+
+<p>In the example below, I am providing validation rules for two input fields named <code>inputX</code> and <code>inputY</code>.</p>
+
+<pre><code>function setupFormValidation() {
+    $("#convertForm").validate({
+        rules: {
+            inputX: {
+                required: true,
+                digits: true
+            },
+            inputY: {
+                required: true,
+                digits: true
+            }
+        },
+        messages: {
+            inputX: "Please enter an integer for X",
+            inputY: "Please enter an integer for Y"
+        },
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        }
+    });
+}
+</code></pre>
+
+<p>In this case, the digits rule will ensure the user can only enter integers. The plugin provides pretty basic styling, but it is easy enough to add your own styles. I am using Twitter Bootstrap so I just need to add the highlight and unhighlight functions (as in the code above). The <code>highlight</code> function is called when a validation error occurs, and I add the Twitter Bootstrap <code>has-error</code> CSS class to that control's form group. The <code>unhighlight</code> function is called when the user corrects the error, and that simply removes the CSS class.</p>
+
+<p><img src="/images/learning-angularjs-adder-subtractor-validation.png" alt="JavaScript calculator" /></p>
+
+<h2>Data Binding</h2>
+
+<p>One of the things I'm looking forward to with Angular is its two way data binding. With plain old JavaScript though, there are a lot of options for reading and writing form field data and it's hard to know which is the most elegant. I'm only having to read data from the fields here but I still wanted to encapsulate this logic in one place. The first approach I took was to create a "class" that encapsulates all of the calculator logic in one place and is able to read the data from the form itself. </p>
+
+<pre><code>function Calculator() {
+    this.x = parseInt($("#inputX").val());
+    this.y = parseInt($("#inputY").val());
+
+    this.plus = function () {
+        return this.x + this.y;
+    };
+    this.minus = function () {
+        return this.x - this.y;
+    };
+}
+</code></pre>
+
+<p>I don't really like it though, to be honest. While it does hide away the reading of data, it is too tightly bound to the UI and that would seem to make it a real pain to test. So, instead I have gone for a plain old class that receives its parameters in the constructor. This would be very easy to test - just pass in the data, call the method I'm interested in, and inspect the result. The app can create the calculator with a  factory function, <code>createCalculator()</code>, which provides sufficient encapsulation for the reading of the form data.</p>
+
+<pre><code>function Calculator(x, y) {
+    this.x = x;
+    this.y = y;
+    this.plus = function () {
+        return x + y;
+    };
+    this.minus = function () {
+        return x - y;
+    };
+}
+
+function createCalculator() {
+    var x = parseInt($("#inputX").val());
+    var y = parseInt($("#inputY").val());
+    return new Calculator(x, y);
+}
+</code></pre>
+
+<h2>Event Handling</h2>
+
+<p>In my first pass, I just coded the plus and minus button clicks separately. </p>
+
+<pre><code>$("#plus").click(function (event) {
+    if (("#convertForm").valid()) {
+        var calculator = createCalculator();
+        var result = calculator.add();
+        var message = "X plus Y is " + result;
+        $("#result").text(message);
+    }
+});
+
+$("#minus").click(function (event) {
+    if (("#convertForm").valid()) {
+        var calculator = createCalculator();
+        var result = calculator.subtract();
+        var message = "X minus Y is " + result;
+        $("#result").text(message);
+    }
+});
+</code></pre>
+
+<p>There is pretty obvious duplication though. My first refactoring was just to move the common code into a calculate method and pass in the operation - "plus" or "minus".</p>
+
+<pre><code>$("#plus").click(function (event) {
+    calculate("plus");
+});
+
+$("#minus").click(function (event) {
+    calculate("minus");
+});
+
+function calculate( operation) {
+    if (("#convertForm").valid()) {
+        var calculator = createCalculator();
+        var result = calculator[operation]();
+        var message = calculator.x + " " + operation + " " + calculator.y + " is " + result;
+        $("#result").text(message);
+    }
+}
+</code></pre>
+
+<p>The cool thing about JavaScript is that you can call methods on objects using bracket notation, as you can see with the call to <code>calculator[operation]()</code> above. So, the same value can be used as a string in message, and as a function pointer. That's not something you can do in C#!</p>
+
+<p>There is still one more improvement to do though - at least one that I can see, there are probably more! :-) In JavaScript, I only need one event handler for all of the buttons. I can name each button the same as the operation ("plus" and "minus") and then retrieve that name value with <code>event.target.name</code> to pass into the function as the operation parameter.</p>
+
+<pre><code>$("button").on("click", function (event) {
+    calculate(event.target.name);
+});
+</code></pre>
+
+<p>I'm pretty happy with that, but please do let me know if there are better ways of doing things!</p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/blog/a-javascript-calculator/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/blog/a-javascript-calculator/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>

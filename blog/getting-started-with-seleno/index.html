@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2015-12-21T19:08:13.9937425+00:00" />
+    <meta name="keywords" content="" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/blog/getting-started-with-seleno/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">Getting started with Seleno</h1>
+
+    <div class="blog-post-meta">
+        posted on 06 May 2013
+            | <a class="label label-primary" href="/category/seleno">Seleno</a>
+            | <a class="label label-primary" href="/category/teststack">TestStack</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>Seleno is an open source project from TestStack which helps you write automated UI tests with Selenium. It focuses on the use of <a href="https://code.google.com/p/selenium/wiki/PageObjects">Page Objects</a> and Page Components and by reading from and writing to web pages using strongly typed view models. This post is a brief overview of what you need to know to get started using Seleno.</p>
+
+<!--excerpt-->
+
+<h2>Configuration</h2>
+
+<p>The simplest possible configuration to start using Seleno is just one line. If you are using an ASP.NET web application within the same solution as your test project then all Seleno needs to know is the name of the web project to test and the port number to run it on. You need to provide it with this information before you run any Seleno tests so, if you were using NUnit, for example, you might configure Seleno in the SetUpFixture.</p>
+
+<pre><code>[SetUpFixture]
+public class AssemblySetupFixture
+{
+    [SetUp]
+    public void SetUp()
+    {
+        SelenoHost.Run("TestStack.Seleno.Samples.Movies", 19456);
+    }
+}
+</code></pre>
+
+<p>This will deploy your web application with IIS Express and open up FireFox to run your tests. It will unload the browser and web server when the application domain unloads. We have plans to allow you to exert more control over the lifetime of Seleno, but for now this is fixed - if this is really important to you then please create an issue on the <a href="https://github.com/TestStack/TestStack.Seleno/issues">Github site</a>.</p>
+
+<p>By default, Seleno uses:</p>
+
+<ul>
+<li>FireFox for the web browser</li>
+<li>IIS Express for the web server</li>
+<li>No logger</li>
+<li>No camera for taking screenshots</li>
+</ul>
+
+<p>If you want to change these defaults, you can use a fluent configuration to override them. For example, if you wanted to use Chrome instead of Firefox (the default) and to log messages to the console, you could write:</p>
+
+<pre><code>SelenoHost.Run("TestStack.Seleno.Samples.Movies", 19456,
+    configure =&gt; configure
+        .WithRemoteWebDriver(BrowserFactory.Chrome)
+        .UsingLoggerFactory(new ConsoleFactory())
+);
+</code></pre>
+
+<blockquote>
+  <p>Note: To use the Chrome WebDriver you also need to download <a href="https://code.google.com/p/selenium/wiki/ChromeDriver">ChromeDriver.exe</a> and make sure it is in your bin directory when you run your tests.</p>
+</blockquote>
+
+<p>There are more things that you can configure too. The original use case for Seleno was to test Visual Studio web projects for ASP.Net and ASP.Net MVC and it defaults to doing this with IIS Express. Seleno attempts to be modular and easy to customise though, so to test any website instead is just a matter of swapping out the IisExpressWebServer for the InternetWebServer. For example, to test Google UK:</p>
+
+<pre><code>SelenoHost.Run(configure =&gt; configure
+    .WithWebServer(new InternetWebServer("www.google.co.uk")));
+</code></pre>
+
+<h2>Page Objects</h2>
+
+<p>Seleno supports the idea of <a href="https://code.google.com/p/selenium/wiki/PageObjects">Page Objects</a> to model your web pages. The idea is to model each page (or part of a page) as a class, and then to use instances of those classes in your tests. To continue, with the google example, we're all familiar with this page.</p>
+
+<p><img src="/images/google.png" alt="Google search" /></p>
+
+<p>In Seleno, you would model this page by inheriting from the Page class and then encapsulating the interaction with the page within methods. Seleno provides methods to find elements on the page (Find) and enter data into the text box (SendKeys). The Navigate method allows you to navigate to the results page by clicking on the Search button (btnG).</p>
+
+<pre><code>public class SearchPage : Page
+{
+    public SearchPage InputSearchTerm(string term)
+    {
+        Find()
+            .Element(By.Name("q"))
+            .SendKeys(term);
+        return this;
+    }
+
+    public ResultsPage Search()
+    {
+        return Navigate().To&lt;ResultsPage&gt;(By.Name("btnG"));
+    }
+}
+
+public class ResultsPage : Page
+{
+    ...
+}
+</code></pre>
+
+<p>Now your tests can just call methods on the Page Objects, without having to know anything about the interaction with the page or the use of Selenium.</p>
+
+<pre><code>[SetUpFixture]
+public class AssemblySetUpFixture
+{
+    [SetUp]
+    public void SetUp()
+    {
+        SelenoHost.Run(configure =&gt; configure
+            .WithWebServer(new InternetWebServer("http://www.google.co.uk")));
+    }
+}
+
+[TestFixture]
+public class GoogleSearchTests
+{
+    [Test]
+    public void should_be_able_to_search()
+    {
+        var searchPage = SelenoHost.NavigateToInitialPage&lt;SearchPage&gt;();
+        var resultsPage = searchPage
+            .InputSearchTerm("BDDfy")
+            .Search();
+        resultsPage.Title.Should().Be("Google");
+    }
+}
+</code></pre>
+
+<h3>Strongly Typed Page Objects</h3>
+
+<p>That's quite nice, but things start to get really interesting if you use view models. Seleno also provides strongly typed Page Objects, which allow you to read from and write to the page. Here is an example, from the Seleno MvcMusicStore sample. Because Seleno is aware of the RegisterModel view model, it is able to take a populated instance of that model and enter the information into the web page using the Input().Model method.</p>
+
+<pre><code>public class RegisterModel
+{
+    public string UserName { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+    public string ConfirmPassword { get; set; }
+}
+
+public class RegisterPage : Page&lt;RegisterModel&gt;
+{
+    public HomePage CreateValidUser(RegisterModel model)
+    {
+        Input().Model(model);
+        return Navigate().To&lt;HomePage&gt;(By.CssSelector("input[type='submit']"));
+    }
+}
+</code></pre>
+
+<p>This can then be used in a test, with a populated model generated by the CreateRegisterModel of the <a href="http://martinfowler.com/bliki/ObjectMother.html">ObjectMother</a>.</p>
+
+<pre><code>public class StronglyTypedPageObjectWithComponent
+{
+    [Test]
+    public void Can_buy_an_Album_when_registered()
+    {
+        var orderedPage = SelenoHost.NavigateToInitialPage&lt;HomeController, HomePage&gt;(x =&gt; x.Index())
+            .Menu
+            .GoToAdminForAnonymousUser()
+            .GoToRegisterPage()
+            .CreateValidUser(ObjectMother.CreateRegisterModel())
+            .GenreMenu
+            .SelectGenreByName("Disco")
+            .SelectAlbumByName("Le Freak")
+            .AddAlbumToCart()
+            .Checkout()
+            .SubmitShippingInfo(ObjectMother.CreateShippingInfo(), "Free");
+
+        orderedPage.Title.Should().Be("Checkout Complete");
+    }
+}
+</code></pre>
+
+<h2>Actions and Locators</h2>
+
+<p>Page Objects tend to either perform actions or find items on the page. Seleno Page Objects provide a number of Actions and Locators that you can use.</p>
+
+<h3>Actions</h3>
+
+<h4>Navigator</h4>
+
+<p>Used to perform actions that take you to another page, such as clicking a button or a link, or navigating to a URL. There is a strongly typed option to navigate with a controller expression using routing. Page Objects expose the Navigator class with the Navigate() method.</p>
+
+<pre><code>Navigate().To&lt;RegisterPage&gt;(By.LinkText("Register"));
+</code></pre>
+
+<h4>Page Reader</h4>
+
+<p>Read values from the page using view model based strongly typed methods. Page Objects that extend <code>Page&lt;T&gt;</code>expose the Page Reader class with the Read() method. For example, to read all fields into a new instance of the current model type (<code>T</code>) in a page you can use the <code>ModelFromPage</code> method:</p>
+
+<pre><code>var model = Read().ModelFromPage();
+</code></pre>
+
+<p>Read() is currently only available with the generically-typed page object for now, but if you want this functionality with non-generic page objects (by instead supplying strings for the id) then to add an issue to our Github site so we can prioritise it.</p>
+
+<h4>Page Writer</h4>
+
+<p>Write values to the page using view model based strongly typed methods. Page Objects that extend <code>Page&lt;T&gt;</code>expose the Page Writer class with the Input() method. For example, to write all fields from a model of the current type (<code>T</code>) from the form on a page you can use the <code>Model</code> method:</p>
+
+<pre><code>Input().Model(modelInstanceToFillInFormUsing);
+</code></pre>
+
+<p>Input() is currently only available with the generically-typed page object for now, but if you want this functionality with non-generic page objects (by instead supplying strings for the id) then to add an issue to our Github site so we can prioritise it.</p>
+
+<h4>Script Executor</h4>
+
+<p>If none of the above meet your needs then you have the ultimate control by executing JavaScript with the Script Executor class. Page Objects expose the Script Executor class with the Execute() method.</p>
+
+<pre><code>return Execute().ScriptAndReturn&lt;TReturn&gt;(string.Format("$('#{0}').attr('{1}')",Id,attributeName));
+</code></pre>
+
+<h3>Locators</h3>
+
+<h4>Element Finder</h4>
+
+<p>Finds Selenium IWebElement items on the page, using the Selenium By selectors or the Seleno jQuery selectors. Page Objects expose the Element Finder class with the Find() method.</p>
+
+<pre><code>var selector = string.Format("$('#{0} option:selected')", Id);
+return Find().Element(By.jQuery(selector), WaitInSecondsUntilElementAvailable);
+</code></pre>
+
+<h2>Navigation</h2>
+
+<p>A great way to slow down your tests is to start each test on the home page and then navigate to the page you want to test! It's much better to navigate directly to the page that you want to test. You can do this by calling the NavigateToInitialPage method on SelenoHost and passing in the <em>relative</em> URL (to the root of the site being tested).</p>
+
+<pre><code>var page = SelenoHost.NavigateToInitialPage&lt;RegisterPage&gt;("/Account/Register");
+</code></pre>
+
+<p>In addition, if you are using ASP.NET MVC then you can also use strongly typed controller action expressions to navigate to the page via routing. </p>
+
+<pre><code>var page = SelenoHost.NavigateToInitialPage&lt;AccountController, RegisterPage&gt;(x =&gt; x.Register());
+</code></pre>
+
+<p>If you are using these MVC expressions, just remember to register the application routes when you are initializing Seleno.</p>
+
+<pre><code>SelenoHost.Run("MvcMusicStore", 12345);
+MvcApplication.RegisterRoutes(RouteTable.Routes); 
+</code></pre>
+
+<h2>Find out more</h2>
+
+<p>You can get the latest version of Seleno on <a href="http://www.nuget.org/packages/TestStack.Seleno/">NuGet</a>, or check out our <a href="https://github.com/TestStack/TestStack.Seleno">github repository</a> for the latest source code. </p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/blog/getting-started-with-seleno/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/blog/getting-started-with-seleno/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>
