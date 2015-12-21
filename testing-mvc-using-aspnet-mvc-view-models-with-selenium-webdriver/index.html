@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2015-12-21T19:12:58.4439422+00:00" />
+    <meta name="keywords" content="" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">Black-Box Testing ASP.Net: Using ASP.Net MVC View Models with Selenium WebDriver</h1>
+
+    <div class="blog-post-meta">
+        posted on 04 Jan 2015
+            | <a class="label label-primary" href="/category/automated-testing">Automated Testing</a>
+            | <a class="label label-primary" href="/category/black-box-testing-asp.net-series">Black-Box Testing ASP.Net Series</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>This post continues the theme of the <a href="/testing-mvc-reducing-use-of-magic-strings/">previous post</a>, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).</p>
+
+<!--excerpt-->
+
+<blockquote>
+  <p>Some of the sample code is taken straight from <a href="https://github.com/TestStack/TestStack.Seleno">Seleno</a>, the Selenium WebDriver browser automation framework from <a href="http://teststack.net/">TestStack</a>, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application. I've produced a working sample on <a href="https://github.com/mwhelan/MvcTestingSamples">GitHub</a>, so you should be able to take it, run it, and use some of the code in your own applications if you want to.</p>
+</blockquote>
+
+<h2>Input View Model Property into Web Page</h2>
+
+<p>When you use strongly typed views (with models) and generate HTML for the model properties with expression-based HTML helpers, such as <code>Html.EditorFor()</code>, MVC will produce controls with predictable names for the properties of the model. This view code:</p>
+
+<pre><code>@model ContosoUniversity.ViewModels.CreateStudentForm
+...
+@Html.EditorFor(model =&gt; model.LastName)
+</code></pre>
+
+<p>will produce this HTML:</p>
+
+<pre><code>&lt;input name="LastName" class="text-box single-line" id="LastName" type="text" value="" &gt;
+</code></pre>
+
+<p>We can leverage this MVC infrastructure in our UI tests to input a model property into a form field. System.Web.Mvc provides the <code>ExpressionHelper.GetExpressionText</code> method to provide the same control name from the model property that the expression-based HTML helpers provide in the views.</p>
+
+<p>We can derive a strongly typed base page object from the base page object used in the previous post, where <code>TModel</code> is the view model class used by that view. The <code>TextBoxFor</code> method uses ExpressionHelper to derive the name of the control from the model property expression, then uses WebDriver to find the element and populate it with the specified value.</p>
+
+<pre><code>public class Page&lt;TModel&gt; : Page
+{
+    public Page&lt;TModel&gt; TextBoxFor&lt;TField&gt;(Expression&lt;Func&lt;TModel, TField&gt;&gt; field, TField value)
+    {
+        var name = ExpressionHelper.GetExpressionText(field);
+
+        var element = Host.Browser.FindElement(By.Name(name));
+        element.Clear();
+        element.SendKeys(value.ToString());
+
+        return this;
+    }
+}
+</code></pre>
+
+<p>Now we can modify the <code>NewStudentPage</code> page object to use the strongly typed page object and specify the <code>CreateStudentForm</code> view model, which is the one that the view uses. The various Input methods are able to enter data into the web page using the appropriate property expression in a strongly typed way. </p>
+
+<pre><code>public class NewStudentPage : Page&lt;CreateStudentForm&gt;
+{
+    public string HeaderTitle
+    {
+        get
+        {
+            var header = Host.Browser.FindElement(By.Id("title"));
+            return header.Text;
+        }
+    }
+
+    public NewStudentPage InputLastName(string lastName)
+    {
+        TextBoxFor(x =&gt; x.LastName, lastName);
+        return this;
+    }
+
+    public NewStudentPage InputFirstName(string firstName)
+    {
+        TextBoxFor(x =&gt; x.FirstMidName, firstName);
+        return this;
+    }
+
+    public NewStudentPage InputEnrollmentDate(DateTime enrollmentDate)
+    {
+        TextBoxFor(x =&gt; x.EnrollmentDate, enrollmentDate);
+        return this;
+    }
+}
+</code></pre>
+
+<p>In keeping with the page object design pattern each method returns the page so that test code can set multiple properties in the fluent style, as you can see from this test.</p>
+
+<pre><code>[Test]
+public void CanPopulateAFormFieldFromModelProperty()
+{
+    var student = Builder&lt;CreateStudentForm&gt;
+        .CreateNew()
+        .Build();
+    var newStudentPage = Host.NavigateTo&lt;StudentController, NewStudentPage&gt;(x =&gt; x.Create());
+
+    newStudentPage
+        .InputFirstName(student.FirstMidName)
+        .InputLastName(student.LastName)
+        .InputEnrollmentDate(student.EnrollmentDate);
+
+    Host.Browser.FindElement(By.Id("FirstMidName")).GetAttribute("value").Should().Be(student.FirstMidName);
+    Host.Browser.FindElement(By.Id("LastName")).GetAttribute("value").Should().Be(student.LastName);
+    Host.Browser.FindElement(By.Id("EnrollmentDate")).GetAttribute("value").Should().Be(student.EnrollmentDate.ToString());
+}
+</code></pre>
+
+<h2>Input Whole View Model into Web Page</h2>
+
+<p>To be honest, I strongly dislike this approach of the page object exposing every property of the view model individually. It lends itself to script-style code, with lots of repetitive calls to set each property, obfuscating the meaning of the test. I prefer more of a specification style of test, where each method on the page object is representative of a behaviour of the application (more than likely representative of a single request/response  - a single controller action). This improves the API of the Page Object layer, and makes for a better Domain Specific Language (DSL) for your tests. </p>
+
+<p>Ignoring the assertions in this test - which are for demo purposes only - I prefer this test. One or two lines to setup the context and one call to the page object for the action I'm testing. This reads much more like a specification, which I think makes it a lot easier for the Test Reader to quickly see what is going on, and makes the tests a lot easier to maintain over time.</p>
+
+<pre><code>[Test]
+public void CanPopulateFormFromModel()
+{
+    var student = Builder&lt;CreateStudentForm&gt;
+        .CreateNew()
+        .Build();
+    var newStudentPage = Host.NavigateTo&lt;StudentController, NewStudentPage&gt;(x =&gt; x.Create());
+
+    newStudentPage.AddValidStudent(student);
+
+    Host.Browser.FindElement(By.Id("FirstMidName")).GetAttribute("value").Should().Be(student.FirstMidName);
+    Host.Browser.FindElement(By.Id("LastName")).GetAttribute("value").Should().Be(student.LastName);
+    Host.Browser.FindElement(By.Id("EnrollmentDate")).GetAttribute("value").Should().Be(student.EnrollmentDate.ToString());
+}
+</code></pre>
+
+<p>We have a <a href="https://github.com/TestStack/TestStack.Seleno/blob/master/src/TestStack.Seleno/PageObjects/Actions/PageWriter.cs">PageWriter</a> class in Seleno that inputs a whole model like this and handles the different data types and other complexities. Here is a cut down version that works for the 3 text boxes in this example.</p>
+
+<pre><code>public class Page&lt;TModel&gt; : Page
+{
+    ...
+    public Page&lt;TModel&gt; InputModel(TModel model)
+    {
+        var type = model.GetType();
+        foreach (var property in type.GetProperties())
+        {
+            var element = Host.Browser.FindElement(By.Name(property.Name));
+            element.Clear();
+            element.SendKeys(property.GetValue(model).ToString());
+        }
+        return this;
+    }
+}
+</code></pre>
+
+<p>And the additional method on the page object.</p>
+
+<pre><code>public class NewStudentPage : Page&lt;CreateStudentForm&gt;
+{
+    ...
+    public StudentDetailsPage AddValidStudent(CreateStudentForm student)
+    {
+        InputModel(student);
+        return new StudentDetailsPage();
+    }
+}
+</code></pre>
+
+<h2>Display Templates do not generate IDs for controls</h2>
+
+<p>By default MVC only adds ID and name properties to form controls (via the <strong>Editor Templates</strong>) with the expression-based HTML helpers. It does not do the same with the display expressions (such as <code>Html.DisplayFor()</code>) that use the <strong>Display Templates</strong>). </p>
+
+<p>For example, this code from the Student Details view (Views\Student\Details.cshtml):</p>
+
+<pre><code>&lt;dt&gt;
+    @Html.DisplayNameFor(model =&gt; model.LastName)
+&lt;/dt&gt;
+</code></pre>
+
+<p>produces the following HTML with the standard Display Templates:</p>
+
+<pre><code>&lt;dd&gt;
+    Alexander
+&lt;/dd&gt;
+</code></pre>
+
+<p>Fortunately, you can override both the Editor and Display templates if you add them to your web project. You can read all about ASP.Net MVC's templating system in <a href="http://bradwilson.typepad.com/blog/2009/10/aspnet-mvc-2-templates-part-1-introduction.html">this series of posts</a> from Brad Wilson. Suffice to say, for the purposes of this discussion, you can override the display templates by adding a DisplayTemplates folder to your <code>Views\Shared</code> folder in your web project. You can copy the DisplayTemplates folder from your Visual Studio installation, or you can install the MvcDisplayTemplates package, provided by <a href="https://twitter.com/matthoneycutt">Matt Honeycutt</a> on NuGet:</p>
+
+<pre><code>Install-Package MvcDisplayTemplates
+</code></pre>
+
+<p>This overrides the <code>_Layout.cshtml</code> file in the <code>Views\Shared\DisplayTemplates</code> folder to wrap each model property in the view with a span that uses the <code>Html.IdForModel</code> Html Helper from System.Web.Mvc to generate an ID for the property control. </p>
+
+<pre><code>@model dynamic
+@if (HttpContext.Current.IsDebuggingEnabled)
+{ 
+    &lt;span id="@Html.IdForModel()"&gt;@RenderBody()&lt;/span&gt;
+}
+else
+{
+    @RenderBody()
+}
+</code></pre>
+
+<p>Now the <code>Html.DisplayNameFor</code> expression above generates this HTML, with the value wrapped in a span with an ID. Now that all of our view model properties are named with a well-known, predictable, naming convention, we can set about automating the reading of these properties into a view model in our tests in an automated fashion.</p>
+
+<pre><code>&lt;dd&gt;
+    &lt;span id="LastName"&gt;Alexander&lt;/span&gt;
+&lt;/dd&gt;
+</code></pre>
+
+<h2>Read View Model Property from Web Page</h2>
+
+<p>We can extend the strongly typed base page with a method to read the value from a view page, again utilising the <code>ExpressionHelper</code> class from System.Web.Mvc. The <a href="http://msdn.microsoft.com/en-us/library/system.web.mvc.tagbuilder.createsanitizedid%28v=vs.111%29.aspx">TagBuilder.CreateSanitizedId</a> method is another System.Web.Mvc helper that ensures only valid HTML characters are used .</p>
+
+<pre><code>public string DisplayFor&lt;TField&gt;(Expression&lt;Func&lt;TModel, TField&gt;&gt; field)
+{
+    string name = ExpressionHelper.GetExpressionText(field);
+    string id = TagBuilder.CreateSanitizedId(name);
+
+    var span = Host.Browser.FindElement(By.Id(id));
+
+    return span.Text;
+}
+</code></pre>
+
+<p>Which can be used in tests in the following way:</p>
+
+<pre><code>[Test]
+public void CanReadFormFieldFromModelProperty()
+{
+    var studentDetailsPage = Host.NavigateTo&lt;StudentController, StudentDetailsPage&gt;(x =&gt; x.Details(1));
+
+    studentDetailsPage
+        .DisplayFor(x =&gt; x.LastName)
+        .Should().Be("Alexander");
+}
+</code></pre>
+
+<h2>Read Whole View Model From Web Page</h2>
+
+<p>As with writing view model data to the page, we can extend this concept to read the whole view model from the page. Again, Seleno has a more fully featured <a href="https://github.com/TestStack/TestStack.Seleno/blob/master/src/TestStack.Seleno/PageObjects/Actions/PageReader.cs">PageReader</a> class, but here is a cut down version to illustrate the principle:</p>
+
+<pre><code>public TModel ReadModel()
+{
+    var type = typeof(TModel);
+    var instance = new TModel();
+
+    foreach (var property in type.GetProperties())
+    {
+        string name = ExpressionHelper.GetExpressionText(property.Name);
+        string id = TagBuilder.CreateSanitizedId(name);
+
+        var span = Host.Browser.FindElement(By.Id(id));
+        property.SetValue(instance, span.Text, null);
+    }
+
+    return instance;
+}
+</code></pre>
+
+<p>Which you could use in tests similar to this:</p>
+
+<pre><code>[Test]
+public void CanReadModelFromPage()
+{
+    var studentDetailsPage = Host.NavigateTo&lt;StudentController, StudentDetailsPage&gt;(x =&gt; x.Details(1));
+
+    StudentDetailsViewModel model = studentDetailsPage.ReadModel();
+
+    model.FirstMidName.Should().Be("Carson");
+    model.LastName.Should().Be("Alexander");
+}
+</code></pre>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>

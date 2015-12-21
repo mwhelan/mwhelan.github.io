@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2015-12-21T19:12:58.4439422+00:00" />
+    <meta name="keywords" content="" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/refactoring-kata/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">Refactoring Kata</h1>
+
+    <div class="blog-post-meta">
+        posted on 14 Jun 2014
+            | <a class="label label-primary" href="/category/programming">Programming</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>I recently came across a <a href="http://odetocode.com/Blogs/scott/archive/2012/04/09/a-refactoring-experiment.aspx">blog post</a> from a couple of years ago where <a href="https://twitter.com/OdeToCode">Scott Allen</a> provided some gnarly code on GitHub as a refactoring kata exercise. Here is the background he provided in that post:</p>
+
+<!--excerpt-->
+
+<blockquote>
+  <p>The bad news is the code is hard to read. Some might say it's intentionally obfuscated, but let's not assume malice right away.</p>
+  
+  <p>The good news is there are six working unit tests for the code.</p>
+  
+  <p>There are two goals to the exercise. One goal is to give developers an opportunity to practice refactoring (a Kata, if you will). The way I'd attack the code is to start with some renaming operations, then extract some methods, then perhaps break down the one big class or eliminate a switch statement using patterns. There is no perfect answer.</p>
+  
+  <p>The larger goal is to convince anyone not entirely sold on the benefit of automated tests how tests can empower them to work with, experiment with, and change existing code - even code they don't completely understand. Although this code was intentionally obfuscated, it's not unlike walking into the code for a complex domain the first time and not understanding why a wurgled customer can blargsmack on Tuesdays if they hold a vorkenhosen status. All domains are nonsense at the start.</p>
+</blockquote>
+
+<p>With one eye on Holland's 5-1 thrashing of Spain in the World Cup, I thought this might be quite an interesting exercise to try. I'm mindful that this could be quite a difficult post to read if I put too much code in, so I will try to limit my discussion to a few key points. The code will be on <a href="https://github.com/mwhelan/OdeToCode-Katas">GitHub</a> if you are interested enough to explore it further.</p>
+
+<h2>The Problem</h2>
+
+<p>There are four classes. Here is the main one, named Finder, which gives us the first clue that this is a searching algorithm. The code provides very few clues as to what it is doing though. Variable names, in particular, do seem to almost be intentionally obfuscated. The other 3 classes, are F, FT, and Thing! There is a nested loop, with those famous loop variables i and j, and it finishes up with a switch statement. </p>
+
+<pre><code>public class Finder
+{
+    private readonly List&lt;Thing&gt; _p;
+
+    public Finder(List&lt;Thing&gt; p)
+    {
+        _p = p;
+    }
+
+    public F Find(FT ft)
+    {
+        var tr = new List&lt;F&gt;();
+
+        for(var i = 0; i &lt; _p.Count - 1; i++)
+        {
+            for(var j = i + 1; j &lt; _p.Count; j++)
+            {
+                var r = new F();
+                if(_p[i].BirthDate &lt; _p[j].BirthDate)
+                {
+                    r.P1 = _p[i];
+                    r.P2 = _p[j];
+                }
+                else
+                {
+                    r.P1 = _p[j];
+                    r.P2 = _p[i];
+                }
+                r.D = r.P2.BirthDate - r.P1.BirthDate;
+                tr.Add(r);
+            }
+        }
+
+        if(tr.Count &lt; 1)
+        {
+            return new F();
+        }
+
+        F answer = tr[0];
+        foreach(var result in tr)
+        {
+            switch(ft)
+            {
+                case FT.One:
+                    if(result.D &lt; answer.D)
+                    {
+                        answer = result;
+                    }
+                    break;
+
+                case FT.Two:
+                    if(result.D &gt; answer.D)
+                    {
+                        answer = result;
+                    }
+                    break;
+            }
+        }
+
+        return answer;
+    }
+}
+</code></pre>
+
+<h2>Renaming classes, methods and variables</h2>
+
+<p>So, the first goal of the refactoring was to play detective and try to figure out what each variable and class did and then provide it with a meaningful name that added clarity. I eventually concluded that the algorithm was trying to find the combinations of two people, from a given collection of people, that were either closest in age or furthest apart in age. I definitely could be wrong on that though! Here is the model I came up with:</p>
+
+<p><img src="/images/refactoring-kata-class-diagram.png" alt="refactored class diagram" /></p>
+
+<p>It turns out a Thing is a Person! A Combination is returned from the Find method and consists of a pair of people and their age difference. AgeDifference is an enum that is passed to the Find method and specifies whether the search should be for the pair with the closest ages or the furthest apart ages.</p>
+
+<h2>Newspaper Headlines</h2>
+
+<p>When I come across one big method like this Find method, the first refactoring I like to do is to break its logic down into steps, and then put each step into its own method. Each method should have a meaningful name that explains what it does. Then when you read it, each method call is like a newspaper headline. If you want to know more, you navigate to that method, just as you would with a newspaper story.</p>
+
+<pre><code>public class Finder
+{
+    private readonly List&lt;Person&gt; _people;
+
+    public Finder(List&lt;Person&gt; people)
+    {
+        _people = people;
+    }
+
+    public Combination FindCombinationWith(IAgeStrategy ageStrategy)
+    {
+        var candidates = GetPossibleCombinations();
+        return ChooseBestCombinationFrom(candidates, ageStrategy);
+    }
+
+    private Combination ChooseBestCombinationFrom(List&lt;Combination&gt; candidates, IAgeStrategy ageStrategy) {...}
+
+    private List&lt;Combination&gt; GetPossibleCombinations() {...}
+}
+</code></pre>
+
+<p>Now, hopefully, it should be very clear to anyone reading the code for the first time exactly what is happening.</p>
+
+<h2>Search Strategy</h2>
+
+<p>The switch statement checks the value of the enum passed in and uses different logic to compare two combinations. This problem is better solved with the strategy pattern. The consumer of the class can pass in a strategy class that actually performs the matching logic, which is much more extensible for adding new strategies in the future:</p>
+
+<pre><code>public interface IAgeStrategy
+{
+    bool IsMatch(Combination first, Combination second);
+}
+
+public class ClosestAgeStrategy : IAgeStrategy
+{
+    public bool IsMatch(Combination first, Combination second)
+    {
+        return first.DifferenceInAge &lt; second.DifferenceInAge;
+    }
+}
+
+public class FurtherAgeStrategy : IAgeStrategy
+{
+    public bool IsMatch(Combination first, Combination second)
+    {
+        return first.DifferenceInAge &gt; second.DifferenceInAge;
+    }
+}
+</code></pre>
+
+<p>I learned something interesting doing this exercise too. Because I was constantly running the tests after each refactor, I was trying to take small steps without jumping ahead and breaking everything. This led me to replace the enum with a factory class that had the same signature, and prevented all the tests from breaking. So, this enum:</p>
+
+<pre><code>public enum AgeDifference
+{
+    Closest,
+    Furthest
+}
+</code></pre>
+
+<p>became this factory class, generating each strategy:</p>
+
+<pre><code>public class AgeDifference
+{
+    public static IAgeStrategy Closest
+    {
+        get
+        {
+            return new ClosestAgeStrategy();
+        }
+    }
+
+    public static IAgeStrategy Furthest
+    {
+        get
+        {
+            return new FurtherAgeStrategy();
+        }
+    }
+}
+</code></pre>
+
+<p>I would normally have just let each consumer of the class pass <code>new FurtherAgeStrategy()</code> in for the method parameter, and would not have considered writing a factory. I'm not sure that a factory is warranted here, but it was interesting to discover the design opportunity during this refactoring, protected by a solid suite of tests.</p>
+
+<h2>Conclusion</h2>
+
+<p>I am a big fan of tests and the confidence they give you in refactoring. I was not in the target audience who needed convincing of this fact. But this sort of kata is interesting and useful to do. Thanks to Scott Allen for providing it!</p>
+
+<p>I also refactored the tests a bit, to remove duplication. I won't bother to go into that here though. It's in the source code in my <a href="https://github.com/mwhelan/OdeToCode-Katas">GitHub repo</a> if you want to see it.</p>
+
+<p>I think there's still quite a bit more refactoring to do. Any suggestions are welcome!</p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/refactoring-kata/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/refactoring-kata/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>
