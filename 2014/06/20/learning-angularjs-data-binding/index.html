@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2016-05-27T15:41:44.7933141+01:00" />
+    <meta name="keywords" content="" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/2014/06/20/learning-angularjs-data-binding/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bdd" title="BDD">BDD</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">AngularJS Data Binding</h1>
+
+    <div class="blog-post-meta">
+        posted on 20 Jun 2014
+            | <a class="label label-primary" href="/category/learning">Learning</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p><strong>This article is part of a series on <a href="/learning-angularjs">Learning AngularJS</a>.</strong></p>
+
+<p>Although AngularJS is a JavaScript framework, there is actually quite a lot you can do without writing any JavaScript at all. In my first look at Angular, I am going to focus on simple data binding with Angular directives. Directives are a mechanism that Angular uses to extend the capabilities of HTML. HTML is designed for static documents and directives help you extend it for dynamic views, letting you invent new HTML syntax, specific to your application.</p>
+
+<h2>Referencing AngularJS</h2>
+
+<p>It probably goes without saying that the first thing you need to do is reference AngularJS in your HTML page.</p>
+
+<pre><code>&lt;script src="assets/js/angular.min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>If you go to the <a href="https://angularjs.org/">AngularJS home page</a> then you can download a copy or get a reference to the CDN location. You can also install it via NuGet and Bower.</p>
+
+<h2>ng-app</h2>
+
+<p>The key built-in Angular directive is <code>ng-app</code>, which bootstraps the Angular application. It designates the root element of the application. You can scope your Angular application to any part of the page, but it is common to put it on the <code>html</code> or <code>body</code> tag, which makes your entire page Angular.</p>
+
+<pre><code>&lt;body ng-app=""&gt;
+</code></pre>
+
+<h2>ng-init</h2>
+
+<p>Because we've loaded Angular in our script tag and set the ng-app attribute on our opening html tag, we get access to Angular in our HTML template. <code>ng-init</code> is an Angular directive that allows us to set an initial value on the scope on page load. Here I have a "container" div for my page and I am calling ng-init as an attribute on that div and creating a <code>data</code> object. </p>
+
+<pre><code>&lt;div class="container" ng-init="data={
+     femaleName: 'female name',
+     jobTitle: 'job title',
+     tediousTask: 'tedious task',
+     dirtyTask: 'dirty task',
+     celebrity: 'celebrity',
+     uselessSkill: 'useless skill',
+     obnoxiousCelebrity: 'obnoxious celebrity',
+     hugeNumber: 'huge number',
+     adjective: 'adjective'
+     }"&gt;
+</code></pre>
+
+<p>It should be noted that ng-init is not recommended for production applications. There are better ways to load data, but it is convenient for demos like this as it allows us to focus on the basics of data binding without getting into the rest of Angular.</p>
+
+<h2>Data Binding</h2>
+
+<p>OK, so it's worth taking a look at the interface at this point. In this <a href="">MadLibs game</a> the player types words into the form input fields and their values show up in the story below. </p>
+
+<p><img src="/images/learning-angularjs-ngmadlibs.png" alt="MadLibs app" /></p>
+
+<h2>ng-model</h2>
+
+<p>The data entry input fields use <code>ng-model</code>, which is an Angular directive to handle <em>two way data binding.</em> This means that it will write any input directly into the data object and will display the latest value for that property in the data object. For example, here is the markup for the input field that is bound to the <code>femaleName</code> property of the <code>data</code> object.</p>
+
+<pre><code>&lt;div class="libInput"&gt;
+    &lt;input type="text" ng-model="data.femaleName" /&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h2>Binding Expressions</h2>
+
+<p>In Angular applications, your HTML templates are static and your data is dynamic. When a data value changes in the model (<code>data</code> in this case) the browser renders the updates within the template. You display the contents of the model using Angular’s binding syntax, which is a pair of curly braces around an Angular expression. Angular expressions are JavaScript-like code snippets that are placed in curly braces. For example:</p>
+
+<pre><code>{{ expression }}
+</code></pre>
+
+<p>Each of the highlighted phrases in the story (above) are bound to the data model using binding expressions. For example:</p>
+
+<pre><code>{{data.femaleName}}
+</code></pre>
+
+<h2>Source code and demo</h2>
+
+<p>You can see the MadLibs game in action <a href="http://www.michael-whelan.net/thinkful-angular-ngMadLibs/">here</a> and you can get the source code on <a href="https://github.com/mwhelan/thinkful-angular-ngMadLibs">GitHub</a>. I am going to be refactoring the application as I go, so to see this iteration of the code you will want the third commit, "madlibs with basic databinding."</p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with nearly 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD/BDD, to agile processes. He specializes in ASP.Net MVC but has also worked with WPF. He does open source development with TestStack to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/2014/06/20/learning-angularjs-data-binding/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/2014/06/20/learning-angularjs-data-binding/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>
