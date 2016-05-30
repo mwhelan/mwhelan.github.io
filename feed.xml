@@ -1,6 +1,36 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2016-05-27T15:41:49+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/2016/05/27/bdd-course-london/</id><title type="text">BDD Course in London</title><summary type="html">&lt;p&gt;This week I had the pleasure of attending Gaspar Nagy's 3-day &lt;a href="http://gasparnagy.com/trainings/specflow/"&gt;BDD course&lt;/a&gt; at Skills Matter's &lt;a href="https://skillsmatter.com/event-space"&gt;CodeNode&lt;/a&gt; in London. I have been doing BDD for over 5 years now, and SpecFlow is not my preferred .Net BDD tool, but I still got a huge amount of value out of the course. Gaspar is very knowledgeable about BDD and I would highly recommend the course, whether you are new to BDD,  a &lt;a href="http://www.specsolutions.eu/news/bddaddict"&gt;BDD addict&lt;/a&gt; like me, or even if you are just struggling with agile.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2016-05-30T15:32:04+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/become-a-fullstack-dotnet-developer-review/</id><title type="text">Review of Pluralsight's Become a Full-stack .Net Developer</title><summary type="html">&lt;p&gt;This weekend was a long weekend in the UK, and my wife was away, so I took the opportunity to work through &lt;a href="http://programmingwithmosh.com/"&gt;Mosh Hamedani's&lt;/a&gt; comprehensive 3 part course on Pluralsight, titled &lt;code&gt;Become a Full-stack .Net Developer&lt;/code&gt;. The three part series aims to take you from a junior .Net developer through to a senior .Net developer by building an ASP.Net MVC 5 application with Entity Framework 6. I really enjoyed the course and thought I would provide a review of it.&lt;/p&gt;
 
-</summary><published>2016-05-27T09:00:00Z</published><updated>2016-05-27T09:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2016/05/27/bdd-course-london/" /><content type="html">&lt;p&gt;This week I had the pleasure of attending Gaspar Nagy's 3-day &lt;a href="http://gasparnagy.com/trainings/specflow/"&gt;BDD course&lt;/a&gt; at Skills Matter's &lt;a href="https://skillsmatter.com/event-space"&gt;CodeNode&lt;/a&gt; in London. I have been doing BDD for over 5 years now, and SpecFlow is not my preferred .Net BDD tool, but I still got a huge amount of value out of the course. Gaspar is very knowledgeable about BDD and I would highly recommend the course, whether you are new to BDD,  a &lt;a href="http://www.specsolutions.eu/news/bddaddict"&gt;BDD addict&lt;/a&gt; like me, or even if you are just struggling with agile.&lt;/p&gt;
+</summary><published>2016-05-30T09:00:00Z</published><updated>2016-05-30T09:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/become-a-fullstack-dotnet-developer-review/" /><content type="html">&lt;p&gt;This weekend was a long weekend in the UK, and my wife was away, so I took the opportunity to work through &lt;a href="http://programmingwithmosh.com/"&gt;Mosh Hamedani's&lt;/a&gt; comprehensive 3 part course on Pluralsight, titled &lt;code&gt;Become a Full-stack .Net Developer&lt;/code&gt;. The three part series aims to take you from a junior .Net developer through to a senior .Net developer by building an ASP.Net MVC 5 application with Entity Framework 6. I really enjoyed the course and thought I would provide a review of it.&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;p&gt;The series is a whopping 14 hours in total, which is really, really long by Pluralsight standards. I would really recommend watching it though and will probably make it suggested watching for my dev teams.&lt;/p&gt;
+
+&lt;p&gt;I did intend to build out the whole thing while I watched but I abandoned that as it would have taken too long (though I would recommend doing that if you are a little less experienced). I revved up the speed to double and watched it like a movie. That's still 7 hours of watching, but well worth it.&lt;/p&gt;
+
+&lt;p&gt;According to Mosh, the series is aimed at the following audiences&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Part 1 =&amp;gt; junior developer
+Part 2 =&amp;gt; moving from junior developer to intermediate developer
+Part 3 =&amp;gt; moving from intermediate developer to senior developer
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hearing that, a lot of experienced devs might move right along, but I'd encourage you to look a bit deeper. While the content is geared towards ASP.Net MVC 5 and Entity Framework 6, the most valuable takeaway is the approach of a senior developer. &lt;/p&gt;
+
+&lt;p&gt;What impressed me the most was Mosh's discipline. He did not let himself get distracted by going off to google to research better solutions, but consistently stuck to the task at hand, OK with doing it a bit dirty at first, confident that with an iterative approach to development he would quickly circle back and remove any technical debt. I can be far less disciplined and find it so easy to get sidetracked on to some research or other yak shaving activity. There's so much to be said for completing the task!&lt;/p&gt;
+
+&lt;p&gt;My favourite part was the third and final part, which gets into architecture and automated testing and such, two topics close to my heart. But the first two are really good value as well. In fact, if Mosh didn't tell you they were aimed at the 3 levels you wouldn't know the difference. It's just that he starts off doing ugly things like newing up the DbContext directly in the controller so that he doesn't distract you with too many concepts at once. But slowly but surely, he refactors things until eventually you have a pretty clean architecture, with repositories/unit of work, and programming to interfaces that are injected with your IoC container. &lt;/p&gt;
+
+&lt;p&gt;The style of the course is similar to pairing with an experienced developer who is just commentating on what he is doing and why. He shows a number of productivity tools, such as ReSharper, Web Essentials and the Productivity Power Tools. In particular, he shows a number of ReSharper shortcuts. Unfortunately, he uses the older IntelliJ shortcuts and I use the Visual Studio ones, but it was no problem to look up their Visual Studio counterparts on &lt;a href="https://www.jetbrains.com/help/resharper/2016.1/Reference__Keyboard_Shortcuts.html"&gt;their website&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can view the courses &lt;a href="http://app.pluralsight.com/author/mosh-hamedani"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can currently get 6 months of Pluralsight for free if you sign up for an &lt;a href="https://www.visualstudio.com/en-us/products/visual-studio-dev-essentials-vs.aspx"&gt;MSDN Dev Essentials&lt;/a&gt; subscription.&lt;/p&gt;
+
+&lt;p&gt;I think Mosh is a really talented teacher and his style and focus on quality is quite distinctive from other teachers. I can also recommend some of his &lt;a href="https://www.udemy.com/user/moshfeghhamedani/"&gt;Udemy courses&lt;/a&gt; that I've done. You can also find him on his &lt;a href="https://www.youtube.com/channel/UCWv7vMbMWH4-V0ZXdmDpPBA"&gt;youtube channel&lt;/a&gt;.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/bdd-course-london/</id><title type="text">BDD Course in London</title><summary type="html">&lt;p&gt;Last week I had the pleasure of attending Gaspar Nagy's 3-day &lt;a href="http://gasparnagy.com/trainings/specflow/"&gt;BDD course&lt;/a&gt; at Skills Matter's &lt;a href="https://skillsmatter.com/event-space"&gt;CodeNode&lt;/a&gt; in London. I have been doing BDD for over 5 years now, and SpecFlow is not my preferred .Net BDD tool, but I still got a huge amount of value out of the course. Gaspar is very knowledgeable about BDD and I would highly recommend the course, whether you are new to BDD,  a &lt;a href="http://www.specsolutions.eu/news/bddaddict"&gt;BDD addict&lt;/a&gt; like me, or even if you are just struggling with agile.&lt;/p&gt;
+
+</summary><published>2016-05-27T09:00:00Z</published><updated>2016-05-27T09:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/bdd-course-london/" /><content type="html">&lt;p&gt;Last week I had the pleasure of attending Gaspar Nagy's 3-day &lt;a href="http://gasparnagy.com/trainings/specflow/"&gt;BDD course&lt;/a&gt; at Skills Matter's &lt;a href="https://skillsmatter.com/event-space"&gt;CodeNode&lt;/a&gt; in London. I have been doing BDD for over 5 years now, and SpecFlow is not my preferred .Net BDD tool, but I still got a huge amount of value out of the course. Gaspar is very knowledgeable about BDD and I would highly recommend the course, whether you are new to BDD,  a &lt;a href="http://www.specsolutions.eu/news/bddaddict"&gt;BDD addict&lt;/a&gt; like me, or even if you are just struggling with agile.&lt;/p&gt;
 
 &lt;!--excerpt--&gt;
 
@@ -12,15 +42,47 @@
 
 &lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/specflow-bdd.png" alt="BDD" /&gt;&lt;/p&gt;
 
-&lt;h2&gt;SpecFlow&lt;/h2&gt;
+&lt;p&gt;The first day was focused on capturing specification workshop results in gherkin, and covered some theory:&lt;/p&gt;
 
-&lt;p&gt;As a user with limited SpecFlow experience there were a couple of things I had reservations about going in and I was hoping to challenge my thinking and hopefully learn a different point of view. The first one was attributes. I really dislike attributes in general. I just hate repeating them over and over and prefer to find more elegant solutions that apply convention over configuration. I think &lt;a href="https://bddfy.readme.io/"&gt;BDDfy&lt;/a&gt; has the balance just right, where it uses reflection on the method names in a conventional way, but lets you override them with attributes in the exceptional circumstances when you want more control (namely when you need some symbols that are not allowed in C# method names). SpecFlow is built around attributes though and there's no getting around that. But that's OK, it's just a subjective preference thing.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Agile testing is not about hunting criminals (finding bugs after development) but more like crime prevention.&lt;/li&gt;
+&lt;li&gt;As formality increases, tests and requirements become indistinguishable. At the limit, tests and requirements are equivalent. &lt;em&gt;Equivalence Hypothesis (Martin, Melnik)&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;When I've worked with teams who are using SpecFlow, the number one difficulty they seem to have is around reusing step definitions, so I was interested to see the best tips for dealing with that. Gaspar showed a lot of great techniques for organising feature files and step definitions. I particularly liked the suggestion of moving user stories into a feature tree after the sprint was completed. &lt;/p&gt;
+&lt;p&gt;The second day looked at SpecFlow core concepts and ATDD basics, with examples using a WPF pomodoro application, including:&lt;/p&gt;
 
-&lt;p&gt;Despite those good techniques, I did not change my feeling that step definitions are the wrong abstraction for reusability in an automated testing project. People ask the inevitable questions about how to reuse steps when the two use cases are slightly different, and my answer would be "Don't." I think that step definitions are just metadata that should just read whatever way makes the most sense for a particular scenario in the living documentation that the users will see, whether it is exactly the same as other steps in the system or slightly different. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Introduction to the Acceptance Test Driven Development workflow (test first, outside-in)&lt;/li&gt;
+&lt;li&gt;Core concepts for (A)TDD: mocking, stubbing, dependency injection&lt;/li&gt;
+&lt;li&gt;Domain layer automation (automating under the skin)&lt;/li&gt;
+&lt;li&gt;Organizing step definitions&lt;/li&gt;
+&lt;li&gt;Sharing state between steps&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;What should be reusable is the code inside the step definitions. Things like repositories, builders/object mothers in the Given steps, drivers in the When step, assertions in the Then steps. Why do you need to reuse steps if they only have one line of code, and if that line is reusable?&lt;/p&gt;
+&lt;p&gt;The third day looked at advanced test automation topics, using an ASP.Net MVC pomodoro application, including:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Clean and maintainable automation layer&lt;/li&gt;
+&lt;li&gt;Dealing with external dependencies&lt;/li&gt;
+&lt;li&gt;Flickering scenarios&lt;/li&gt;
+&lt;li&gt;UI layer automation (MVC ASP.NET, Driver, PageObject pattern)&lt;/li&gt;
+&lt;li&gt;Handling the database&lt;/li&gt;
+&lt;li&gt;Challenges of out-of-process testing (with Selenium)&lt;/li&gt;
+&lt;li&gt;Organizing step definitions&lt;/li&gt;
+&lt;li&gt;Defaults and implicit assumptions of scenarios&lt;/li&gt;
+&lt;li&gt;Automapper and SpecFlow.Assist&lt;/li&gt;
+&lt;li&gt;Putting it all together: implement new functionality with BDD&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Step Definitions&lt;/h2&gt;
+
+&lt;p&gt;I've spoken with SpecFlow developers who are struggling to organise their step definitions, and I haven't really known what to advise, as it's not an issue with BDDfy, so I was interested to see the best tips for organising them. Gaspar showed a lot of great techniques for organising feature files and step definitions. I particularly liked the suggestion of moving user stories into a feature tree after the sprint was completed. &lt;/p&gt;
+
+&lt;p&gt;I can't help feeling that step definitions are the wrong abstraction for reusability in an automated testing project. There are inherent difficulties from wanting to reuse steps when the two use cases are slightly different, and I would prefer to avoid it altogether.&lt;/p&gt;
+
+&lt;p&gt;Stepping back from tools for a moment, I think that step definitions are just metadata that should just read whatever way makes the most sense for a particular scenario in the living documentation that the users will see, whether it is exactly the same as other steps in the system or slightly different. While I recognise the importance and value of the DRY principle, I don't think it needs to be applied to the step definition itself (as it's just a string on a report).&lt;/p&gt;
+
+&lt;p&gt;What should be reusable is the code inside the step definitions. Things like repositories, builders/object mothers in the Given steps, drivers in the When step, assertions in the Then steps. Why do you need to reuse steps if they only have one line of code, and if that line itself is a useful and reusable abstraction?&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;public void Given_I_have_5_customers()
 {
@@ -28,7 +90,7 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Generally, I'm still not comfortable with having my scenario being distributed across multiple feature and step definition files, which I think is particular to the Gherkin-based approach. I prefer the pure C# solution of having the entire scenario in one file with the class-per-scenario approach:&lt;/p&gt;
+&lt;p&gt;Generally, I'm just not comfortable with having my scenario being distributed across multiple feature and step definition files, which I think is inherent in the Gherkin-based approach. I prefer the pure C# solution of having the entire scenario in one file with the class-per-scenario approach (and no feature file):&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;public class ValidEditStudentDetailsScenario : ScenarioFor&amp;lt;MvcControllerDriver, StudentEditStory&amp;gt;
 {
@@ -69,9 +131,9 @@
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;There is a lot more I could say about the course. I'm still digesting a lot of the excellent information. My recommendation would be to try to attend it yourself (there are a number of venues around Europe). BDD is by far the best way to deliver software on agile projects that I have come across, and Gaspar Nagy is an excellent guide.&lt;/p&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2015/06/19/code-compiling-but-resharper-red/</id><title type="text">Code compiling but ReSharper is red</title><summary type="html">&lt;p&gt;From time-to-time, I have this weird situation with ReSharper and Visual Studios (different versions of both) where my code is compiling, but ReSharper is highlighting some things in red. I think there might be a few different solutions to this problem, and I'll add others here if I come across them. The solution that worked for me this time is just to &lt;a href="http://stackoverflow.com/questions/6040338/everything-compiles-but-resharper-marks-everything-in-red"&gt;delete the .suo files&lt;/a&gt;.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/code-compiling-but-resharper-red/</id><title type="text">Code compiling but ReSharper is red</title><summary type="html">&lt;p&gt;From time-to-time, I have this weird situation with ReSharper and Visual Studios (different versions of both) where my code is compiling, but ReSharper is highlighting some things in red. I think there might be a few different solutions to this problem, and I'll add others here if I come across them. The solution that worked for me this time is just to &lt;a href="http://stackoverflow.com/questions/6040338/everything-compiles-but-resharper-marks-everything-in-red"&gt;delete the .suo files&lt;/a&gt;.&lt;/p&gt;
 
-</summary><published>2015-06-19T09:00:00Z</published><updated>2015-06-19T09:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2015/06/19/code-compiling-but-resharper-red/" /><content type="html">&lt;p&gt;From time-to-time, I have this weird situation with ReSharper and Visual Studios (different versions of both) where my code is compiling, but ReSharper is highlighting some things in red. I think there might be a few different solutions to this problem, and I'll add others here if I come across them. The solution that worked for me this time is just to &lt;a href="http://stackoverflow.com/questions/6040338/everything-compiles-but-resharper-marks-everything-in-red"&gt;delete the .suo files&lt;/a&gt;.&lt;/p&gt;
+</summary><published>2015-06-19T09:00:00Z</published><updated>2015-06-19T09:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/code-compiling-but-resharper-red/" /><content type="html">&lt;p&gt;From time-to-time, I have this weird situation with ReSharper and Visual Studios (different versions of both) where my code is compiling, but ReSharper is highlighting some things in red. I think there might be a few different solutions to this problem, and I'll add others here if I come across them. The solution that worked for me this time is just to &lt;a href="http://stackoverflow.com/questions/6040338/everything-compiles-but-resharper-marks-everything-in-red"&gt;delete the .suo files&lt;/a&gt;.&lt;/p&gt;
 
 &lt;!--excerpt--&gt;
 
@@ -81,9 +143,9 @@
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Click the Clear Caches button.&lt;/p&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2015/02/22/testing-mvc-extending-strongly-typed-navigation/</id><title type="text">Black-Box Testing ASP.Net: Extending Strongly Typed Navigation</title><summary type="html">&lt;p&gt;In a &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt; in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/</id><title type="text">Black-Box Testing ASP.Net: Extending Strongly Typed Navigation</title><summary type="html">&lt;p&gt;In a &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt; in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.&lt;/p&gt;
 
-</summary><published>2015-02-22T00:00:00Z</published><updated>2015-02-22T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2015/02/22/testing-mvc-extending-strongly-typed-navigation/" /><content type="html">&lt;p&gt;In a &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt; in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.&lt;/p&gt;
+</summary><published>2015-02-22T00:00:00Z</published><updated>2015-02-22T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/" /><content type="html">&lt;p&gt;In a &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt; in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.&lt;/p&gt;
 
 &lt;!--excerpt--&gt;
 
@@ -203,9 +265,9 @@ public void should_return_application_in_url()
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;These additional values are used by UrlHelper in the creation of the full URL to make the test pass.&lt;/p&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2015/01/04/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/</id><title type="text">Black-Box Testing ASP.Net: Using ASP.Net MVC View Models with Selenium WebDriver</title><summary type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/</id><title type="text">Black-Box Testing ASP.Net: Using ASP.Net MVC View Models with Selenium WebDriver</title><summary type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
 
-</summary><published>2015-01-04T00:00:00Z</published><updated>2015-01-04T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2015/01/04/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/" /><content type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
+</summary><published>2015-01-04T00:00:00Z</published><updated>2015-01-04T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/" /><content type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
 
 &lt;!--excerpt--&gt;
 
@@ -460,9 +522,9 @@ public void CanReadModelFromPage()
     model.LastName.Should().Be("Alexander");
 }
 &lt;/code&gt;&lt;/pre&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2015/01/03/testing-mvc-reducing-use-of-magic-strings/</id><title type="text">Black-Box Testing ASP.Net: Reducing the Use of Magic Strings</title><summary type="html">&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/</id><title type="text">Black-Box Testing ASP.Net: Reducing the Use of Magic Strings</title><summary type="html">&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
 
-</summary><published>2015-01-03T00:00:00Z</published><updated>2015-01-03T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2015/01/03/testing-mvc-reducing-use-of-magic-strings/" /><content type="html">&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
+</summary><published>2015-01-03T00:00:00Z</published><updated>2015-01-03T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/" /><content type="html">&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
 
 &lt;!--excerpt--&gt;
 
@@ -640,9 +702,9 @@ public void CanIdentifyPageWithHiddenIdentifier()
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Again, any changes to the constant value in the static class are reflected in both the application and the tests without breaking the tests.&lt;/p&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2014/11/23/sql-server-localdb-2014-connection-string/</id><title type="text">SQL Server LocalDB 2014 Connection String</title><summary type="html">&lt;p&gt;I spent way too much time today trying to figure out why I could not connect to my newly installed SQL Server LocalDB 2014 instance. I assumed that I could just update my connection string from &lt;code&gt;v11.0&lt;/code&gt; to &lt;code&gt;v12.0&lt;/code&gt; but it seems that Microsoft have changed the naming scheme for this version. Now the automatic instance is named &lt;code&gt;MSSQLLocalDB&lt;/code&gt;.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/sql-server-localdb-2014-connection-string/</id><title type="text">SQL Server LocalDB 2014 Connection String</title><summary type="html">&lt;p&gt;I spent way too much time today trying to figure out why I could not connect to my newly installed SQL Server LocalDB 2014 instance. I assumed that I could just update my connection string from &lt;code&gt;v11.0&lt;/code&gt; to &lt;code&gt;v12.0&lt;/code&gt; but it seems that Microsoft have changed the naming scheme for this version. Now the automatic instance is named &lt;code&gt;MSSQLLocalDB&lt;/code&gt;.&lt;/p&gt;
 
-</summary><published>2014-11-23T00:00:00Z</published><updated>2014-11-23T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2014/11/23/sql-server-localdb-2014-connection-string/" /><content type="html">&lt;p&gt;I spent way too much time today trying to figure out why I could not connect to my newly installed SQL Server LocalDB 2014 instance. I assumed that I could just update my connection string from &lt;code&gt;v11.0&lt;/code&gt; to &lt;code&gt;v12.0&lt;/code&gt; but it seems that Microsoft have changed the naming scheme for this version. Now the automatic instance is named &lt;code&gt;MSSQLLocalDB&lt;/code&gt;.&lt;/p&gt;
+</summary><published>2014-11-23T00:00:00Z</published><updated>2014-11-23T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/sql-server-localdb-2014-connection-string/" /><content type="html">&lt;p&gt;I spent way too much time today trying to figure out why I could not connect to my newly installed SQL Server LocalDB 2014 instance. I assumed that I could just update my connection string from &lt;code&gt;v11.0&lt;/code&gt; to &lt;code&gt;v12.0&lt;/code&gt; but it seems that Microsoft have changed the naming scheme for this version. Now the automatic instance is named &lt;code&gt;MSSQLLocalDB&lt;/code&gt;.&lt;/p&gt;
 
 &lt;!--excerpt--&gt;
 
@@ -669,11 +731,11 @@ public void CanIdentifyPageWithHiddenIdentifier()
 &lt;blockquote&gt;
   &lt;p&gt;In SQL14, we moved away from the numbering/versioning for the automatic instance and named it "MSSQLLocalDB" instead of "v12.0".&lt;/p&gt;
 &lt;/blockquote&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2014/10/31/bddfy-chilled/</id><title type="text">BDDfy Chilled</title><summary type="html">&lt;p&gt;I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same &lt;code&gt;Given When Then&lt;/code&gt; style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/bddfy-chilled/</id><title type="text">BDDfy Chilled</title><summary type="html">&lt;p&gt;I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same &lt;code&gt;Given When Then&lt;/code&gt; style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.&lt;/p&gt;
 
 &lt;p&gt;I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on &lt;a href="https://github.com/erwinvandervalk/chill"&gt;Chill&lt;/a&gt;, and found out that &lt;a href="https://twitter.com/ErwinVanDerValk"&gt;Erwin van der Valk&lt;/a&gt; was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   &lt;/p&gt;
 
-</summary><published>2014-10-31T00:00:00Z</published><updated>2014-10-31T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2014/10/31/bddfy-chilled/" /><content type="html">&lt;p&gt;I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same &lt;code&gt;Given When Then&lt;/code&gt; style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.&lt;/p&gt;
+</summary><published>2014-10-31T00:00:00Z</published><updated>2014-10-31T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/bddfy-chilled/" /><content type="html">&lt;p&gt;I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same &lt;code&gt;Given When Then&lt;/code&gt; style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.&lt;/p&gt;
 
 &lt;p&gt;I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on &lt;a href="https://github.com/erwinvandervalk/chill"&gt;Chill&lt;/a&gt;, and found out that &lt;a href="https://twitter.com/ErwinVanDerValk"&gt;Erwin van der Valk&lt;/a&gt; was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   &lt;/p&gt;
 
@@ -861,9 +923,9 @@ public class Host
 &lt;p&gt;I think BDDfy and Chill are a great combination and I'm looking forward to keeping an eye on the new features that Eriwn is adding to Chill to see more ways that I might be able to use them together. &lt;/p&gt;
 
 &lt;p&gt;You can read more about Chill on Erwin's &lt;a href="http://www.erwinvandervalk.net/2014/10/introducing-chill-bdd-style-testing.html"&gt;blog&lt;/a&gt;. And, of course, you can learn more about &lt;a href="http://teststack.net/"&gt;TestStack&lt;/a&gt; and our &lt;a href="https://github.com/TestStack/TestStack.BDDfy"&gt;BDDfy&lt;/a&gt; framework. Finally, you can learn all about Fluent Assertions &lt;a href="http://www.fluentassertions.com/"&gt;here&lt;/a&gt;.&lt;/p&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2014/10/30/testing-mvc-configuring-application-under-test/</id><title type="text">Black-Box Testing ASP.Net: Configuring Application Under Test</title><summary type="html">&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/</id><title type="text">Black-Box Testing ASP.Net: Configuring Application Under Test</title><summary type="html">&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
 
-</summary><published>2014-10-30T00:00:00Z</published><updated>2014-10-30T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2014/10/30/testing-mvc-configuring-application-under-test/" /><content type="html">&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
+</summary><published>2014-10-30T00:00:00Z</published><updated>2014-10-30T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/" /><content type="html">&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
 
 &lt;!--excerpt--&gt;
 
@@ -1018,9 +1080,9 @@ public void CanInjectEnvironmentVariables()
     _webHostProcess.TieLifecycleToParentProcess();
 }
 &lt;/code&gt;&lt;/pre&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2014/10/27/testing-mvc-application-with-iis-express-webdriver/</id><title type="text">Black-Box Testing ASP.Net: IIS Express and Selenium WebDriver</title><summary type="html">&lt;p&gt;In the next couple of posts I am going to look at some of the practical aspects of performing black-box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are &lt;a href="http://en.wikipedia.org/wiki/White-box_testing"&gt;white-box tests&lt;/a&gt;, making it straightforward to change the behaviour and configuration of the SUT. &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;Black-box tests&lt;/a&gt;, such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration. In these posts, I'm going to focus less on concepts and more on the code.  &lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/</id><title type="text">Black-Box Testing ASP.Net: IIS Express and Selenium WebDriver</title><summary type="html">&lt;p&gt;In the next couple of posts I am going to look at some of the practical aspects of performing black-box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are &lt;a href="http://en.wikipedia.org/wiki/White-box_testing"&gt;white-box tests&lt;/a&gt;, making it straightforward to change the behaviour and configuration of the SUT. &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;Black-box tests&lt;/a&gt;, such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration. In these posts, I'm going to focus less on concepts and more on the code.  &lt;/p&gt;
 
-</summary><published>2014-10-27T00:00:00Z</published><updated>2014-10-27T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2014/10/27/testing-mvc-application-with-iis-express-webdriver/" /><content type="html">&lt;p&gt;In the next couple of posts I am going to look at some of the practical aspects of performing black-box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are &lt;a href="http://en.wikipedia.org/wiki/White-box_testing"&gt;white-box tests&lt;/a&gt;, making it straightforward to change the behaviour and configuration of the SUT. &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;Black-box tests&lt;/a&gt;, such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration. In these posts, I'm going to focus less on concepts and more on the code.  &lt;/p&gt;
+</summary><published>2014-10-27T00:00:00Z</published><updated>2014-10-27T00:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/" /><content type="html">&lt;p&gt;In the next couple of posts I am going to look at some of the practical aspects of performing black-box testing of ASP.Net web applications with Selenium WebDriver. Most types of Visual Studio tests conveniently run in the same process as the code they are testing - the System Under Test (SUT). These are &lt;a href="http://en.wikipedia.org/wiki/White-box_testing"&gt;white-box tests&lt;/a&gt;, making it straightforward to change the behaviour and configuration of the SUT. &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;Black-box tests&lt;/a&gt;, such as UI tests, run in a separate process from the SUT, creating additional complexities for controlling its behaviour and configuration. In these posts, I'm going to focus less on concepts and more on the code.  &lt;/p&gt;
 
 &lt;!--excerpt--&gt;
 
@@ -1226,179 +1288,6 @@ public class Host
         }
 
         return directory.FullName;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/2014/10/20/testing-date-time/</id><title type="text">Testing DateTime</title><summary type="html">&lt;p&gt;Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. &lt;/p&gt;
-
-</summary><published>2014-10-19T23:00:00Z</published><updated>2014-10-19T23:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/2014/10/20/testing-date-time/" /><content type="html">&lt;p&gt;Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. &lt;/p&gt;
-
-&lt;!--excerpt--&gt;
-
-&lt;p&gt;The offending piece of code that inspired me to write this post was a method I was adding to Seleno today. &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public void TakeScreenshotAndThrow(string imageName, string errorMessage)
-{
-    Camera.TakeScreenshot(string.Format(imageName + DateTime.Now().ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
-    throw new SelenoException(errorMessage);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;DateTime Abstraction&lt;/h2&gt;
-
-&lt;p&gt;Often  this problem can be solved by abstracting the static away behind an interface and then using dependency injection to inject the implementation of the interface. &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public interface ISystemTime
-{
-    DateTime Now { get; }
-}
-
-public class TheSystemTime : ISystemTime
-{
-    public DateTime Now { get { return DateTime.Now; } }
-}
-
-public class SelenoApplication
-{
-    private ISystemTime _systemTime;
-    public SelenoApplication(ISystemTime systemTime)
-    {
-        _systemTime = systemTime;
-    }
-
-    public void TakeScreenshotAndThrow(string imageName, string errorMessage)
-    {
-        Camera.TakeScreenshot(string.Format(imageName + _systemTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
-        throw new SelenoException(errorMessage);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then you can easily mock the interface in your tests. I'm using NSubstitute here.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;var dateTime = new DateTime(2014, 05, 11, 10, 29, 33);
-var systemTime = Substitute.For&amp;lt;ISystemTime&amp;gt;();
-systemTime.Now.Returns(dateTime);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is the solution that I would normally use to test a static, but DateTime is a bit different. Firstly, the use of DateTime can be quite extensive and you can quickly find you have too many of these interfaces polluting your constructors. Secondly, if you are doing DDD then you don't want to use dependency injection with your domain entities, yet they often need DateTime functions as well. &lt;/p&gt;
-
-&lt;h2&gt;SystemTime static class with function&lt;/h2&gt;
-
-&lt;p&gt;The solution I like to use is one Ayende &lt;a href="http://ayende.com/blog/3408/dealing-with-time-in-tests"&gt;blogged about in 2008&lt;/a&gt; where you use a static class with a func as a replacement for the DateTime.Now call.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public static class SystemTime
-{
-    public static Func&amp;lt;DateTime&amp;gt; Now = () =&amp;gt; DateTime.Now;
-
-    public static void Reset()
-    {
-        Now = () =&amp;gt; DateTime.Now;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So, now you call &lt;code&gt;SystemTime.Now()&lt;/code&gt; instead of &lt;code&gt;DateTime.Now&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public void TakeScreenshotAndThrow(string imageName, string errorMessage)
-{
-    Camera.TakeScreenshot(string.Format(imageName + SystemTime.Now().ToString("yyyy-MM-dd_HH-mm-ss") + ".png"));
-    throw new SelenoException(errorMessage);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And set the value of Now in your test, not forgetting to reset it at the end of the test.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;SystemTime.Now = () =&amp;gt; new DateTime(2014, 05, 11, 10, 29, 33);
-Action result = () =&amp;gt; _host.Application.TakeScreenshotAndThrow(imageName, errorMessage);
-result.ShouldThrow&amp;lt;SelenoException&amp;gt;()
-    .WithMessage(errorMessage);
-SystemTime.Reset();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;TestableSystemTime&lt;/h2&gt;
-
-&lt;p&gt;One objection to this approach is that the developer might forget to reset the time at the end of the test. Which leads me to the point of this post. Utilising the dispose pattern is a nice way to get around this objection.&lt;/p&gt;
-
-&lt;p&gt;I'm not sure where I saw this solution applied to testing DateTime, so apologies if I am not giving credit where it's due. I do remember where I learned about using the dispose pattern in this way - from my good friend Mehdi Khalili in the BDDfy codebase. He used it to &lt;a href="https://github.com/TestStack/TestStack.BDDfy/blob/master/TestStack.BDDfy/Reporters/Html/HtmlReportTag.cs"&gt;close HTML tags&lt;/a&gt; in the BDDfy HTML Report.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class TestableSystemTime : IDisposable
-{
-    public TestableSystemTime(DateTime dateTime)
-    {
-        SystemTime.Now = () =&amp;gt; dateTime;
-    }
-
-    public TestableSystemTime(Func&amp;lt;DateTime&amp;gt; dateTimeFactory)
-    {
-        SystemTime.Now = dateTimeFactory;
-    }
-
-    public void Dispose()
-    {
-        SystemTime.Reset();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now we can use it in a using statement in tests and be sure that the &lt;code&gt;Reset&lt;/code&gt; method gets called at the end of the using statement when &lt;code&gt;Dispose&lt;/code&gt; is called.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;using (new TestableSystemTime(dateTime))
-{
-    Action result = () =&amp;gt; _host.Application.TakeScreenshotAndThrow(imageName, errorMessage);
-    result.ShouldThrow&amp;lt;SelenoException&amp;gt;()
-        .WithMessage(errorMessage);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Alternatively you can create the date on the fly with the func constructor:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;using (new TestableSystemTime(() =&amp;gt; new DateTime(2014, 05, 11, 10, 29, 33)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;What about BDD-style tests?&lt;/h2&gt;
-
-&lt;p&gt;It's not always desirable to use a using statement. For example, if you are using a BDD-style, which I tend to do, then your statements are broken over multiple methods, and a using statement is not an option. In that case, you can just call the Dispose method at the end of the test yourself, as you can see in the TearDown method in this example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class When_taking_screenshot : SelenoApplicationSpecification
-{
-    private string _imageName = "screenshot";
-    private string _errorMessage = "there was an error";
-    private string _fileName;
-    private Exception _result;
-    private TestableSystemTime _systemTime
-
-    public override void EstablishContext()
-    {
-        var dateTime = new DateTime(2014, 05, 11, 10, 29, 33);
-        _fileName = string.Format(@"{0}{1}.png", _imageName, dateTime.ToString("yyyy-MM-dd_HH-mm-ss"));
-        _systemTime = new TestableSystemTime(dateTime);
-    }
-
-    public void Given_initialised_application()
-    {
-        SUT.Initialize();
-    }
-
-    public void When_taking_screenshot_and_throwing()
-    {
-        _result = Catch.Exception(() =&amp;gt; SUT.TakeScreenshotAndThrow(_imageName, _errorMessage));
-    }
-
-    public void Then_should_take_screenshot()
-    {
-        SubstituteFor&amp;lt;ICamera&amp;gt;().Received().TakeScreenshot(_fileName);
-    }
-
-    public void AndThen_should_throw_SelenoException()
-    {
-        _result.Should().BeOfType&amp;lt;SelenoException&amp;gt;()
-            .Which.Message.Should().Be(_errorMessage);
-    }
-
-    public override void TearDown()
-    {
-        _systemTime.Dispose();
     }
 }
 &lt;/code&gt;&lt;/pre&gt;

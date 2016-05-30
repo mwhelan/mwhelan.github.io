@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2016-05-30T15:31:59.4904811+01:00" />
+    <meta name="keywords" content="" />
+
+    <title>Michael Whelan</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/customizing-metro-report-in-bddfyv4/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bdd" title="BDD">BDD</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">Customizing the New Metro HTML Report in BDDfy v4</h1>
+
+    <div class="blog-post-meta">
+        posted on 27 Jul 2014
+            | <a class="label label-primary" href="/category/bddfy">BDDfy</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>BDDfy v4 is out and it provides a new metro-style HTML report - thanks to <a href="https://twitter.com/robertsjason">Jason Roberts</a> for this excellent contribution. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.</p>
+
+<!--excerpt-->
+
+<p><img src="/images/bddfy-metro.png" alt="BDDfy metro report" /></p>
+
+<p>By default, BDDfy still runs with the classic HTML report. If you want to turn on the metro report, then you need to enable it:</p>
+
+<pre><code>Configurator.BatchProcessors.HtmlMetroReport.Enable();
+</code></pre>
+
+<p>Technically, this will mean that both HTML reports are turned on. Be warned though, by default both reports generate a file in your bin directory named <code>BDDfy.html</code>. So, one of the files will overwrite the other one and you will only see one HTML report (we might change this). </p>
+
+<p>If you only want to run the metro HTML report, then you can turn off the classic HTML report:</p>
+
+<pre><code>Configurator.BatchProcessors.HtmlReport.Disable();
+</code></pre>
+
+<p>Alternatively, you can customize the metro report to, amongst other things, have a new filename. In this case, instead of enabling the metro report, you would add a new <code>HtmlReporter</code> to the Batch Processors pipeline.</p>
+
+<pre><code>Configurator.BatchProcessors.Add(
+    new HtmlReporter(
+        new CustomMetroHtmlReportConfiguration(), new MetroReportBuilder()));
+</code></pre>
+
+<p>Note the use of the <code>MetroReportBuilder</code> class to create a custom metro report. (To customize the classic HTML report you could swap that parameter for the <code>ClassicReportBuilder</code> class, or use the original constructor overload to leave the ReportBuilder out altogether).</p>
+
+<p>You customize both HTML reports by creating an implementation of <code>IHtmlReportConfiguration</code>. The easiest way to do this is to inherit from the <code>DefaultHtmlReportConfiguration</code> class and override the specific properties that you want to customize. </p>
+
+<pre><code>public class CustomMetroHtmlReportConfiguration : DefaultHtmlReportConfiguration
+{
+    public override string OutputFileName
+    {
+        get { return "BDDfyMetro.html"; }
+    }
+
+    public override string ReportHeader
+    {
+        get { return "ATM Solutions"; }
+    }
+
+    public override string ReportDescription
+    {
+        get { return "A reliable solution for your offline banking needs"; }
+    }
+
+    /// Embed jQuery in the report so people can see it with no internet connectivity
+    public override bool ResolveJqueryFromCdn
+    {
+        get { return false; }
+    }
+}
+</code></pre>
+
+<p><img src="/images/bddfy-metro-custom.png" alt="BDDfy metro report" /></p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/customizing-metro-report-in-bddfyv4/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/customizing-metro-report-in-bddfyv4/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>

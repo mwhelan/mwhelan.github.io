@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2016-05-27T15:41:44.7933141+01:00" />
+    <meta http-equiv="last-modified" content="2016-05-30T15:31:59.4904811+01:00" />
     <meta name="keywords" content="" />
 
     <title>Michael Whelan</title>
@@ -117,7 +117,18 @@
 
     <div class="blog-main">
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/10/18/selenium-webdriver-and-ie11/">Selenium WebDriver and IE11</a></h2>
+        <h2 class="blog-post-title"><a href="/testing-date-time/">Testing DateTime</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 20 Oct 2014</p>
+
+        
+        <p>Static methods and properties tend to be difficult to test. You cannot easily mock them, unless you use something like Microsoft Moles. DateTime.Now is a notorious example of a difficult to test static. </p>
+
+
+          <p><a class="btn btn-primary" href="/testing-date-time/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/selenium-webdriver-and-ie11/">Selenium WebDriver and IE11</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 18 Oct 2014</p>
 
         
@@ -129,33 +140,33 @@
 <p>It turns out this is an <a href="https://code.google.com/p/selenium/issues/detail?id=6511">issue with Internet Explorer 11 rather than the InternetExplorerDriver</a>. This causes the InternetExplorerDriver to lose the connection to the instance of Internet Explorer it created.</p>
 
 
-          <p><a class="btn btn-primary" href="/2014/10/18/selenium-webdriver-and-ie11/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/selenium-webdriver-and-ie11/">Read more</a></p>
           <hr/>
       </div>
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/09/25/creating-test-data-with-mockaroo/">Creating Test Data with Mockaroo</a></h2>
+        <h2 class="blog-post-title"><a href="/creating-test-data-with-mockaroo/">Creating Test Data with Mockaroo</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 25 Sep 2014</p>
 
         
         <p>I'm currently working on a project that requires realistic test data. In the past, I've used tools such as RedGate's <a href="http://www.red-gate.com/products/sql-development/sql-data-generator/">SQL Data Generator</a> for this purpose, which is fantastic if you are looking for a commercial product. Recently, I came across <a href="http://www.mockaroo.com/">Mockaroo</a>, an online test data generator. It is currently free and lets you generate up to 100,000 rows of realistic test data in CSV, JSON, SQL, and Excel formats. If that's not enough data for you, there is also a <a href="http://www.mockaroo.com/bde">Big Data Edition</a> which lets you generate unlimited JSON and CSV data, leveraging multi-core cloud computing.</p>
 
 
-          <p><a class="btn btn-primary" href="/2014/09/25/creating-test-data-with-mockaroo/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/creating-test-data-with-mockaroo/">Read more</a></p>
           <hr/>
       </div>
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/09/07/restoring-nuget-packages-in-teamcity/">Restoring NuGet Packages in TeamCity</a></h2>
+        <h2 class="blog-post-title"><a href="/restoring-nuget-packages-in-teamcity/">Restoring NuGet Packages in TeamCity</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 07 Sep 2014</p>
 
         
         <p>NuGet package restore used to be MSBuild-based and you would enable it by selecting <code>Enable NuGet Package Restore</code> in Visual Studio. Nowadays, it is <a href="http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore">recommended</a> that you don't use this approach, but instead just set the option in Visual Studio to <code>Allow NuGet to download missing packages</code>. This works really well in Visual Studio, but when you select the Visual Studio build runner in TeamCity it does not go ahead and restore all the NuGet packages for you in the same way, so you get a compilation error. Instead, you  have to explicitly create a separate step to run before the Visual Studio build step.</p>
 
 
-          <p><a class="btn btn-primary" href="/2014/09/07/restoring-nuget-packages-in-teamcity/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/restoring-nuget-packages-in-teamcity/">Read more</a></p>
           <hr/>
       </div>
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/08/03/code-katas-for-practicing-tdd/">TDD Katas</a></h2>
+        <h2 class="blog-post-title"><a href="/code-katas-for-practicing-tdd/">TDD Katas</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 03 Aug 2014</p>
 
         
@@ -164,44 +175,44 @@
 <p>Rather than attempt a new kata each day, it's recommended that you work on the same one repeatedly until completing it is almost like muscle memory. Katas can be a great way to try out a new programning language, or a new programming technique, or a new framework. For example, if you wanted to move from Moq to NSubstitute (which I recommend) you could replace Moq with NSubstitute when doing a familiar kata.   </p>
 
 
-          <p><a class="btn btn-primary" href="/2014/08/03/code-katas-for-practicing-tdd/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/code-katas-for-practicing-tdd/">Read more</a></p>
           <hr/>
       </div>
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/08/02/gitignore-files/">gitignore Files</a></h2>
+        <h2 class="blog-post-title"><a href="/gitignore-files/">gitignore Files</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 02 Aug 2014</p>
 
         
         <p>There are a number of files that you don't want to store in your git repository. These could be binary files, such as the packages folder for Visual Studio applications or the node_modules folder for node projects, or automatically generated files such as ReSharper user files or files produced by the build system. If you create a file in your repository named <code>.gitignore</code>, Git uses the file patterns in it to determine which files and directories to ignore when you make a commit. You can also create a global .gitignore file, which is a list of rules for ignoring files in every Git repository on your computer. You can learn more about the file patterns from <a href="http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Ignoring-Files">Pro Git</a>.</p>
 
 
-          <p><a class="btn btn-primary" href="/2014/08/02/gitignore-files/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/gitignore-files/">Read more</a></p>
           <hr/>
       </div>
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/07/27/customizing-metro-report-in-bddfyv4/">Customizing the New Metro HTML Report in BDDfy v4</a></h2>
+        <h2 class="blog-post-title"><a href="/customizing-metro-report-in-bddfyv4/">Customizing the New Metro HTML Report in BDDfy v4</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 Jul 2014</p>
 
         
         <p>BDDfy v4 is out and it provides a new metro-style HTML report - thanks to <a href="https://twitter.com/robertsjason">Jason Roberts</a> for this excellent contribution. It has the same functionality as the original HTML report, which is still available, so it just gives you another choice of style for your HTML report. And, of course, you can always customize the CSS and JavaScript of both reports if you want to create a new HTML report with your own look and feel. The way that you customize the metro report is slightly different from how you customize the classic HTML report so I thought I would document that here.</p>
 
 
-          <p><a class="btn btn-primary" href="/2014/07/27/customizing-metro-report-in-bddfyv4/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/customizing-metro-report-in-bddfyv4/">Read more</a></p>
           <hr/>
       </div>
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/07/18/deploying-sandra-snow-to-github-pages-with-gulp/">Deploying Sandra.Snow to GitHub Pages with Gulp</a></h2>
+        <h2 class="blog-post-title"><a href="/deploying-sandra-snow-to-github-pages-with-gulp/">Deploying Sandra.Snow to GitHub Pages with Gulp</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 18 Jul 2014</p>
 
         
         <p>When I was planning a git work flow for my Sandra.Snow blog, which is hosted on GitHub Pages, I expected that I would store the project files in the master branch, then publish the site to the gh-pages branch. The point I overlooked is that this is the work flow for project sites, but user and organisation sites, like my blog, work slightly differently. With user and organisation sites you publish the website content to the master branch of your GitHub repository. This was far from ideal, as it meant that my content was mixed with the generated output. Even the slightest tweak to a post would lead to the whole site being generated, meaning monster commits and hiding the changes to the content. I suspect Sandra.Snow has a few solutions to this problem, but here is the solution I came up with.</p>
 
 
-          <p><a class="btn btn-primary" href="/2014/07/18/deploying-sandra-snow-to-github-pages-with-gulp/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/deploying-sandra-snow-to-github-pages-with-gulp/">Read more</a></p>
           <hr/>
       </div>
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/07/09/deleting-nested-node-modules-folders/">Deleting Nested node_modules Folders</a></h2>
+        <h2 class="blog-post-title"><a href="/deleting-nested-node-modules-folders/">Deleting Nested node_modules Folders</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 09 Jul 2014</p>
 
         
@@ -210,11 +221,11 @@
 <p>Fortunately, the fix is pretty simple.</p>
 
 
-          <p><a class="btn btn-primary" href="/2014/07/09/deleting-nested-node-modules-folders/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/deleting-nested-node-modules-folders/">Read more</a></p>
           <hr/>
       </div>
       <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/06/21/new-site-design/">New Site Design</a></h2>
+        <h2 class="blog-post-title"><a href="/new-site-design/">New Site Design</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 21 Jun 2014</p>
 
         
@@ -223,17 +234,7 @@
 <p>The theme uses Bootstrap 3 and is fully responsive. Actually, I had a bit of a problem with it displaying on my iPhone. First it would display some posts half width, then it was cutting off the sides. I discovered that the key is in the viewport setting. It seems it's not sufficient to set the viewport to <code>device-width</code>. You also have to set the <code>initial-scale</code> and the <code>maximum-scale</code>.</p>
 
 
-          <p><a class="btn btn-primary" href="/2014/06/21/new-site-design/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/2014/06/20/learning-angularjs-data-binding/">AngularJS Data Binding</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 20 Jun 2014</p>
-
-        
-        <p>Although AngularJS is a JavaScript framework, there is actually quite a lot you can do without writing any JavaScript at all. In my first look at Angular, I am going to focus on simple data binding with Angular directives. Directives are a mechanism that Angular uses to extend the capabilities of HTML. HTML is designed for static documents and directives help you extend it for dynamic views, letting you invent new HTML syntax, specific to your application.</p>
-
-          <p><a class="btn btn-primary" href="/2014/06/20/learning-angularjs-data-binding/">Read more</a></p>
+          <p><a class="btn btn-primary" href="/new-site-design/">Read more</a></p>
           <hr/>
       </div>
     </div>
