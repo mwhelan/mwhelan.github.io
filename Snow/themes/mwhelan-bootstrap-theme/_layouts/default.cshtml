@@ -12,7 +12,7 @@
     <meta name="keywords" content="@keywords" />
 
     @{
-        string pageTitle = @ViewBag.Title ?? "Michael Whelan - behaviour driven blog";
+        string pageTitle = string.IsNullOrEmpty(@ViewBag.Title) ? "Michael Whelan - behaviour driven blog" : @ViewBag.Title;
     }
     <title>@pageTitle</title>
 
