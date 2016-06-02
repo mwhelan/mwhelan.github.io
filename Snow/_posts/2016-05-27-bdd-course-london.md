@@ -1,7 +1,7 @@
 ---
 layout: post
 title: BDD Course in London
-categories: BDD
+categories: BDD, Learning
 date: 2016-05-27 10:00:00
 comments: true
 sharing: true

@@ -11,7 +11,10 @@
     <meta http-equiv="last-modified" content="@Model.GeneratedDate" />
     <meta name="keywords" content="@keywords" />
 
-    <title>Michael Whelan</title>
+    @{
+        string pageTitle = @ViewBag.Title ?? "Michael Whelan - behaviour driven blog";
+    }
+    <title>@pageTitle</title>
 
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>

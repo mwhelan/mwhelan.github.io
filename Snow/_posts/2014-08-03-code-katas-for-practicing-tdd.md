@@ -1,7 +1,7 @@
 ---
 layout: post
 title: TDD Katas
-categories: Programming
+categories: Programming, Learning
 date: 2014-08-03
 comments: true
 sharing: true
