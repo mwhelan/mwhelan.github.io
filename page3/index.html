@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2016-05-30T15:31:59.4904811+01:00" />
+    <meta http-equiv="last-modified" content="2016-06-02T09:33:35.8802476+01:00" />
     <meta name="keywords" content="" />
 
-    <title>Michael Whelan</title>
+
+    <title></title>
 
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
@@ -117,6 +118,19 @@
 
     <div class="blog-main">
       <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/new-site-design/">New Site Design</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 21 Jun 2014</p>
+
+        
+        <p>When I moved my blog to <a href="https://github.com/Sandra/Sandra.Snow/wiki">Snow</a> I was lucky that it had a pretty nice theme out of the box - it is the same one that its creator <a href="http://www.philliphaydon.com/">Phillip Haydon</a> uses on his blog. I have been doing a lot of front-end work lately though and I have some pretty strong preferences when I read blogs, so I couldn't resist the urge to style it up just the way I like it. </p>
+
+<p>The theme uses Bootstrap 3 and is fully responsive. Actually, I had a bit of a problem with it displaying on my iPhone. First it would display some posts half width, then it was cutting off the sides. I discovered that the key is in the viewport setting. It seems it's not sufficient to set the viewport to <code>device-width</code>. You also have to set the <code>initial-scale</code> and the <code>maximum-scale</code>.</p>
+
+
+          <p><a class="btn btn-primary" href="/new-site-design/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
         <h2 class="blog-post-title"><a href="/learning-angularjs-data-binding/">AngularJS Data Binding</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 20 Jun 2014</p>
 
@@ -214,16 +228,6 @@
         <p>I’ve been using BDDfy with NUnit for writing acceptance tests for quite awhile now. But for unit testing I have continued to use mspec with <a href="https://github.com/machine/machine.fakes">machine fakes</a> and Moq for auto-mocking. The more I used BDDfy, the more I liked it, and the less I liked the context switch into another framework. I found myself wanting to write unit tests in the Given When Then format and didn't like having to maintain two sets of helper code for NUnit and mspec. I loved the reporting in BDDfy and started to think it would be pretty cool to have similar reporting for my unit tests. Basically, I wanted a consistent experience across all my automated testing.</p>
 
           <p><a class="btn btn-primary" href="/using-bddfy-for-unit-tests/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/roll-your-own-testing-framework-2/">BDDfy in Action: Roll your own testing framework (2)</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 May 2013</p>
-
-        
-        <p>In the <a href="/roll-your-own-testing-framework">last post</a>, I did not implement the parallel testing requirement of my custom framework. This is just a brief follow up to show that feature. In the never ending quest for faster running tests, being able to run them in parallel can be a great way to speed things up.</p>
-
-          <p><a class="btn btn-primary" href="/roll-your-own-testing-framework-2/">Read more</a></p>
           <hr/>
       </div>
     </div>
