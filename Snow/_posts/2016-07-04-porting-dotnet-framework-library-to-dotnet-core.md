@@ -133,14 +133,13 @@ So, instead of calling the Reflection property, my code now calls my extension m
 ## Compiler directives or rewrite code
 It is not ideal to have too many compiler directives in your code. When a feature you were using in the old framework has not been ported to .Net Core you have a choice to make
 
-- Wite a new solution for .Net Core and switch between the old and new implementations with compiler directives, or
+- Write a new solution for .Net Core and switch between the old and new implementations with compiler directives, or
 - Replace the original implementation with a new one that works for both frameworks  
 
 For example, I had some JSON serialization functionality that relied on the JavaScriptSerializer in the System.Web library. This serializer has not been ported to .Net Core, so the short term fix - to get things working - was to use compiler directives to keep the existing soluiton for .Net 4 and provide a new solution for .Net Core. 
 
 	#if NET40
-	    using System.Web.Script.Serialization;
-	
+	    using System.Web.Script.Serialization;	
 	    public class JsonSerializer : ISerializer
 	    {
 	        public string Serialize(object obj)
@@ -151,10 +150,8 @@ For example, I had some JSON serialization functionality that relied on the Java
 	            return new JsonFormatter(json).Format();
 	        }
 	    }
-	
 	#else
 	    using Newtonsoft.Json;
-	
 	    public class JsonSerializer : ISerializer
 	    {
 	        public string Serialize(object obj)
@@ -167,7 +164,6 @@ For example, I had some JSON serialization functionality that relied on the Java
 	                });
 	        }
 	    }
-	
 	#endif
 
 As more things get ported to .Net Core though, ideally I would hope to remove compiler directives and have a single solution that works for both frameworks, because it really is not ideal to maintain multiple implementations of lots of functionality throughout a codebase. 
@@ -218,7 +214,7 @@ Another example I have come across is a polyfill for AppDomain.CurrentDomain, no
             CurrentDomain = new AppDomain();
         }
 
-        public async Task<List<Assembly>> GetAssemblies)
+        public List<Assembly> GetAssemblies()
         {
             ... // .Net Core functionality here
 		}
