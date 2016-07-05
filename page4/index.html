@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2016-06-02T09:41:26.0932440+01:00" />
+    <meta http-equiv="last-modified" content="2016-07-05T10:10:58.2680897+01:00" />
     <meta name="keywords" content="" />
 
 
@@ -38,6 +38,9 @@
                             <li class="dropdown">
                                 <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/.net" title=".Net">.Net</a>
+                                        </li>
                                         <li>
                                             <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
                                         </li>
@@ -117,6 +120,16 @@
 
 
     <div class="blog-main">
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/using-bddfy-for-unit-tests/">BDDfy In Action: Using BDDfy for Unit Tests</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 01 Jun 2013</p>
+
+        
+        <p>I’ve been using BDDfy with NUnit for writing acceptance tests for quite awhile now. But for unit testing I have continued to use mspec with <a href="https://github.com/machine/machine.fakes">machine fakes</a> and Moq for auto-mocking. The more I used BDDfy, the more I liked it, and the less I liked the context switch into another framework. I found myself wanting to write unit tests in the Given When Then format and didn't like having to maintain two sets of helper code for NUnit and mspec. I loved the reporting in BDDfy and started to think it would be pretty cool to have similar reporting for my unit tests. Basically, I wanted a consistent experience across all my automated testing.</p>
+
+          <p><a class="btn btn-primary" href="/using-bddfy-for-unit-tests/">Read more</a></p>
+          <hr/>
+      </div>
       <div class="blog-post">
         <h2 class="blog-post-title"><a href="/roll-your-own-testing-framework-2/">BDDfy in Action: Roll your own testing framework (2)</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 May 2013</p>
@@ -209,19 +222,6 @@
 
 
           <p><a class="btn btn-primary" href="/bddfy-in-action/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/paste-json-as-classes/">Paste JSON as Classes</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 23 Feb 2013</p>
-
-        
-        <p>In the recent <a href="http://www.hanselman.com/blog/ReleasedASPNETAndWebTools20122InContext.aspx">ASP.Net and Web Tools 2012.2 Update</a> a new feature was added to allow pasting of JSON as .Net classes. This feature allows you to generate strongly typed classes in C# or VB.NET from valid JSON text. To use the feature, open a .vb or .cs file, copy the JSON text to the clipboard, select “Paste Special” from the Edit menu, and then select “Paste JSON As Classes.”</p>
-
-<p>The feature uses the <a href="http://json.codeplex.com/">Json.Net JSON parser</a> from Newtonsoft to parse JSON text from the clipboard. Once the parser validates the clipboard data as valid JSON, it converts it into the C# or VB.NET class depending on the selected file type.  If the JSON object on the clipboard is invalid, a dialog is displayed showing the Json.Net error message with the reason the text was not valid JSON.</p>
-
-
-          <p><a class="btn btn-primary" href="/paste-json-as-classes/">Read more</a></p>
           <hr/>
       </div>
     </div>

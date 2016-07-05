@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2016-07-05T10:10:58.2680897+01:00" />
+    <meta name="keywords" content="" />
+
+
+    <title>Porting a .Net Framework Library to .Net Core - Michael Whelan - behaviour driven blog</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/.net" title=".Net">.Net</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bdd" title="BDD">BDD</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">Porting a .Net Framework Library to .Net Core</h1>
+
+    <div class="blog-post-meta">
+        posted on 04 Jul 2016
+            | <a class="label label-primary" href="/category/.net">.Net</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>I have recently been involved with porting a couple of open source frameworks to .Net Core. It's a brave new world, with lots of new things to discover and learn. In this post I am going to outline the process I've followed to convert my code and a few of the things I've learned along the way. Hopefully, this post will shed some light on the process if you are looking to port your .Net Framework code to .Net Core. Special thanks to <a href="https://twitter.com/JakeGinnivan">Jake Ginnivan</a> who, as always, was a font of knowledge on all things programming during the porting exercises!</p>
+
+<!--excerpt-->
+
+<h2>Run the .Net Portability Analyzer</h2>
+
+<p>Before you even attempt to port your library, you should run the <a href="https://visualstudiogallery.msdn.microsoft.com/1177943e-cfb7-4822-a8a6-e56c7905292b">.Net Portability Analyzer</a> on your existing project. This is available as a console application or a Visual Studio plugin. You can access the Visual Studio plugin by right clicking on the project and selecting Analyze -> Analyze Assembly Portability.</p>
+
+<p><img src="/images/portcore-analyzer-run.png" alt="Run .Net Portability Analyzer" /></p>
+
+<p>This will produce a report that provides two useful pieces of information:</p>
+
+<ul>
+<li><strong>High-level summary</strong>: The summary gives you a percentage for each of your assemblies, telling you how much of your framework usage is portable to .NET Core. </li>
+<li><strong>List of non-portable APIs</strong>: It provides a table that lists all the usages of APIs that aren’t portable. Most usefully, it also includes a list of recommended changes.</li>
+</ul>
+
+<p><img src="/images/portcore-analyzer-results.png" alt=".Net Portability Analyzer results" /></p>
+
+<h2>Create a new .Net Core class library project</h2>
+
+<p>The way to "upgrade" a .Net framework project is actually to create a new .Net Core class library and copy the old C# files into it. Assuming you want it to have the same name as the old project, and be in the same folder, you should remove the existing project and rename its folder on the file system so that the new project can be saved to the original location. </p>
+
+<h2>Add a global.json file</h2>
+
+<p>You will need to add a <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/tools/global-json">global.json file</a> to the solution, which is used to configure the solution as a whole. It includes just two sections, projects and sdk by default.</p>
+
+<pre><code>{
+  "projects": [ "app", "tests" ],
+    "sdk": { "version": "1.0.0-preview2-003121" }
+}
+</code></pre>
+
+<p>The projects property designates which folders contain source code for the solution. The sdk property specifies the version of the DNX (.Net Execution Environment) that Visual Studio will use when opening the solution. (I think DNX might no longer be the correct terminology. .Net Core has been an ever moving target).</p>
+
+<h2>Add target frameworks to project.json file</h2>
+
+<p>The frameworks node in project.json specifies the framework versions that the project should be compiled against. In this example, the library will support .Net 4 (net40) and .Net Standard 1.5 (netstandard1.5). Because .Net Core has been decomposed into many modules, this allows you to specify the additional NuGet package dependencies that .Net Core needs (shown in the netstandard1.5 node below).</p>
+
+<pre><code>{
+  "version": "1.0.0-*", 
+  "dependencies": {
+    "LibLog": "4.2.5",
+    "TestStack.BDDfy": "4.3.0"
+  },
+    "frameworks": {
+        "net40": {
+          "dependencies": {
+
+          },
+            "frameworkAssemblies": {
+                "System.Runtime.Serialization": "4.0.0.0",
+                "System.Xml": "4.0.0.0"
+            }
+        },
+        "netstandard1.5": {
+            "imports": "dnxcore50",
+            "buildOptions": {
+              "define": [
+                "LIBLOG_PORTABLE",
+                "NETSTANDARD1_5"
+              ]
+            },
+          "dependencies": {
+            "NETStandard.Library": "1.6.0",
+            "Microsoft.CSharp": "4.0.1",
+            "System.Dynamic.Runtime": "4.0.11"
+          }
+      }
+    }
+}
+</code></pre>
+
+<h2>Fixing missing references for .Net Core</h2>
+
+<p>When you first build the project, you will most likely get a lot of missing reference exceptions for the .Net Standard target framework (see image below). Note that the project is specified as [ProjectName].NetStandard, Version 1.5. </p>
+
+<p><img src="/images/portcore-missing-references.png" alt="Run .Net Portability Analyzer" /></p>
+
+<p>This is quite easy to resolve if this functionality has been ported to one of the many new .Net Core packages. The <a href="http://packagesearch.azurewebsites.net/">Reverse Package Search</a> website is a great tool for finding NuGet packages that contain different types. For example, searching for the missing DynamicAttribute from the above error returns the System.Dynamic.Runtime NuGet package. This just needs to be added to the list of dependencies under the netstandard node to resolve the missing reference exception.</p>
+
+<p><img src="/images/portcore-package-search.png" alt="Run .Net Portability Analyzer" /></p>
+
+<h2>GetTypeInfo</h2>
+
+<p>One of the most common issues is that a lot of the old System.Type reflection functionality has moved to TypeInfo in .Net Core, which you can access through the GetTypeInfo extension method on Type.</p>
+
+<p>So, instead of </p>
+
+<pre><code>var members = obj.GetType().GetMembers();
+</code></pre>
+
+<p>you would now use:</p>
+
+<pre><code>using System.Reflection;
+var members = obj.GetType().GetTypeInfo().GetMembers(); 
+</code></pre>
+
+<p>I am sure that more elegant solutions will come out in time, but for now the way I am handling these differences is with compiler directives. What I have found effective is to create a TypeExtensions class with extension methods on Type. There I replace the various Type properties with methods of the same name, with separate implementations of each method for each supported framework. This, at least, constrains the compiler directives to one place, rather than doing it for every method, and leaves the production code free of compiler directives.</p>
+
+<pre><code>#if NET40
+    public static class TypeExtensions
+    {
+        public static Assembly Assembly(this Type type)
+        {
+            return type.Assembly;
+        }
+
+        public static bool IsValueType(this Type type)
+        {
+            return type.IsValueType;
+        }
+    }
+#else
+    using System.Linq;
+    public static class TypeExtensions
+    {
+        public static Assembly Assembly(this Type type)
+        {
+            return type.GetTypeInfo().Assembly;   
+        }
+
+        public static bool IsValueType(this Type type)
+        {
+            return type.GetTypeInfo().IsValueType;
+        }
+    }
+#endif
+</code></pre>
+
+<p>So, instead of calling the Reflection property, my code now calls my extension method with the same name. For example:</p>
+
+<pre><code>// type.IsValueType;
+type.IsValueType();
+</code></pre>
+
+<h2>Compiler directives or rewrite code</h2>
+
+<p>It is not ideal to have too many compiler directives in your code. When a feature you were using in the old framework has not been ported to .Net Core you have a choice to make</p>
+
+<ul>
+<li>Write a new solution for .Net Core and switch between the old and new implementations with compiler directives, or</li>
+<li>Replace the original implementation with a new one that works for both frameworks  </li>
+</ul>
+
+<p>For example, I had some JSON serialization functionality that relied on the JavaScriptSerializer in the System.Web library. This serializer has not been ported to .Net Core, so the short term fix - to get things working - was to use compiler directives to keep the existing soluiton for .Net 4 and provide a new solution for .Net Core. </p>
+
+<pre><code>#if NET40
+    using System.Web.Script.Serialization;  
+    public class JsonSerializer : ISerializer
+    {
+        public string Serialize(object obj)
+        {
+            var serializer = new JavaScriptSerializer();
+            string json = serializer.Serialize(obj);
+
+            return new JsonFormatter(json).Format();
+        }
+    }
+#else
+    using Newtonsoft.Json;
+    public class JsonSerializer : ISerializer
+    {
+        public string Serialize(object obj)
+        {
+            return JsonConvert.SerializeObject(obj, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+        }
+    }
+#endif
+</code></pre>
+
+<p>As more things get ported to .Net Core though, ideally I would hope to remove compiler directives and have a single solution that works for both frameworks, because it really is not ideal to maintain multiple implementations of lots of functionality throughout a codebase. </p>
+
+<p>Thankfully, the DataContractJsonSerializer has been ported to the System.Runtime.Serialization.Json NuGet package, so I can actually have a single solution that is supported by both frameworks and remove the compiler directives.</p>
+
+<pre><code>using System.Runtime.Serialization.Json;
+public class JsonSerializer : ISerializer
+{
+    public string Serialize(object obj)
+    {
+        var serializer = new DataContractJsonSerializer(obj.GetType());
+        string json;
+        using (var stream = new MemoryStream())
+        {
+            serializer.WriteObject(stream, obj);
+            json = Encoding.UTF8.GetString(stream.ToArray());
+        }
+
+        return new JsonFormatter(json).Format();
+    }
+}
+</code></pre>
+
+<p>Why didn't I just use Json.Net or ServiceStack.Text to serialize Json? Well, I would if I was building an application, but for a NuGet library I don't want to add a NuGet dependency just for one class of functionality. That might be old world thinking though, given how much of the .Net Framework is now provided as NuGet packages. I may just change my thinking on that but, for now, I still see a distinction between third party packages and .Net packages.</p>
+
+<h2>Backwards-compatible Polyfills</h2>
+
+<p>Credit to Jake Ginnivan for this solution. It is actually pretty easy to satisfy the compiler by providing polyfills, or shims, for types that have not been ported to .Net Core. </p>
+
+<p>For example, Serialization has not been ported, but you might have classes with the Serializable attribute on them. Providing an empty SerializableAttribute class in the System.Runtime.Serialization namespace will satisfy the compiler for your .Net Core code.</p>
+
+<pre><code>#if !NET40
+namespace System.Runtime.Serialization
+{
+    public class SerializableAttribute : Attribute
+    {
+    }
+}
+#endif 
+</code></pre>
+
+<p>Another example I have come across is a polyfill for AppDomain.CurrentDomain, now that AppDomains are no longer supported in .Net Core.</p>
+
+<pre><code>private sealed class AppDomain
+{
+    public static AppDomain CurrentDomain { get; private set; }
+
+    static AppDomain()
+    {
+        CurrentDomain = new AppDomain();
+    }
+
+    public List&lt;Assembly&gt; GetAssemblies()
+    {
+        ... // .Net Core functionality here
+    }
+}
+</code></pre>
+
+<h2>Summary</h2>
+
+<p>There are a lot of exciting new things to learn with .Net Core. Porting your existing code to the framework is a little bit of work - but not too much. The process is quite straightforward with predictable steps, most of which I've hopefully communicated here. The .Net Portability Analyzer is a huge help in enabling you to plan out the conversion beforehand, providing you with a list of issues and - most helpfully - even the solutions to most of the issues. The main area of concern is to provide new solutions for areas of the code that rely on parts of the .Net Framework that have not been ported. Thankfully, this seems to be a reasonably small surface area though, of course, it will depend on each application.</p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>

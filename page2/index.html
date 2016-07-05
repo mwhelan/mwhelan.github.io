@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2016-06-02T09:41:26.0932440+01:00" />
+    <meta http-equiv="last-modified" content="2016-07-05T10:10:58.2680897+01:00" />
     <meta name="keywords" content="" />
 
 
@@ -38,6 +38,9 @@
                             <li class="dropdown">
                                 <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/.net" title=".Net">.Net</a>
+                                        </li>
                                         <li>
                                             <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
                                         </li>
@@ -117,6 +120,17 @@
 
 
     <div class="blog-main">
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/testing-mvc-configuring-application-under-test/">Black-Box Testing ASP.Net: Configuring Application Under Test</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 30 Oct 2014</p>
+
+        
+        <p>As I mentioned in the <a href="/testing-mvc-application-with-iis-express-webdriver/">previous post</a>, UI tests for an ASP.Net MVC application are <a href="http://en.wikipedia.org/wiki/Black-box_testing">black-box tests</a> and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on <a href="https://github.com/mwhelan/MvcTestingSamples">GitHub</a>. </p>
+
+
+          <p><a class="btn btn-primary" href="/testing-mvc-configuring-application-under-test/">Read more</a></p>
+          <hr/>
+      </div>
       <div class="blog-post">
         <h2 class="blog-post-title"><a href="/testing-mvc-application-with-iis-express-webdriver/">Black-Box Testing ASP.Net: IIS Express and Selenium WebDriver</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 27 Oct 2014</p>
@@ -221,19 +235,6 @@
 
 
           <p><a class="btn btn-primary" href="/deploying-sandra-snow-to-github-pages-with-gulp/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/deleting-nested-node-modules-folders/">Deleting Nested node_modules Folders</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 09 Jul 2014</p>
-
-        
-        <p>When using Node Package Manager (NPM) on Windows, it has an annoying habit of creating massively nested <code>node_modules</code> folders that exceed the 260 character path length limit. This makes it extremely painful to try to delete and causes problems with most windows tools. In Visual Studio, for example, I cannot <code>Refresh Folder</code> when I am in a website project (as opposed to a web application project).</p>
-
-<p>Fortunately, the fix is pretty simple.</p>
-
-
-          <p><a class="btn btn-primary" href="/deleting-nested-node-modules-folders/">Read more</a></p>
           <hr/>
       </div>
     </div>

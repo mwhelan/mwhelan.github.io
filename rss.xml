@@ -1,4 +1,243 @@
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/github-cvs-resumes/</guid><link>http://www.michael-whelan.net/github-cvs-resumes/</link><author>mjmwdev@gmail.com</author><category>General</category><title>GitHub CVs / Resumes</title><description>&lt;p&gt;I just discovered that Github can automatically generate a CV/resume for its users based on the public information in their GitHub account. You have to opt-in by going to their &lt;a href="https://github.com/resume/resume.github.com"&gt;GitHub project&lt;/a&gt; page and starring the project. Check out mine at &lt;a href="http://resume.github.com/?mwhelan"&gt;http://resume.github.com/?mwhelan&lt;/a&gt;. What a clever idea!&lt;/p&gt;
+<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/</guid><link>http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>Porting a .Net Framework Library to .Net Core</title><description>&lt;p&gt;I have recently been involved with porting a couple of open source frameworks to .Net Core. It's a brave new world, with lots of new things to discover and learn. In this post I am going to outline the process I've followed to convert my code and a few of the things I've learned along the way. Hopefully, this post will shed some light on the process if you are looking to port your .Net Framework code to .Net Core. Special thanks to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; who, as always, was a font of knowledge on all things programming during the porting exercises!&lt;/p&gt;
+
+</description><pubDate>Mon, 04 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-04T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;I have recently been involved with porting a couple of open source frameworks to .Net Core. It's a brave new world, with lots of new things to discover and learn. In this post I am going to outline the process I've followed to convert my code and a few of the things I've learned along the way. Hopefully, this post will shed some light on the process if you are looking to port your .Net Framework code to .Net Core. Special thanks to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; who, as always, was a font of knowledge on all things programming during the porting exercises!&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;h2&gt;Run the .Net Portability Analyzer&lt;/h2&gt;
+
+&lt;p&gt;Before you even attempt to port your library, you should run the &lt;a href="https://visualstudiogallery.msdn.microsoft.com/1177943e-cfb7-4822-a8a6-e56c7905292b"&gt;.Net Portability Analyzer&lt;/a&gt; on your existing project. This is available as a console application or a Visual Studio plugin. You can access the Visual Studio plugin by right clicking on the project and selecting Analyze -&gt; Analyze Assembly Portability.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/portcore-analyzer-run.png" alt="Run .Net Portability Analyzer" /&gt;&lt;/p&gt;
+
+&lt;p&gt;This will produce a report that provides two useful pieces of information:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;High-level summary&lt;/strong&gt;: The summary gives you a percentage for each of your assemblies, telling you how much of your framework usage is portable to .NET Core. &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;List of non-portable APIs&lt;/strong&gt;: It provides a table that lists all the usages of APIs that aren’t portable. Most usefully, it also includes a list of recommended changes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/portcore-analyzer-results.png" alt=".Net Portability Analyzer results" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;Create a new .Net Core class library project&lt;/h2&gt;
+
+&lt;p&gt;The way to "upgrade" a .Net framework project is actually to create a new .Net Core class library and copy the old C# files into it. Assuming you want it to have the same name as the old project, and be in the same folder, you should remove the existing project and rename its folder on the file system so that the new project can be saved to the original location. &lt;/p&gt;
+
+&lt;h2&gt;Add a global.json file&lt;/h2&gt;
+
+&lt;p&gt;You will need to add a &lt;a href="https://docs.microsoft.com/en-us/dotnet/articles/core/tools/global-json"&gt;global.json file&lt;/a&gt; to the solution, which is used to configure the solution as a whole. It includes just two sections, projects and sdk by default.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  "projects": [ "app", "tests" ],
+    "sdk": { "version": "1.0.0-preview2-003121" }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The projects property designates which folders contain source code for the solution. The sdk property specifies the version of the DNX (.Net Execution Environment) that Visual Studio will use when opening the solution. (I think DNX might no longer be the correct terminology. .Net Core has been an ever moving target).&lt;/p&gt;
+
+&lt;h2&gt;Add target frameworks to project.json file&lt;/h2&gt;
+
+&lt;p&gt;The frameworks node in project.json specifies the framework versions that the project should be compiled against. In this example, the library will support .Net 4 (net40) and .Net Standard 1.5 (netstandard1.5). Because .Net Core has been decomposed into many modules, this allows you to specify the additional NuGet package dependencies that .Net Core needs (shown in the netstandard1.5 node below).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  "version": "1.0.0-*", 
+  "dependencies": {
+    "LibLog": "4.2.5",
+    "TestStack.BDDfy": "4.3.0"
+  },
+    "frameworks": {
+        "net40": {
+          "dependencies": {
+
+          },
+            "frameworkAssemblies": {
+                "System.Runtime.Serialization": "4.0.0.0",
+                "System.Xml": "4.0.0.0"
+            }
+        },
+        "netstandard1.5": {
+            "imports": "dnxcore50",
+            "buildOptions": {
+              "define": [
+                "LIBLOG_PORTABLE",
+                "NETSTANDARD1_5"
+              ]
+            },
+          "dependencies": {
+            "NETStandard.Library": "1.6.0",
+            "Microsoft.CSharp": "4.0.1",
+            "System.Dynamic.Runtime": "4.0.11"
+          }
+      }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Fixing missing references for .Net Core&lt;/h2&gt;
+
+&lt;p&gt;When you first build the project, you will most likely get a lot of missing reference exceptions for the .Net Standard target framework (see image below). Note that the project is specified as [ProjectName].NetStandard, Version 1.5. &lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/portcore-missing-references.png" alt="Run .Net Portability Analyzer" /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is quite easy to resolve if this functionality has been ported to one of the many new .Net Core packages. The &lt;a href="http://packagesearch.azurewebsites.net/"&gt;Reverse Package Search&lt;/a&gt; website is a great tool for finding NuGet packages that contain different types. For example, searching for the missing DynamicAttribute from the above error returns the System.Dynamic.Runtime NuGet package. This just needs to be added to the list of dependencies under the netstandard node to resolve the missing reference exception.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/portcore-package-search.png" alt="Run .Net Portability Analyzer" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;GetTypeInfo&lt;/h2&gt;
+
+&lt;p&gt;One of the most common issues is that a lot of the old System.Type reflection functionality has moved to TypeInfo in .Net Core, which you can access through the GetTypeInfo extension method on Type.&lt;/p&gt;
+
+&lt;p&gt;So, instead of &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var members = obj.GetType().GetMembers();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;you would now use:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;using System.Reflection;
+var members = obj.GetType().GetTypeInfo().GetMembers(); 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I am sure that more elegant solutions will come out in time, but for now the way I am handling these differences is with compiler directives. What I have found effective is to create a TypeExtensions class with extension methods on Type. There I replace the various Type properties with methods of the same name, with separate implementations of each method for each supported framework. This, at least, constrains the compiler directives to one place, rather than doing it for every method, and leaves the production code free of compiler directives.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#if NET40
+    public static class TypeExtensions
+    {
+        public static Assembly Assembly(this Type type)
+        {
+            return type.Assembly;
+        }
+
+        public static bool IsValueType(this Type type)
+        {
+            return type.IsValueType;
+        }
+    }
+#else
+    using System.Linq;
+    public static class TypeExtensions
+    {
+        public static Assembly Assembly(this Type type)
+        {
+            return type.GetTypeInfo().Assembly;   
+        }
+
+        public static bool IsValueType(this Type type)
+        {
+            return type.GetTypeInfo().IsValueType;
+        }
+    }
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, instead of calling the Reflection property, my code now calls my extension method with the same name. For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// type.IsValueType;
+type.IsValueType();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Compiler directives or rewrite code&lt;/h2&gt;
+
+&lt;p&gt;It is not ideal to have too many compiler directives in your code. When a feature you were using in the old framework has not been ported to .Net Core you have a choice to make&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Write a new solution for .Net Core and switch between the old and new implementations with compiler directives, or&lt;/li&gt;
+&lt;li&gt;Replace the original implementation with a new one that works for both frameworks  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For example, I had some JSON serialization functionality that relied on the JavaScriptSerializer in the System.Web library. This serializer has not been ported to .Net Core, so the short term fix - to get things working - was to use compiler directives to keep the existing soluiton for .Net 4 and provide a new solution for .Net Core. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#if NET40
+    using System.Web.Script.Serialization;  
+    public class JsonSerializer : ISerializer
+    {
+        public string Serialize(object obj)
+        {
+            var serializer = new JavaScriptSerializer();
+            string json = serializer.Serialize(obj);
+
+            return new JsonFormatter(json).Format();
+        }
+    }
+#else
+    using Newtonsoft.Json;
+    public class JsonSerializer : ISerializer
+    {
+        public string Serialize(object obj)
+        {
+            return JsonConvert.SerializeObject(obj, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+        }
+    }
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As more things get ported to .Net Core though, ideally I would hope to remove compiler directives and have a single solution that works for both frameworks, because it really is not ideal to maintain multiple implementations of lots of functionality throughout a codebase. &lt;/p&gt;
+
+&lt;p&gt;Thankfully, the DataContractJsonSerializer has been ported to the System.Runtime.Serialization.Json NuGet package, so I can actually have a single solution that is supported by both frameworks and remove the compiler directives.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;using System.Runtime.Serialization.Json;
+public class JsonSerializer : ISerializer
+{
+    public string Serialize(object obj)
+    {
+        var serializer = new DataContractJsonSerializer(obj.GetType());
+        string json;
+        using (var stream = new MemoryStream())
+        {
+            serializer.WriteObject(stream, obj);
+            json = Encoding.UTF8.GetString(stream.ToArray());
+        }
+
+        return new JsonFormatter(json).Format();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Why didn't I just use Json.Net or ServiceStack.Text to serialize Json? Well, I would if I was building an application, but for a NuGet library I don't want to add a NuGet dependency just for one class of functionality. That might be old world thinking though, given how much of the .Net Framework is now provided as NuGet packages. I may just change my thinking on that but, for now, I still see a distinction between third party packages and .Net packages.&lt;/p&gt;
+
+&lt;h2&gt;Backwards-compatible Polyfills&lt;/h2&gt;
+
+&lt;p&gt;Credit to Jake Ginnivan for this solution. It is actually pretty easy to satisfy the compiler by providing polyfills, or shims, for types that have not been ported to .Net Core. &lt;/p&gt;
+
+&lt;p&gt;For example, Serialization has not been ported, but you might have classes with the Serializable attribute on them. Providing an empty SerializableAttribute class in the System.Runtime.Serialization namespace will satisfy the compiler for your .Net Core code.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#if !NET40
+namespace System.Runtime.Serialization
+{
+    public class SerializableAttribute : Attribute
+    {
+    }
+}
+#endif 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Another example I have come across is a polyfill for AppDomain.CurrentDomain, now that AppDomains are no longer supported in .Net Core.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private sealed class AppDomain
+{
+    public static AppDomain CurrentDomain { get; private set; }
+
+    static AppDomain()
+    {
+        CurrentDomain = new AppDomain();
+    }
+
+    public List&amp;lt;Assembly&amp;gt; GetAssemblies()
+    {
+        ... // .Net Core functionality here
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;There are a lot of exciting new things to learn with .Net Core. Porting your existing code to the framework is a little bit of work - but not too much. The process is quite straightforward with predictable steps, most of which I've hopefully communicated here. The .Net Portability Analyzer is a huge help in enabling you to plan out the conversion beforehand, providing you with a list of issues and - most helpfully - even the solutions to most of the issues. The main area of concern is to provide new solutions for areas of the code that rely on parts of the .Net Framework that have not been ported. Thankfully, this seems to be a reasonably small surface area though, of course, it will depend on each application.&lt;/p&gt;
+</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/github-cvs-resumes/</guid><link>http://www.michael-whelan.net/github-cvs-resumes/</link><author>mjmwdev@gmail.com</author><category>General</category><title>GitHub CVs / Resumes</title><description>&lt;p&gt;I just discovered that Github can automatically generate a CV/resume for its users based on the public information in their GitHub account. You have to opt-in by going to their &lt;a href="https://github.com/resume/resume.github.com"&gt;GitHub project&lt;/a&gt; page and starring the project. Check out mine at &lt;a href="http://resume.github.com/?mwhelan"&gt;http://resume.github.com/?mwhelan&lt;/a&gt;. What a clever idea!&lt;/p&gt;
 
 </description><pubDate>Thu, 02 Jun 2016 07:00:00 Z</pubDate><a10:updated>2016-06-02T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;I just discovered that Github can automatically generate a CV/resume for its users based on the public information in their GitHub account. You have to opt-in by going to their &lt;a href="https://github.com/resume/resume.github.com"&gt;GitHub project&lt;/a&gt; page and starring the project. Check out mine at &lt;a href="http://resume.github.com/?mwhelan"&gt;http://resume.github.com/?mwhelan&lt;/a&gt;. What a clever idea!&lt;/p&gt;
 
@@ -928,161 +1167,4 @@ public class Host
 &lt;p&gt;I think BDDfy and Chill are a great combination and I'm looking forward to keeping an eye on the new features that Eriwn is adding to Chill to see more ways that I might be able to use them together. &lt;/p&gt;
 
 &lt;p&gt;You can read more about Chill on Erwin's &lt;a href="http://www.erwinvandervalk.net/2014/10/introducing-chill-bdd-style-testing.html"&gt;blog&lt;/a&gt;. And, of course, you can learn more about &lt;a href="http://teststack.net/"&gt;TestStack&lt;/a&gt; and our &lt;a href="https://github.com/TestStack/TestStack.BDDfy"&gt;BDDfy&lt;/a&gt; framework. Finally, you can learn all about Fluent Assertions &lt;a href="http://www.fluentassertions.com/"&gt;here&lt;/a&gt;.&lt;/p&gt;
-</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/</guid><link>http://www.michael-whelan.net/testing-mvc-configuring-application-under-test/</link><author>mjmwdev@gmail.com</author><category>Automated Testing</category><category>Black-Box Testing ASP.Net Series</category><title>Black-Box Testing ASP.Net: Configuring Application Under Test</title><description>&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
-
-</description><pubDate>Thu, 30 Oct 2014 00:00:00 Z</pubDate><a10:updated>2014-10-30T00:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;As I mentioned in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;, UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt; and run in a separate process from the web application, making it more difficult to control its behaviour and configuration. In this post I will continue the example from the previous post and provide some code examples of configuring an ASP.Net application at runtime to run with behaviour specified by the test code. You can see all the code from these posts on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;. &lt;/p&gt;
-
-&lt;!--excerpt--&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Some of the sample code is taken straight from &lt;a href="https://github.com/TestStack/TestStack.Seleno"&gt;Seleno&lt;/a&gt;, the Selenium WebDriver browser automation framework from &lt;a href="http://teststack.net/"&gt;TestStack&lt;/a&gt;, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application. I've produced a working sample on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;, so you should be able to take it, run it, and use some of the code in your own applications if you want to.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;For more of the conceptual information on this topic, Mehdi Khalili has a great post on &lt;a href="http://www.mehdi-khalili.com/changing-runtime-behavior-of-application-under-test"&gt;changing the runtime behaviour of the application under test&lt;/a&gt; on his blog.&lt;/p&gt;
-
-&lt;h2&gt;Environment Variables&lt;/h2&gt;
-
-&lt;p&gt;When you create a process to host your ASP.Net web application, you are able to pass in environment variables as key/value pairs. Your application code can then check for these variables and choose different configuration behaviour depending on the value of the variable. Mehdi sums up the benefits of this approach quite nicely:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The beauty of this approach is that the injected environment variables are scoped and isolated to the process you run which means they won't impact other applications running on the same machine and they are forgotten as soon as the process exits. Also you can dynamically set them at runtime for each test run.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;In the previous post, I did not show the code for the &lt;code&gt;WebApplication&lt;/code&gt; class. This class just captures the configuration information that is passed to the &lt;code&gt;IisExpressWebServer&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class WebApplication
-{
-    public Dictionary&amp;lt;string, string&amp;gt; EnvironmentVariables { get; set; }
-
-    public void AddEnvironmentVariable(string key, string value = null)
-    {
-        EnvironmentVariables.Add(key, value ?? string.Empty);
-    }
-
-    // other code removed for brevity
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So, we can modify our setup code to add an environment variable with the key of &lt;code&gt;FunctionalTests&lt;/code&gt;. Note, it is not necessary to provide a &lt;code&gt;value&lt;/code&gt; for the key/value pair.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[SetUp]
-public void SetUp()
-{
-    var app = new WebApplication(ProjectLocation.FromFolder("ContosoUniversity"), 12365);
-    app.AddEnvironmentVariable("FunctionalTests");
-    WebServer = new IisExpressWebServer(app);
-    WebServer.Start();
-    Browser = Browsers.Phantom;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3&gt;Configuring the database connection string at runtime&lt;/h3&gt;
-
-&lt;p&gt;In the Contoso University sample that I'm using for these posts, the &lt;code&gt;SchoolContext&lt;/code&gt; gets its connection string in a standard way from the web.config, using a &lt;code&gt;ConnectionStrings&lt;/code&gt; key with the same name - "SchoolContext." With a minimal tweak, it can check the &lt;code&gt;FunctionalTests&lt;/code&gt; environment variable, and switch to a "SchoolContext-FunctionalTests" connection string when it finds it present - which will only be when we pass it in from the functional tests code.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class SchoolContext : DbContext
-{
-    public SchoolContext():base(GetConnectionString())
-    {
-    }
-
-    private static string GetConnectionString()
-    {
-        var environmentVariable = Environment.GetEnvironmentVariable("FunctionalTests");
-        return environmentVariable == null 
-            ? ConfigurationManager.ConnectionStrings["SchoolContext"].ConnectionString 
-            : ConfigurationManager.ConnectionStrings["SchoolContext-FunctionalTests"].ConnectionString;
-    }
-
-    // code omitted for brevity
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3&gt;Verifying that the behaviour has been changed&lt;/h3&gt;
-
-&lt;p&gt;You want to be really sure that the application is using the modified configuration in your tests. The first thing that you can do is just set a breakpoint in the GetConnectionString method, attach to the application process (as I illustrated in the &lt;a href="http://www.michael-whelan.net/testing-mvc-application-with-iis-express-webdriver/"&gt;previous post&lt;/a&gt;) and step through the code to see which connection string is being used.&lt;/p&gt;
-
-&lt;p&gt;Here is another approach. Obviously, this is test code and not something you would want to keep in production code. Just add a controller action to the web application, somewhere out of the way...&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public ActionResult TestingEnvVariable()
-{
-    var envVar = Environment.GetEnvironmentVariable("FunctionalTests");
-    if (envVar == null)
-        throw new Exception("Environment Variable was not injected!!");
-    return RedirectToAction("Index");
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And then write a test that navigates to the page. If you are redirected to the home page without the exception being thrown then the environment variable has been set.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void CanInjectEnvironmentVariables()
-{
-    string url = string.Format("{0}/Home/TestingEnvVariable", Host.WebServer.BaseUrl);
-    Host.Browser.Navigate().GoToUrl(url);
-    Host.Browser.Title.Should().Be("Home Page - Contoso University");
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;Configuration Transforms&lt;/h2&gt;
-
-&lt;p&gt;The standard way to change configuration per environment in .Net is to use config transformation files. There are plenty of articles that show how to set this up in the web application, but configuring the test project to take advantage of this is not so well documented. Up until now, we have just pointed IIS Express at the web application folder. To apply web.config transforms we need to deploy the web application to a new folder with the specified transform applied, and point IIS Express to this folder instead. &lt;/p&gt;
-
-&lt;p&gt;You can do this by calling msbuild, which will deploy to the specified local folder with the specified transform applied. That is the approach I will demonstrate here. In my experience, this approach can sometimes be a bit brittle , with msbuild sometimes acting differently on different machines or with different versions. An alternative to consider might be to perform the config transform yourself and use xcopy deploy to a separate folder . Microsoft have released the &lt;a href="https://www.nuget.org/packages/Microsoft.Web.Xdt/"&gt;XDT library on NuGet&lt;/a&gt; for this purpose, though I've not had a chance to try this approach out myself yet.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class MsBuildDeployer
-{
-    private readonly IProjectLocation _projectLocation;
-
-    public MsBuildDeployer(IProjectLocation projectLocation)
-    {
-        _projectLocation = projectLocation;
-    }
-
-    public void Deploy(string configTransformName, string deployPath)
-    {
-        var loggers = new ILogger[] { new ConsoleLogger(LoggerVerbosity.Normal) };
-        var parameters = new BuildParameters { Loggers = loggers };
-
-        var globalProperties = new Dictionary&amp;lt;string, string&amp;gt;
-        {
-            { "Configuration", configTransformName },
-            { "_PackageTempDir", deployPath }
-        };
-
-        var requestData = new BuildRequestData(_projectLocation.ProjectName, globalProperties, null, 
-            new[] { "Clean", "Package" }, null);
-
-        var result = BuildManager.DefaultBuildManager.Build(parameters, requestData);
-
-        if (result.OverallResult != BuildResultCode.Success || !Directory.Exists(deployPath))
-        {
-            throw new Exception("Build failed.");
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The deploy method takes in the config transform name, such as &lt;code&gt;Debug&lt;/code&gt;, &lt;code&gt;Release&lt;/code&gt;, or &lt;code&gt;Test&lt;/code&gt;, and the path to the local folder to deploy the transformed application to. This is the path that IIS Express will use to host the application.&lt;/p&gt;
-
-&lt;p&gt;I've tried to make minimal changes to the IisExpressWebServer code so as to demonstrate both approaches. If a config transform value is passed in then the code is transformed and deployed to the specified deployment folder. If not, then it runs as before with the web application folder. &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public void Start(string configTransform = null)
-{
-    ProcessStartInfo webHostStartInfo;
-    if (configTransform == null)
-    {
-        webHostStartInfo = InitializeIisExpress(_application);
-    }
-    else
-    {
-        var siteDeployer = new MsBuildDeployer(_application.Location);
-        var deployPath = Path.Combine(Environment.CurrentDirectory, "TestSite");
-        siteDeployer.Deploy(configTransform, deployPath);
-        webHostStartInfo = InitializeIisExpress(_application, deployPath);
-    }
-    _webHostProcess = Process.Start(webHostStartInfo);
-    _webHostProcess.TieLifecycleToParentProcess();
-}
-&lt;/code&gt;&lt;/pre&gt;
 </a10:content></item></channel></rss>
