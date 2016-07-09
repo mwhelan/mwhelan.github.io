@@ -1,4 +1,4 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2016-07-09T14:43:35+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/</id><title type="text">Replacing AppDomain in .Net Core</title><summary type="html">&lt;p&gt;In the move to .Net Core, Microsoft decided to discontinue certain technologies because they were deemed to be problematic. AppDomain was one of those that did not make the cut. While AppDomains have been discontinued, some of their functionality is still being provided. It is quite hard to find those features though, as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2016-07-09T15:28:45+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/</id><title type="text">Replacing AppDomain in .Net Core</title><summary type="html">&lt;p&gt;In the move to .Net Core, Microsoft decided to discontinue certain technologies because they were deemed to be problematic. AppDomain was one of those that did not make the cut. While AppDomains have been discontinued, some of their functionality is still being provided. It is quite hard to find those features though, as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.&lt;/p&gt;
 
 </summary><published>2016-07-07T07:00:00Z</published><updated>2016-07-07T07:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/" /><content type="html">&lt;p&gt;In the move to .Net Core, Microsoft decided to discontinue certain technologies because they were deemed to be problematic. AppDomain was one of those that did not make the cut. While AppDomains have been discontinued, some of their functionality is still being provided. It is quite hard to find those features though, as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.&lt;/p&gt;
 
@@ -85,9 +85,45 @@ private static bool IsCandidateLibrary(RuntimeLibrary library, assemblyName)
 
 &lt;p&gt;Assembly now has an ExportedTypes method instead of GetExportedTypes.&lt;/p&gt;
 
+&lt;h2&gt;Creating a Polyfill&lt;/h2&gt;
+
+&lt;p&gt;As I described in my &lt;a href="http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/"&gt;previous post&lt;/a&gt;, when porting your code to .Net Core you might like to include a polyfill for missing functionality, so that your code can interact with both implementations seamlessly. A polyfill for AppDomain.CurrentDomain.GetAssemblies would look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class AppDomain
+{
+    public static AppDomain CurrentDomain { get; private set; }
+
+    static AppDomain()
+    {
+        CurrentDomain = new AppDomain();
+    }
+
+    public Assembly[] GetAssemblies()
+    {
+        var assemblies = new List&amp;lt;Assembly&amp;gt;();
+        var dependencies = DependencyContext.Default.RuntimeLibraries;
+        foreach (var library in dependencies)
+        {
+            if (IsCandidateCompilationLibrary(library))
+            {
+                var assembly = Assembly.Load(new AssemblyName(library.Name));
+                assemblies.Add(assembly);
+            }
+        }
+        return assemblies.ToArray();
+    }
+
+    private static bool IsCandidateCompilationLibrary(RuntimeLibrary compilationLibrary)
+    {
+        return compilationLibrary.Name == ("Specify")
+            || compilationLibrary.Dependencies.Any(d =&amp;gt; d.Name.StartsWith("Specify"));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h2&gt;Summary&lt;/h2&gt;
 
-&lt;p&gt;While AppDomains have been discontinued, for the time being at least, some of their functionality is being provided. It is quite hard to find those features as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.&lt;/p&gt;
+&lt;p&gt;While AppDomains have been discontinued, for the time being at least, some of their functionality is still being provided. It is quite hard to find those features as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.&lt;/p&gt;
 </content></entry><entry><id>http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/</id><title type="text">Porting a .Net Framework Library to .Net Core</title><summary type="html">&lt;p&gt;I have recently been involved with porting a couple of open source frameworks to .Net Core. It's a brave new world, with lots of new things to discover and learn. In this post I am going to outline the process I've followed to convert my code and a few of the things I've learned along the way. Hopefully, this post will shed some light on the process if you are looking to port your .Net Framework code to .Net Core. Special thanks to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; who, as always, was a font of knowledge on all things programming during the porting exercises!&lt;/p&gt;
 
 </summary><published>2016-07-04T07:00:00Z</published><updated>2016-07-04T07:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/porting-dotnet-framework-library-to-dotnet-core/" /><content type="html">&lt;p&gt;I have recently been involved with porting a couple of open source frameworks to .Net Core. It's a brave new world, with lots of new things to discover and learn. In this post I am going to outline the process I've followed to convert my code and a few of the things I've learned along the way. Hopefully, this post will shed some light on the process if you are looking to port your .Net Framework code to .Net Core. Special thanks to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; who, as always, was a font of knowledge on all things programming during the porting exercises!&lt;/p&gt;
