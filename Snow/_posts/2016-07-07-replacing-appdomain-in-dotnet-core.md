@@ -81,5 +81,39 @@ It is pretty similar with .Net Core. Again, using the Microsoft.Extensions.Depen
 
 Assembly now has an ExportedTypes method instead of GetExportedTypes.
 
+## Creating a Polyfill
+As I described in my [previous post](/porting-dotnet-framework-library-to-dotnet-core/), when porting your code to .Net Core you might like to include a polyfill for missing functionality, so that your code can interact with both implementations seamlessly. A polyfill for AppDomain.CurrentDomain.GetAssemblies would look like this:
+
+    public class AppDomain
+    {
+        public static AppDomain CurrentDomain { get; private set; }
+
+        static AppDomain()
+        {
+            CurrentDomain = new AppDomain();
+        }
+
+        public Assembly[] GetAssemblies()
+        {
+            var assemblies = new List<Assembly>();
+            var dependencies = DependencyContext.Default.RuntimeLibraries;
+            foreach (var library in dependencies)
+            {
+                if (IsCandidateCompilationLibrary(library))
+                {
+                    var assembly = Assembly.Load(new AssemblyName(library.Name));
+                    assemblies.Add(assembly);
+                }
+            }
+            return assemblies.ToArray();
+        }
+
+        private static bool IsCandidateCompilationLibrary(RuntimeLibrary compilationLibrary)
+        {
+            return compilationLibrary.Name == ("Specify")
+                || compilationLibrary.Dependencies.Any(d => d.Name.StartsWith("Specify"));
+        }
+    }
+
 ## Summary
 While AppDomains have been discontinued, for the time being at least, some of their functionality is still being provided. It is quite hard to find those features as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.
