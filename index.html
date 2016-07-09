@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2016-07-05T10:10:58.2680897+01:00" />
+    <meta http-equiv="last-modified" content="2016-07-09T14:43:29.7374221+01:00" />
     <meta name="keywords" content="" />
 
 
@@ -121,6 +121,17 @@
 
     <div class="blog-main">
       <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/replacing-appdomain-in-dotnet-core/">Replacing AppDomain in .Net Core</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 07 Jul 2016</p>
+
+        
+        <p>In the move to .Net Core, Microsoft decided to discontinue certain technologies because they were deemed to be problematic. AppDomain was one of those that did not make the cut. While AppDomains have been discontinued, some of their functionality is still being provided. It is quite hard to find those features though, as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.</p>
+
+
+          <p><a class="btn btn-primary" href="/replacing-appdomain-in-dotnet-core/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
         <h2 class="blog-post-title"><a href="/porting-dotnet-framework-library-to-dotnet-core/">Porting a .Net Framework Library to .Net Core</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 04 Jul 2016</p>
 
@@ -217,19 +228,6 @@
 
 
           <p><a class="btn btn-primary" href="/sql-server-localdb-2014-connection-string/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/bddfy-chilled/">BDDfy Chilled</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 31 Oct 2014</p>
-
-        
-        <p>I like to use BDDfy for unit testing as well as for black-box testing. Unit tests do not have the concept of user stories, but otherwise I like to use the same <code>Given When Then</code> style of testing for all of my tests, and I think that I should have the same quality of reporting for my unit tests as for my acceptance tests. I have my own framework of code that I've built on top of BDDFy that I take from project to project. It gets a little tweaked each time, from NUnit to xUnit, or Moq to NSubstitute, or Castle Windsor to Autofac, depending on the tools each project uses. BDDfy is wonderfully customisable so you are free to make your test framework just they way you want it.</p>
-
-<p>I decided it would make sense to make the mocking/Ioc containers pluggable and publish the library to NuGet. I'm a big fan of Autofac and NSubstitute, and had noticed that Autofac provides automocking container implementations for most of the major mocking frameworks. Then I stumbled on <a href="https://github.com/erwinvandervalk/chill">Chill</a>, and found out that <a href="https://twitter.com/ErwinVanDerValk">Erwin van der Valk</a> was already doing something pretty similar and had done a great job with pluggable mocking containers, with future plans for IoC containers too. Chill is a BDD style testing framework.   </p>
-
-
-          <p><a class="btn btn-primary" href="/bddfy-chilled/">Read more</a></p>
           <hr/>
       </div>
     </div>

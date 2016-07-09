@@ -8,14 +8,14 @@
     <meta name="keywords" content="" />
 
 
-    <title>Michael Whelan - behaviour driven blog</title>
+    <title>Replacing AppDomain in .Net Core - Michael Whelan - behaviour driven blog</title>
 
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/category/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/" />
 </head>
 <body>
     <div class="container">
@@ -117,68 +117,162 @@
         <div class="row">
             
 
-<h1>Categories</h1>
-  
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/.net" title=".Net">.Net</a>
+<div id="post">
+    <h1 class="blog-post-title">Replacing AppDomain in .Net Core</h1>
+
+    <div class="blog-post-meta">
+        posted on 07 Jul 2016
+            | <a class="label label-primary" href="/category/.net">.Net</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>In the move to .Net Core, Microsoft decided to discontinue certain technologies because they were deemed to be problematic. AppDomain was one of those that did not make the cut. While AppDomains have been discontinued, some of their functionality is still being provided. It is quite hard to find those features though, as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.</p>
+
+<!--excerpt-->
+
+<h2>Replacing AppDomain Unload event</h2>
+
+<p>In .Net classic, it could be quite useful to run code in the AppDomain Unload event, especially if you wanted to perform some actions after all of your tests had completed.</p>
+
+<pre><code>System.AppDomain.CurrentDomain.DomainUnload += (sender, e) =&gt; {
+    InvokeBatchProcessors();
+};
+</code></pre>
+
+<p>There are no AppDomains in .Net Core. Instead, we can use the AssemblyLoadContext, which is part of the System.Runtime.Loader library:</p>
+
+<pre><code>System.Runtime.Loader.AssemblyLoadContext.Default.Unloading += context =&gt; InvokeBatchProcessors();
+</code></pre>
+
+<p>At the time of writing, the current version of System.Runtime.Loader package is 4.0, which you include in your project.json with this entry.</p>
+
+<pre><code>"System.Runtime.Loader": "4.0.0",   
+</code></pre>
+
+<h2>Replacing AppDomain.GetAssemblies</h2>
+
+<p>In .Net classic, you could get all of the referenced assemblies from AppDomain.</p>
+
+<pre><code>AppDomain.CurrentDomain.GetAssemblies();
+</code></pre>
+
+<p>I really struggled to figure out how to do this in .Net Core. Up until RC1, you were able to use the LibraryManager from the Microsoft.Extensions.PlatformAbstractions package to do it, but that functionality was either removed or moved somewhere else for RC2. </p>
+
+<pre><code>return libraryManager.GetReferencingLibraries("Specify")
+    .SelectMany(a =&gt; a.Assemblies)
+    .Select(Assembly.Load);
+</code></pre>
+
+<p>One way to do it now, is with the DependencyContext from the Microsoft.Extensions.DependencyModel package. You have to load each assembly and use the new AssemblyName class. </p>
+
+<pre><code>public static IEnumerable&lt;Assembly&gt; GetReferencingAssemblies(string assemblyName)
+{
+    var assemblies = new List&lt;Assembly&gt;();
+    var dependencies = DependencyContext.Default.RuntimeLibraries;
+    foreach (var library in dependencies)
+    {
+        if (IsCandidateLibrary(library, assemblyName))
+        {
+            var assembly = Assembly.Load(new AssemblyName(library.Name));
+            assemblies.Add(assembly);
+        }
+    }
+    return assemblies;
+}
+
+private static bool IsCandidateLibrary(RuntimeLibrary library, assemblyName)
+{
+    return library.Name == (assemblyName)
+        || library.Dependencies.Any(d =&gt; d.Name.StartsWith(assemblyName));
+}
+</code></pre>
+
+<p>The DependencyContext.Default has two properties, RuntimeLibraries and CompileLibraries, which both appear to provide the same list of libraries. I'm sure there is a difference between them but at this stage I am not sure what that difference is.</p>
+
+<p>The current version of Microsoft.Extensions.DependencyModel is 1.0:</p>
+
+<pre><code>"Microsoft.Extensions.DependencyModel": "1.0.0"
+</code></pre>
+
+<h2>Get All Types from AppDomain</h2>
+
+<p>If you were getting all the assemblies from the AppDomain, chances are you were wanting to retrieve the types in those assemblies matching a certain query. Using an AppDomain, you could do that like this:</p>
+
+<pre><code>return AppDomain.CurrentDomain
+    .GetAssemblies()
+    .SelectMany(assembly =&gt; assembly.GetExportedTypes());
+</code></pre>
+
+<p>It is pretty similar with .Net Core. Again, using the Microsoft.Extensions.DependencyModel library and the GetReferencingAssemblies method from the previous example:</p>
+
+<pre><code>return GetReferencingLibraries("Specify")
+    .SelectMany(assembly =&gt; assembly.ExportedTypes);
+</code></pre>
+
+<p>Assembly now has an ExportedTypes method instead of GetExportedTypes.</p>
+
+<h2>Summary</h2>
+
+<p>While AppDomains have been discontinued, for the time being at least, some of their functionality is being provided. It is quite hard to find those features as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.</p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
         </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/azure" title="Azure">Azure</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/bdd" title="BDD">BDD</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/general" title="General">General</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/learning" title="Learning">Learning</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/programming" title="Programming">Programming</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/seleno" title="Seleno">Seleno</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/snow" title="Snow">Snow</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/test-data" title="Test Data">Test Data</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/teststack" title="TestStack">TestStack</a>
-        </div>
-        <div class="container">
-            <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
-        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
 
         </div>
 
