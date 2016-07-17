@@ -123,7 +123,7 @@ Using the NuGet Package Management Console:
 	Install-Package dotnet-test-xunit -Pre
 
 ### NUnit
-NUnit also has beta support for .Net Core. In your project.json, you need to set the `testRunner` to `nunit` and add dependencies for xUnit and the dotnet-test-xunit console runner.
+NUnit also has beta support for .Net Core. In your project.json, you need to set the `testRunner` to `nunit` and add dependencies for NUnit and the dotnet-test-nunit console runner.
 
 	"testRunner": "nunit",
     "dependencies": {
