@@ -131,7 +131,7 @@ Install-Package dotnet-test-xunit -Pre
 
 &lt;h3&gt;NUnit&lt;/h3&gt;
 
-&lt;p&gt;NUnit also has beta support for .Net Core. In your project.json, you need to set the &lt;code&gt;testRunner&lt;/code&gt; to &lt;code&gt;nunit&lt;/code&gt; and add dependencies for xUnit and the dotnet-test-xunit console runner.&lt;/p&gt;
+&lt;p&gt;NUnit also has beta support for .Net Core. In your project.json, you need to set the &lt;code&gt;testRunner&lt;/code&gt; to &lt;code&gt;nunit&lt;/code&gt; and add dependencies for NUnit and the dotnet-test-nunit console runner.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;"testRunner": "nunit",
 "dependencies": {
