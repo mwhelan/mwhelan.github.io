@@ -1,4 +1,254 @@
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/</guid><link>http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>Replacing AppDomain in .Net Core</title><description>&lt;p&gt;In the move to .Net Core, Microsoft decided to discontinue certain technologies because they were deemed to be problematic. AppDomain was one of those that did not make the cut. While AppDomains have been discontinued, some of their functionality is still being provided. It is quite hard to find those features though, as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.&lt;/p&gt;
+<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/</guid><link>http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>The State of .Net Core Testing Today</title><description>&lt;p&gt;.Net Core 1.0 has been officially released but the tooling is still in preview. This means that a number of open source testing libraries have been able to release at least alpha support for .Net Core, but it is not always easy to locate and you sometimes have to drill through GitHub issues, stack overflow questions, and NuGet feeds, to find it. Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net has a number of promising alpha releases. In this post, I am going to look at the main .Net testing providers, their current support for .Net Core, and how you can get hold of them. &lt;/p&gt;
+
+</description><pubDate>Sun, 17 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-17T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;.Net Core 1.0 has been officially released but the tooling is still in preview. This means that a number of open source testing libraries have been able to release at least alpha support for .Net Core, but it is not always easy to locate and you sometimes have to drill through GitHub issues, stack overflow questions, and NuGet feeds, to find it. Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net has a number of promising alpha releases. In this post, I am going to look at the main .Net testing providers, their current support for .Net Core, and how you can get hold of them. &lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;h2&gt;Test Project Configuration&lt;/h2&gt;
+
+&lt;p&gt;The steps to create a test project are a little bit different with .Net Core. You still create it as a class library, but now you must mark it as a .Net Core Application (the &lt;code&gt;netcoreapp1.0&lt;/code&gt; framework in the project.json below).  &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"frameworks": {
+    "netcoreapp1.0": {
+        "dependencies": {
+            "Microsoft.NETCore.App": {
+                "type": "platform",
+                "version": "1.0.0"
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When using the .Net CLI for testing, unit test projects are actually an application, not a class library.If you forget to make this change, the compiler will tell you that &lt;code&gt;dotnet-test-xunit&lt;/code&gt; (for example) is not compatible with your class library project. &lt;/p&gt;
+
+&lt;p&gt;You must also add a project reference to the application project you are testing in the project.json.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"dependencies": {
+    "Specify.Autofac": {
+      "target": "project"
+    },
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can target both net4xx and netcoreapp simply by adding both frameworks together in your project.json file. When you run dotnet test with multiple framework entries, the system will run all your framework tests, one after the other.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"frameworks": {
+    "netcoreapp1.0": {
+        "dependencies": {
+            "Microsoft.NETCore.App": {
+                "type": "platform",
+                "version": "1.0.0"
+            },
+            "System.Linq": "4.1.0"
+        },
+        "imports": [
+            "dnxcore50",
+            "portable-net45+win8"
+      ]
+    },
+  "net46": {
+    "dependencies": {
+    },
+    "buildOptions": {
+      "define": [
+        "Approvals"
+      ]
+    }
+  }
+},
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Test Runners&lt;/h2&gt;
+
+&lt;p&gt;Unfortunately, my favourite test runners, ReSharper and NCrunch, do not have support for .Net Core yet. That has meant that we have been stuck with either the console runners or the Visual Studio test runner. Fortunately, things are looking up, with TestDriven.Net providing a flurry of alpha packages. There are still a number of issues to work out - tests just flat out don't run on some of my projects - but it seems to be shaping up quite well and is a great option for those projects that it does work for.&lt;/p&gt;
+
+&lt;h3&gt;TestDriven.Net v4 Alpha&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href="https://twitter.com/jcansdale"&gt;Jamie Cansdale&lt;/a&gt;, the maintainer of the venerable TestDriven.Net, has released a number of alpha versions through the &lt;a href="https://github.com/jcansdale/TestDriven.Net-Issues"&gt;TestDriven.Net-Issues project&lt;/a&gt; on his GitHub. The releases consist of .zip files that contain an executable for installing TestDriven.Net as a Visual Studio add-in.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/test-dotnet-core-tdnet.png" alt="VS test runner" /&gt;&lt;/p&gt;
+
+&lt;p&gt;As far as I can tell, the latest release, at the time of writing, is v4.0.3267-alpha. You can find it in &lt;a href="https://github.com/jcansdale/TestDriven.Net-Issues/issues/8"&gt;issue 8&lt;/a&gt;, but you should check any new issues for more recent releases.&lt;/p&gt;
+
+&lt;h3&gt;Console Runners&lt;/h3&gt;
+
+&lt;p&gt;The various test frameworks implement the &lt;a href="https://docs.microsoft.com/en-us/dotnet/articles/core/tools/test-protocol"&gt;.Net Core test protocol&lt;/a&gt; to provide test runners, which allow tests to be run by the Visual Studio test runner or from the command line. &lt;/p&gt;
+
+&lt;p&gt;To run tests from the command line, open a command prompt or PowerShell command window. In the window, navigate to the folder containing the source code of your test project. To run the .Net CLI test runner, type &lt;code&gt;dotnet test&lt;/code&gt;, as shown below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; dotnet test
+xUnit.net .NET CLI test runner (64-bit .NET Core win10-x64)
+  Discovering: MyFirstDotNetCoreTests
+  Discovered:  MyFirstDotNetCoreTests
+  Starting:    MyFirstDotNetCoreTests
+    MyFirstDotNetCoreTests.Class1.FailingTest [FAIL]
+      Assert.Equal() Failure
+      Expected: 5
+      Actual:   4
+      Stack Trace:
+        C:\Samples\MyFirstDotNetCoreTests\src\MyFirstDotNetCoreTests\Class1.cs(16,0): at MyFirstDotNetCoreTests.Class1.FailingTest()
+  Finished:    MyFirstDotNetCoreTests
+=== TEST EXECUTION SUMMARY ===
+   MyFirstDotNetCoreTests  Total: 2, Errors: 0, Failed: 1, Skipped: 0, Time: 0.167s
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will kick off the tests using whichever runner is specified in the &lt;code&gt;testRunner&lt;/code&gt; node in project.json.&lt;/p&gt;
+
+&lt;h3&gt;Run tests in Visual Studio&lt;/h3&gt;
+
+&lt;p&gt;The same NuGet package which allows you to run tests from the console also allows you to run tests from within Visual Studio. Show the Test Explorer window by choosing Test &gt; Windows &gt; Test Explorer. The Test Explorer window will show inside Visual Studio, and your test should be visible (if they're not, try building your project to kick off the test discovery process). &lt;/p&gt;
+
+&lt;p&gt;If you click the Run All link in the Test Explorer window, it will run your tests and show you success and failure. You can click on an individual test result to get failure information as well as stack trace information:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/test-dotnet-core-vs-runner.png" alt="VS test runner" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;ReSharper&lt;/h3&gt;
+
+&lt;p&gt;ReSharper does not have test runner support for .Net Core yet. &lt;/p&gt;
+
+&lt;h3&gt;NCrunch&lt;/h3&gt;
+
+&lt;p&gt;NCrunch does not have test runner support for .Net Core yet. Remco Mulder, NCrunch's creator, has a useful explanation &lt;a href="https://ncrunch.uservoice.com/forums/245203-feature-requests/suggestions/8065623-support-dnx-projects"&gt;here&lt;/a&gt; on the difficulties that tool vendors face with the ongoing changes to tooling.&lt;/p&gt;
+
+&lt;h2&gt;Test Frameworks&lt;/h2&gt;
+
+&lt;h3&gt;xUnit&lt;/h3&gt;
+
+&lt;p&gt;xUnit has beta support for .Net Core. In your project.json, you need to set the &lt;code&gt;testRunner&lt;/code&gt; to &lt;code&gt;xunit&lt;/code&gt; and add dependencies for xUnit and the dotnet-test-xunit console runner.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"testRunner": "xunit",
+"dependencies": {
+    "xunit": "2.2.0-beta2-build3300",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
+},
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using the NuGet Package Management Console:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Install-Package xunit -Pre
+Install-Package dotnet-test-xunit -Pre
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;NUnit&lt;/h3&gt;
+
+&lt;p&gt;NUnit also has beta support for .Net Core. In your project.json, you need to set the &lt;code&gt;testRunner&lt;/code&gt; to &lt;code&gt;nunit&lt;/code&gt; and add dependencies for xUnit and the dotnet-test-xunit console runner.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"testRunner": "nunit",
+"dependencies": {
+    "NUnit": "3.4.1",
+    "dotnet-test-nunit": "3.4.0-beta-1"
+},
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using the NuGet Package Management Console:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Install-Package Nunit
+Install-Package dotnet-test-nunit -Pre
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;MsTest&lt;/h3&gt;
+
+&lt;p&gt;Microsoft's own MsTest also has support for .Net Core. In your project.json, you need to set the &lt;code&gt;testRunner&lt;/code&gt; to &lt;code&gt;mstest&lt;/code&gt; and add dependencies for MSTest.TestFramework and the dotnet-test-mstest console runner.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"testRunner": "mstest",
+"dependencies": {
+    "MSTest.TestFramework": "1.0.0-preview",
+    "dotnet-test-mstest": "1.0.1-preview"
+},
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using the NuGet Package Management Console:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Install-Package MSTest.TestFramework -Pre
+Install-Package dotnet-test-mstest -Pre
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;BDDfy&lt;/h3&gt;
+
+&lt;p&gt;BDDfy, from TestStack - the simplest BDD framework to use, customize and extend - has full support for .Net Core.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Install-Package TestStack.BDDfy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Fixie&lt;/h3&gt;
+
+&lt;p&gt;As described in the &lt;a href="https://github.com/fixie/fixie/wiki"&gt;Project Roadmap&lt;/a&gt;, Fixie 2.x is being actively developed on the dev branch to support .NET Core. Fixie itself should leverage .NET Core, and it should allow testing of projects that leverage .NET Core. &lt;/p&gt;
+
+&lt;p&gt;For more detailed progress and discussion on .NET Core, see &lt;a href="https://github.com/fixie/fixie/issues/145"&gt;Issue #145 - Support .NET Core&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One of the items on the roadmap is to publish a prerelease NuGet package of 2.x for initial round of feedback but, as far as I can tell, that has not been released yet.&lt;/p&gt;
+
+&lt;h2&gt;Mocking Frameworks&lt;/h2&gt;
+
+&lt;p&gt;Most of the mocking frameworks depend on Castle.Core, which itself currently has alpha support for .Net Core. &lt;/p&gt;
+
+&lt;h3&gt;NSubstitute&lt;/h3&gt;
+
+&lt;p&gt;If you go to nuget.org, you will find that the latest NSubstitute package is version 1.10.0 from March and does not have support for .Net Core. However, there is actually an unlisted beta package of version 2.0 with support for .Net Core that is published to nuget.org and just not visible. &lt;/p&gt;
+
+&lt;p&gt;You can install the package via the NuGet CLI with the following command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Install-Package NSubstitute -Version 2.0.0-beta -Pre
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or you can just add these references to the dependencies node of your project.json. Note that you also need to add a reference to System.Diagnostics.TraceSource.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"NSubstitute": "2.0.0-alpha003",
+"System.Diagnostics.TraceSource": "4.0.0",
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can follow the progress of NSubstitute 2.0 on this &lt;a href="https://github.com/nsubstitute/NSubstitute/pull/197"&gt;GitHub issue&lt;/a&gt; or on &lt;a href="https://github.com/alexandrnikitin/NSubstitute/commits/Issue192_NetCore_Project"&gt;Alexandr Nikitin's branch&lt;/a&gt;. &lt;/p&gt;
+
+&lt;h3&gt;FakeItEasy&lt;/h3&gt;
+
+&lt;p&gt;FakeItEasy also don't have a package with .Net Core support officially published on NuGet, but you can access the alpha version of v2.3, with support for .Net Core, on an appveyor NuGet feed:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;https://ci.appveyor.com/nuget/fakeiteasy-jeremymeng
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To access this from your solution, just add this reference as a NuGet package source in Visual Studio and add a NuGet.config to the root of your solution like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;?xml version="1.0" encoding="utf-8"?&amp;gt;
+&amp;lt;configuration&amp;gt;
+  &amp;lt;packageSources&amp;gt;
+    &amp;lt;add key="api.nuget.org" value="https://api.nuget.org/v3/index.json" /&amp;gt;
+    &amp;lt;add key="appveyor FakeItEasy" value="https://ci.appveyor.com/nuget/fakeiteasy-jeremymeng" /&amp;gt;
+  &amp;lt;/packageSources&amp;gt;
+&amp;lt;/configuration&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And add a reference to the latest version (2.2.0-coreclr-alpha30 at the time of writing) in the dependencies node of project.json.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"FakeItEasy": "2.2.0-coreclr-alpha30",
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can follow the progress of this release on this &lt;a href="https://github.com/FakeItEasy/FakeItEasy/issues/531"&gt;GitHub issues page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Moq&lt;/h3&gt;
+
+&lt;p&gt;Moq has an alpha release published to NuGet.org with support for .Net Core:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Install-Package Moq -Pre
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And, like NSubstitute, it seems you also need to add a reference to System.Diagnostics.TraceSource in your project.json. You can read more about that on &lt;a href="http://stackoverflow.com/questions/37288385/moq-netcore-failing-for-net-core-rc2"&gt;stack overflow&lt;/a&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"moq.netcore": "4.6.25-alpha",
+"System.Diagnostics.TraceSource": "4.0.0"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Assertion Frameworks&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="http://www.fluentassertions.com/"&gt;Fluent Assertions&lt;/a&gt; and &lt;a href="https://shouldly.readthedocs.io/en/latest/"&gt;Shouldly&lt;/a&gt; both have full support for .Net Core.&lt;/p&gt;
+
+&lt;h2&gt;Other Testing Libraries&lt;/h2&gt;
+
+&lt;p&gt;As far as I can tell, &lt;a href="http://approvaltests.com/"&gt;ApprovalTests&lt;/a&gt; does not have support for .Net Core yet.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;.Net Core 1.0 has been officially released but the tooling is still in preview. This means that a number of open source testing libraries have been able to release at least alpha support for .Net Core, but it is not always easy to locate. In this post, I have looked at the main .Net testing providers, their current support for .Net Core, and how you can get hold of them.&lt;/p&gt;
+</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/</guid><link>http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>Replacing AppDomain in .Net Core</title><description>&lt;p&gt;In the move to .Net Core, Microsoft decided to discontinue certain technologies because they were deemed to be problematic. AppDomain was one of those that did not make the cut. While AppDomains have been discontinued, some of their functionality is still being provided. It is quite hard to find those features though, as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.&lt;/p&gt;
 
 </description><pubDate>Thu, 07 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-07T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;In the move to .Net Core, Microsoft decided to discontinue certain technologies because they were deemed to be problematic. AppDomain was one of those that did not make the cut. While AppDomains have been discontinued, some of their functionality is still being provided. It is quite hard to find those features though, as they are spread across multiple NuGet packages and there is very little documentation at this stage. Issues on github are the best source of information, but there has been a high churn of APIs in this area and a lot of those discussions and APIs are out-of-date. If you have been hunting around for these features then I hope the code samples here will at least provide you with a good starting point and some clues as to where to find related features.&lt;/p&gt;
 
@@ -1072,33 +1322,4 @@ public void CanIdentifyPageWithHiddenIdentifier()
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Again, any changes to the constant value in the static class are reflected in both the application and the tests without breaking the tests.&lt;/p&gt;
-</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/sql-server-localdb-2014-connection-string/</guid><link>http://www.michael-whelan.net/sql-server-localdb-2014-connection-string/</link><author>mjmwdev@gmail.com</author><category>SQL Server</category><title>SQL Server LocalDB 2014 Connection String</title><description>&lt;p&gt;I spent way too much time today trying to figure out why I could not connect to my newly installed SQL Server LocalDB 2014 instance. I assumed that I could just update my connection string from &lt;code&gt;v11.0&lt;/code&gt; to &lt;code&gt;v12.0&lt;/code&gt; but it seems that Microsoft have changed the naming scheme for this version. Now the automatic instance is named &lt;code&gt;MSSQLLocalDB&lt;/code&gt;.&lt;/p&gt;
-
-</description><pubDate>Sun, 23 Nov 2014 00:00:00 Z</pubDate><a10:updated>2014-11-23T00:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;I spent way too much time today trying to figure out why I could not connect to my newly installed SQL Server LocalDB 2014 instance. I assumed that I could just update my connection string from &lt;code&gt;v11.0&lt;/code&gt; to &lt;code&gt;v12.0&lt;/code&gt; but it seems that Microsoft have changed the naming scheme for this version. Now the automatic instance is named &lt;code&gt;MSSQLLocalDB&lt;/code&gt;.&lt;/p&gt;
-
-&lt;!--excerpt--&gt;
-
-&lt;p&gt;So, for SQL Server 2012 LocalDB, I had this connection string:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;connectionStrings&amp;gt;
-    &amp;lt;add name="SchoolContext" 
-        connectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\ContosoUniversityDB.mdf;Integrated Security=True;" 
-        providerName="System.Data.SqlClient" /&amp;gt;
-&amp;lt;/connectionStrings&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For SQL Server 2014 LocalDB the connection string should be:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;connectionStrings&amp;gt;
-    &amp;lt;add name="SchoolContext" 
-        connectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\ContosoUniversityDB.mdf;Integrated Security=True;" 
-        providerName="System.Data.SqlClient" /&amp;gt;
-&amp;lt;/connectionStrings&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;According to &lt;a href="https://connect.microsoft.com/SQLServer/feedback/details/845278/sql-server-2014-express-localdb-does-not-create-automatic-instance-v12-0"&gt;Microsoft&lt;/a&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;In SQL14, we moved away from the numbering/versioning for the automatic instance and named it "MSSQLLocalDB" instead of "v12.0".&lt;/p&gt;
-&lt;/blockquote&gt;
 </a10:content></item></channel></rss>

@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2016-07-17T14:37:35.0430045+01:00" />
+    <meta name="keywords" content="" />
+
+
+    <title>The State of .Net Core Testing Today - Michael Whelan - behaviour driven blog</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/.net" title=".Net">.Net</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bdd" title="BDD">BDD</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">The State of .Net Core Testing Today</h1>
+
+    <div class="blog-post-meta">
+        posted on 17 Jul 2016
+            | <a class="label label-primary" href="/category/.net">.Net</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>.Net Core 1.0 has been officially released but the tooling is still in preview. This means that a number of open source testing libraries have been able to release at least alpha support for .Net Core, but it is not always easy to locate and you sometimes have to drill through GitHub issues, stack overflow questions, and NuGet feeds, to find it. Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net has a number of promising alpha releases. In this post, I am going to look at the main .Net testing providers, their current support for .Net Core, and how you can get hold of them. </p>
+
+<!--excerpt-->
+
+<h2>Test Project Configuration</h2>
+
+<p>The steps to create a test project are a little bit different with .Net Core. You still create it as a class library, but now you must mark it as a .Net Core Application (the <code>netcoreapp1.0</code> framework in the project.json below).  </p>
+
+<pre><code>"frameworks": {
+    "netcoreapp1.0": {
+        "dependencies": {
+            "Microsoft.NETCore.App": {
+                "type": "platform",
+                "version": "1.0.0"
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>When using the .Net CLI for testing, unit test projects are actually an application, not a class library.If you forget to make this change, the compiler will tell you that <code>dotnet-test-xunit</code> (for example) is not compatible with your class library project. </p>
+
+<p>You must also add a project reference to the application project you are testing in the project.json.</p>
+
+<pre><code>"dependencies": {
+    "Specify.Autofac": {
+      "target": "project"
+    },
+</code></pre>
+
+<p>You can target both net4xx and netcoreapp simply by adding both frameworks together in your project.json file. When you run dotnet test with multiple framework entries, the system will run all your framework tests, one after the other.</p>
+
+<pre><code>"frameworks": {
+    "netcoreapp1.0": {
+        "dependencies": {
+            "Microsoft.NETCore.App": {
+                "type": "platform",
+                "version": "1.0.0"
+            },
+            "System.Linq": "4.1.0"
+        },
+        "imports": [
+            "dnxcore50",
+            "portable-net45+win8"
+      ]
+    },
+  "net46": {
+    "dependencies": {
+    },
+    "buildOptions": {
+      "define": [
+        "Approvals"
+      ]
+    }
+  }
+},
+</code></pre>
+
+<h2>Test Runners</h2>
+
+<p>Unfortunately, my favourite test runners, ReSharper and NCrunch, do not have support for .Net Core yet. That has meant that we have been stuck with either the console runners or the Visual Studio test runner. Fortunately, things are looking up, with TestDriven.Net providing a flurry of alpha packages. There are still a number of issues to work out - tests just flat out don't run on some of my projects - but it seems to be shaping up quite well and is a great option for those projects that it does work for.</p>
+
+<h3>TestDriven.Net v4 Alpha</h3>
+
+<p><a href="https://twitter.com/jcansdale">Jamie Cansdale</a>, the maintainer of the venerable TestDriven.Net, has released a number of alpha versions through the <a href="https://github.com/jcansdale/TestDriven.Net-Issues">TestDriven.Net-Issues project</a> on his GitHub. The releases consist of .zip files that contain an executable for installing TestDriven.Net as a Visual Studio add-in.</p>
+
+<p><img src="/images/test-dotnet-core-tdnet.png" alt="VS test runner" /></p>
+
+<p>As far as I can tell, the latest release, at the time of writing, is v4.0.3267-alpha. You can find it in <a href="https://github.com/jcansdale/TestDriven.Net-Issues/issues/8">issue 8</a>, but you should check any new issues for more recent releases.</p>
+
+<h3>Console Runners</h3>
+
+<p>The various test frameworks implement the <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/tools/test-protocol">.Net Core test protocol</a> to provide test runners, which allow tests to be run by the Visual Studio test runner or from the command line. </p>
+
+<p>To run tests from the command line, open a command prompt or PowerShell command window. In the window, navigate to the folder containing the source code of your test project. To run the .Net CLI test runner, type <code>dotnet test</code>, as shown below:</p>
+
+<pre><code>&gt; dotnet test
+xUnit.net .NET CLI test runner (64-bit .NET Core win10-x64)
+  Discovering: MyFirstDotNetCoreTests
+  Discovered:  MyFirstDotNetCoreTests
+  Starting:    MyFirstDotNetCoreTests
+    MyFirstDotNetCoreTests.Class1.FailingTest [FAIL]
+      Assert.Equal() Failure
+      Expected: 5
+      Actual:   4
+      Stack Trace:
+        C:\Samples\MyFirstDotNetCoreTests\src\MyFirstDotNetCoreTests\Class1.cs(16,0): at MyFirstDotNetCoreTests.Class1.FailingTest()
+  Finished:    MyFirstDotNetCoreTests
+=== TEST EXECUTION SUMMARY ===
+   MyFirstDotNetCoreTests  Total: 2, Errors: 0, Failed: 1, Skipped: 0, Time: 0.167s
+</code></pre>
+
+<p>This will kick off the tests using whichever runner is specified in the <code>testRunner</code> node in project.json.</p>
+
+<h3>Run tests in Visual Studio</h3>
+
+<p>The same NuGet package which allows you to run tests from the console also allows you to run tests from within Visual Studio. Show the Test Explorer window by choosing Test > Windows > Test Explorer. The Test Explorer window will show inside Visual Studio, and your test should be visible (if they're not, try building your project to kick off the test discovery process). </p>
+
+<p>If you click the Run All link in the Test Explorer window, it will run your tests and show you success and failure. You can click on an individual test result to get failure information as well as stack trace information:</p>
+
+<p><img src="/images/test-dotnet-core-vs-runner.png" alt="VS test runner" /></p>
+
+<h3>ReSharper</h3>
+
+<p>ReSharper does not have test runner support for .Net Core yet. </p>
+
+<h3>NCrunch</h3>
+
+<p>NCrunch does not have test runner support for .Net Core yet. Remco Mulder, NCrunch's creator, has a useful explanation <a href="https://ncrunch.uservoice.com/forums/245203-feature-requests/suggestions/8065623-support-dnx-projects">here</a> on the difficulties that tool vendors face with the ongoing changes to tooling.</p>
+
+<h2>Test Frameworks</h2>
+
+<h3>xUnit</h3>
+
+<p>xUnit has beta support for .Net Core. In your project.json, you need to set the <code>testRunner</code> to <code>xunit</code> and add dependencies for xUnit and the dotnet-test-xunit console runner.</p>
+
+<pre><code>"testRunner": "xunit",
+"dependencies": {
+    "xunit": "2.2.0-beta2-build3300",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
+},
+</code></pre>
+
+<p>Using the NuGet Package Management Console:</p>
+
+<pre><code>Install-Package xunit -Pre
+Install-Package dotnet-test-xunit -Pre
+</code></pre>
+
+<h3>NUnit</h3>
+
+<p>NUnit also has beta support for .Net Core. In your project.json, you need to set the <code>testRunner</code> to <code>nunit</code> and add dependencies for xUnit and the dotnet-test-xunit console runner.</p>
+
+<pre><code>"testRunner": "nunit",
+"dependencies": {
+    "NUnit": "3.4.1",
+    "dotnet-test-nunit": "3.4.0-beta-1"
+},
+</code></pre>
+
+<p>Using the NuGet Package Management Console:</p>
+
+<pre><code>Install-Package Nunit
+Install-Package dotnet-test-nunit -Pre
+</code></pre>
+
+<h3>MsTest</h3>
+
+<p>Microsoft's own MsTest also has support for .Net Core. In your project.json, you need to set the <code>testRunner</code> to <code>mstest</code> and add dependencies for MSTest.TestFramework and the dotnet-test-mstest console runner.</p>
+
+<pre><code>"testRunner": "mstest",
+"dependencies": {
+    "MSTest.TestFramework": "1.0.0-preview",
+    "dotnet-test-mstest": "1.0.1-preview"
+},
+</code></pre>
+
+<p>Using the NuGet Package Management Console:</p>
+
+<pre><code>Install-Package MSTest.TestFramework -Pre
+Install-Package dotnet-test-mstest -Pre
+</code></pre>
+
+<h3>BDDfy</h3>
+
+<p>BDDfy, from TestStack - the simplest BDD framework to use, customize and extend - has full support for .Net Core.</p>
+
+<pre><code>Install-Package TestStack.BDDfy
+</code></pre>
+
+<h3>Fixie</h3>
+
+<p>As described in the <a href="https://github.com/fixie/fixie/wiki">Project Roadmap</a>, Fixie 2.x is being actively developed on the dev branch to support .NET Core. Fixie itself should leverage .NET Core, and it should allow testing of projects that leverage .NET Core. </p>
+
+<p>For more detailed progress and discussion on .NET Core, see <a href="https://github.com/fixie/fixie/issues/145">Issue #145 - Support .NET Core</a>.</p>
+
+<p>One of the items on the roadmap is to publish a prerelease NuGet package of 2.x for initial round of feedback but, as far as I can tell, that has not been released yet.</p>
+
+<h2>Mocking Frameworks</h2>
+
+<p>Most of the mocking frameworks depend on Castle.Core, which itself currently has alpha support for .Net Core. </p>
+
+<h3>NSubstitute</h3>
+
+<p>If you go to nuget.org, you will find that the latest NSubstitute package is version 1.10.0 from March and does not have support for .Net Core. However, there is actually an unlisted beta package of version 2.0 with support for .Net Core that is published to nuget.org and just not visible. </p>
+
+<p>You can install the package via the NuGet CLI with the following command:</p>
+
+<pre><code>Install-Package NSubstitute -Version 2.0.0-beta -Pre
+</code></pre>
+
+<p>Or you can just add these references to the dependencies node of your project.json. Note that you also need to add a reference to System.Diagnostics.TraceSource.</p>
+
+<pre><code>"NSubstitute": "2.0.0-alpha003",
+"System.Diagnostics.TraceSource": "4.0.0",
+</code></pre>
+
+<p>You can follow the progress of NSubstitute 2.0 on this <a href="https://github.com/nsubstitute/NSubstitute/pull/197">GitHub issue</a> or on <a href="https://github.com/alexandrnikitin/NSubstitute/commits/Issue192_NetCore_Project">Alexandr Nikitin's branch</a>. </p>
+
+<h3>FakeItEasy</h3>
+
+<p>FakeItEasy also don't have a package with .Net Core support officially published on NuGet, but you can access the alpha version of v2.3, with support for .Net Core, on an appveyor NuGet feed:</p>
+
+<pre><code>https://ci.appveyor.com/nuget/fakeiteasy-jeremymeng
+</code></pre>
+
+<p>To access this from your solution, just add this reference as a NuGet package source in Visual Studio and add a NuGet.config to the root of your solution like this:</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;configuration&gt;
+  &lt;packageSources&gt;
+    &lt;add key="api.nuget.org" value="https://api.nuget.org/v3/index.json" /&gt;
+    &lt;add key="appveyor FakeItEasy" value="https://ci.appveyor.com/nuget/fakeiteasy-jeremymeng" /&gt;
+  &lt;/packageSources&gt;
+&lt;/configuration&gt;
+</code></pre>
+
+<p>And add a reference to the latest version (2.2.0-coreclr-alpha30 at the time of writing) in the dependencies node of project.json.</p>
+
+<pre><code>"FakeItEasy": "2.2.0-coreclr-alpha30",
+</code></pre>
+
+<p>You can follow the progress of this release on this <a href="https://github.com/FakeItEasy/FakeItEasy/issues/531">GitHub issues page</a>.</p>
+
+<h3>Moq</h3>
+
+<p>Moq has an alpha release published to NuGet.org with support for .Net Core:</p>
+
+<pre><code>Install-Package Moq -Pre
+</code></pre>
+
+<p>And, like NSubstitute, it seems you also need to add a reference to System.Diagnostics.TraceSource in your project.json. You can read more about that on <a href="http://stackoverflow.com/questions/37288385/moq-netcore-failing-for-net-core-rc2">stack overflow</a>.</p>
+
+<pre><code>"moq.netcore": "4.6.25-alpha",
+"System.Diagnostics.TraceSource": "4.0.0"
+</code></pre>
+
+<h2>Assertion Frameworks</h2>
+
+<p><a href="http://www.fluentassertions.com/">Fluent Assertions</a> and <a href="https://shouldly.readthedocs.io/en/latest/">Shouldly</a> both have full support for .Net Core.</p>
+
+<h2>Other Testing Libraries</h2>
+
+<p>As far as I can tell, <a href="http://approvaltests.com/">ApprovalTests</a> does not have support for .Net Core yet.</p>
+
+<h2>Summary</h2>
+
+<p>.Net Core 1.0 has been officially released but the tooling is still in preview. This means that a number of open source testing libraries have been able to release at least alpha support for .Net Core, but it is not always easy to locate. In this post, I have looked at the main .Net testing providers, their current support for .Net Core, and how you can get hold of them.</p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. 
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>
