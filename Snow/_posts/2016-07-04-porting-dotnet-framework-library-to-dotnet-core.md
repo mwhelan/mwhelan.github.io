@@ -24,6 +24,11 @@ This will produce a report that provides two useful pieces of information:
 
 ![.Net Portability Analyzer results](/images/portcore-analyzer-results.png)
 
+## Run I Can Has .Net Core
+Another useful analysis tool is the [I Can Has .Net Core website](https://icanhasdot.net/). Just upload your project's packages.config, project.json or paket.dependencies files for analysis and it will build a visualisation of the packages and whether .NET Standard versions are available on nuget.org.
+
+![I Can Has .Net Core](/images/portcore-icanhasdotnetcore.jpg)
+
 ## Create a new .Net Core class library project
 The way to "upgrade" a .Net framework project is actually to create a new .Net Core class library and copy the old C# files into it. Assuming you want it to have the same name as the old project, and be in the same folder, you should remove the existing project and rename its folder on the file system so that the new project can be saved to the original location. 
 
