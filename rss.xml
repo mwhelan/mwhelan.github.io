@@ -395,6 +395,12 @@ private static bool IsCandidateLibrary(RuntimeLibrary library, assemblyName)
 
 &lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/portcore-analyzer-results.png" alt=".Net Portability Analyzer results" /&gt;&lt;/p&gt;
 
+&lt;h2&gt;Run I Can Has .Net Core&lt;/h2&gt;
+
+&lt;p&gt;Another useful analysis tool is the &lt;a href="https://icanhasdot.net/"&gt;I Can Has .Net Core website&lt;/a&gt;. Just upload your project's packages.config, project.json or paket.dependencies files for analysis and it will build a visualisation of the packages and whether .NET Standard versions are available on nuget.org.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/portcore-icanhasdotnetcore.jpg" alt="I Can Has .Net Core" /&gt;&lt;/p&gt;
+
 &lt;h2&gt;Create a new .Net Core class library project&lt;/h2&gt;
 
 &lt;p&gt;The way to "upgrade" a .Net framework project is actually to create a new .Net Core class library and copy the old C# files into it. Assuming you want it to have the same name as the old project, and be in the same folder, you should remove the existing project and rename its folder on the file system so that the new project can be saved to the original location. &lt;/p&gt;
