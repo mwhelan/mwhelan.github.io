@@ -1,4 +1,73 @@
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/</guid><link>http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>The State of .Net Core Testing Today</title><description>&lt;p&gt;.Net Core 1.0 has been officially released but the tooling is still in preview. This means that a number of open source testing libraries have been able to release at least alpha support for .Net Core, but it is not always easy to locate and you sometimes have to drill through GitHub issues, stack overflow questions, and NuGet feeds, to find it. Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net has a number of promising alpha releases. In this post, I am going to look at the main .Net testing providers, their current support for .Net Core, and how you can get hold of them. &lt;/p&gt;
+<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/</guid><link>http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>A Humanizer Display Metadata Provider for ASP .Net Core</title><description>&lt;p&gt;I have always been a big fan of using a Humanizer model metadata provider in my ASP.Net MVC applications. This means that Humanizer will automatically put spaces into labels for multi-word view model property names rather than the developer having to manually add a lot of data annotation Display attributes to those view model property names. The APIs have changed a little for ASP.Net Core, but the approach is basically the same. &lt;/p&gt;
+
+</description><pubDate>Mon, 18 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-18T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;I have always been a big fan of using a Humanizer model metadata provider in my ASP.Net MVC applications. This means that Humanizer will automatically put spaces into labels for multi-word view model property names rather than the developer having to manually add a lot of data annotation Display attributes to those view model property names. The APIs have changed a little for ASP.Net Core, but the approach is basically the same. &lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;h2&gt;What it does&lt;/h2&gt;
+
+&lt;p&gt;You can read about the approach for classic MVC in &lt;a href="http://www.mehdi-khalili.com/introducing-humanizer/#what-else"&gt;Mehdi's introductory Humanizer post&lt;/a&gt;. Basically, instead of the &lt;code&gt;ReleaseDate&lt;/code&gt; label:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/humanizer-original.png" alt="VS test runner" /&gt; &lt;/p&gt;
+
+&lt;p&gt;you get the preferable &lt;code&gt;Release Date&lt;/code&gt;, with a space between the words.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/humanizer-after.png" alt="VS test runner" /&gt; &lt;/p&gt;
+
+&lt;h2&gt;How it works&lt;/h2&gt;
+
+&lt;p&gt;Rather than inherit from the DataAnnotationsModelMetadataProvider as you did in classic MVC, with ASP.Net Core you need to implement the &lt;code&gt;IDisplayMetadataProvider&lt;/code&gt; interface from the &lt;code&gt;Microsoft.AspNetCore.Mvc.ModelBinding.Metadata&lt;/code&gt; namespace. The implementation is otherwise very similar:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Humanizer;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+
+public class HumanizerMetadataProvider : IDisplayMetadataProvider
+{
+    public void CreateDisplayMetadata(DisplayMetadataProviderContext context)
+    {
+        var propertyAttributes = context.Attributes;
+        var modelMetadata = context.DisplayMetadata;
+        var propertyName = context.Key.Name;
+
+        if (IsTransformRequired(propertyName, modelMetadata, propertyAttributes))
+        {
+            modelMetadata.DisplayName = () =&amp;gt; propertyName.Humanize().Transform(To.TitleCase);
+        }
+    }
+
+    private static bool IsTransformRequired(string propertyName, DisplayMetadata modelMetadata, IReadOnlyList&amp;lt;object&amp;gt; propertyAttributes)
+    {
+        if (!string.IsNullOrEmpty(modelMetadata.SimpleDisplayProperty))
+            return false;
+
+        if (propertyAttributes.OfType&amp;lt;DisplayNameAttribute&amp;gt;().Any())
+            return false;
+
+        if (propertyAttributes.OfType&amp;lt;DisplayAttribute&amp;gt;().Any())
+            return false;
+
+        if (string.IsNullOrEmpty(propertyName))
+            return false;
+
+        return true;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To wire it up, you configure it in the ConfigureServices method of Startup.cs. You add the custom HumanizerMetadataProvider provider to the ModelMetadataDetailsProviders collection.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;services.AddMvc()
+    .AddMvcOptions(m =&amp;gt; m.ModelMetadataDetailsProviders.Add(new HumanizerMetadataProvider()));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Creating a custom model metadata provider in ASP.Net Core is quite similar to ASP.Net MVC, but the APIs have changed a little bit.&lt;/p&gt;
+</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/</guid><link>http://www.michael-whelan.net/the-state-of-dotnet-core-testing-today/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>The State of .Net Core Testing Today</title><description>&lt;p&gt;.Net Core 1.0 has been officially released but the tooling is still in preview. This means that a number of open source testing libraries have been able to release at least alpha support for .Net Core, but it is not always easy to locate and you sometimes have to drill through GitHub issues, stack overflow questions, and NuGet feeds, to find it. Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net has a number of promising alpha releases. In this post, I am going to look at the main .Net testing providers, their current support for .Net Core, and how you can get hold of them. &lt;/p&gt;
 
 </description><pubDate>Sun, 17 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-17T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;.Net Core 1.0 has been officially released but the tooling is still in preview. This means that a number of open source testing libraries have been able to release at least alpha support for .Net Core, but it is not always easy to locate and you sometimes have to drill through GitHub issues, stack overflow questions, and NuGet feeds, to find it. Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net has a number of promising alpha releases. In this post, I am going to look at the main .Net testing providers, their current support for .Net Core, and how you can get hold of them. &lt;/p&gt;
 
@@ -1148,184 +1217,4 @@ public void CanReadModelFromPage()
     model.LastName.Should().Be("Alexander");
 }
 &lt;/code&gt;&lt;/pre&gt;
-</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/</guid><link>http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/</link><author>mjmwdev@gmail.com</author><category>Automated Testing</category><category>Black-Box Testing ASP.Net Series</category><title>Black-Box Testing ASP.Net: Reducing the Use of Magic Strings</title><description>&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
-
-</description><pubDate>Sat, 03 Jan 2015 00:00:00 Z</pubDate><a10:updated>2015-01-03T00:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;Although UI tests for an ASP.Net MVC application are &lt;a href="http://en.wikipedia.org/wiki/Black-box_testing"&gt;black-box tests&lt;/a&gt;, a little bit of knowledge of the inner workings of the application can go a long way to writing less brittle, more maintainable tests. For example, we have a lot of developer techniques for avoiding the use of "magic strings" in our application code. We can take advantage of these same techniques in our tests. &lt;/p&gt;
-
-&lt;!--excerpt--&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Some of the sample code is taken straight from &lt;a href="https://github.com/TestStack/TestStack.Seleno"&gt;Seleno&lt;/a&gt;, the Selenium WebDriver browser automation framework from &lt;a href="http://teststack.net/"&gt;TestStack&lt;/a&gt;, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application. I've produced a working sample on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;, so you should be able to take it, run it, and use some of the code in your own applications if you want to.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Magic strings is one of those things we developers often talk about wanting to avoid, but I found it quite difficult to articulate exactly what they are. Rob Conery has a good discussion of them &lt;a href="http://rob.conery.io/2011/03/10/are-friends-immutable/"&gt;here&lt;/a&gt;. As I understand it, the problem is that you can change a string value in your code that will break your application but the code will still compile - you don't discover the issue until runtime. It is preferable to discover the break at compile time (or failing that when you run your unit tests) rather than at runtime. This can be achieved by replacing the string with something strongly typed, like a class or an enum or a resource file. You have to be careful though. Some of the reflection-based techniques are quite nice from a compilation point of view, but can have &lt;a href="http://haacked.com/archive/2009/06/02/alternative-to-expressions.aspx/"&gt;performance implications&lt;/a&gt;. Whilst this might lead you to steer clear of certain solutions in your application code - I'm thinking of strongly typed controller actions here - I think they are well worth it in UI tests, where the need for reducing brittleness is so important and the need to eek out every drop of performance is not as great as it is for your web application.&lt;/p&gt;
-
-&lt;h2&gt;Strongly Typed Navigation&lt;/h2&gt;
-
-&lt;p&gt;One example of magic strings when UI testing MVC applications is page navigation. Selenium WebDriver uses a string URL to navigate. If the URL changes you have no way of knowing until you run the test and it fails. An MVC application uses routes to direct a request for a URL to the matching controller action. Your UI tests can do the same, but in reverse. Take a strongly typed controller action and lookup the route in the route table and return you the same computed URL your application recognises. This completely removes the brittleness of URLs from your tests as the URLs your tests use will always be completely in sync with those that the application is using.&lt;/p&gt;
-
-&lt;p&gt;Here is a test that shows the desired behaviour. &lt;code&gt;RouteConfig.RegisterRoutes()&lt;/code&gt; is the method in the application that intialises its route table.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void MvcUrlHelper_should_return_correct_route_for_controller_action()
-{
-    var routes = RouteConfig.RegisterRoutes(new RouteCollection());
-    var sut = new MvcUrlHelper(routes);
-
-    sut.GetRelativeUrlFor&amp;lt;StudentController&amp;gt;(x =&amp;gt; x.Details(1))
-        .Should().Be("/Student/Details/1");
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We call the application code to get the same route collection that is configured for the application at startup and pass it into our MvcUrlHelper class. Then we can call the GetRelativeUrlFor generic method, passing the controller as the generic type and an expression for the controller action. It then returns the relative URL that the application uses for that controller action.  &lt;/p&gt;
-
-&lt;p&gt;The code to achieve this is quite simple, as you would expect. Unfortunately, it does require a bit more setup than I would like. It would be nicer if this functionality was simply exposed in System.Web.Mvc (I'm using the latest v5.2.2 as at the time of writing this post).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class MvcUrlHelper
-{
-    private readonly RouteCollection _routeCollection;
-
-    public MvcUrlHelper(RouteCollection routeCollection)
-    {
-        _routeCollection = routeCollection;
-    }
-
-    public string GetRelativeUrlFor&amp;lt;TController&amp;gt;(Expression&amp;lt;Action&amp;lt;TController&amp;gt;&amp;gt; action)
-        where TController : Controller
-    {
-        var requestContext = new RequestContext(FakeHttpContext.Root(), new RouteData());
-
-        var actionRouteValues = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
-        var urlHelper = new System.Web.Mvc.UrlHelper(requestContext, _routeCollection);
-        var relativeUrl = urlHelper.RouteUrl(new RouteValueDictionary(actionRouteValues));
-
-        return relativeUrl;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Firstly, the ExpressionHelper class, with the single GetRouteValuesFromExpression method requires the MVC5 Futures package (there is a version of this package for each version of MVC).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Install-Package Microsoft.AspNet.Mvc.Futures -Pre
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Secondly, you need to provide fake versions of a number of ASP.Net intrinsic classes. Way back in 2008, &lt;a href="http://stephenwalther.com/archive/2008/07/01/asp-net-mvc-tip-12-faking-the-controller-context"&gt;Stephen Walther wrote&lt;/a&gt; about how you can easily test ASP.NET intrinsics by creating a standard set of fakes for the ASP.NET intrinsics. These classes have been used in a number of libraries, notably MvcContrib.TestHelper and TestStack.Seleno. You can see that I have used the &lt;code&gt;FakeHttpContext&lt;/code&gt; class here, but this in turn depends on the &lt;code&gt;FakeHttpRequest&lt;/code&gt;, &lt;code&gt;FakeHttpResponse&lt;/code&gt;, and &lt;code&gt;FakeHttpSessionState&lt;/code&gt; classes (included in the sample).&lt;/p&gt;
-
-&lt;h3&gt;Strongly Typed Navigation in Action&lt;/h3&gt;
-
-&lt;p&gt;In TestStack.Seleno we don't have an MvcUrlHelper class as such. We instead utilise this behaviour in the PageNavigator class, allowing you to navigate to another page in a strongly typed fashion. Here I've added a NavigateTo method to the Host class, which provides a simplified example of the functionality. The method takes the controller action expression, navigates to the computed URL, and returns the specified page object for the new page location. Note that the MvcUrlHelper is initialised with the application routes once before all the tests run.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[SetUpFixture]
-public class Host
-{
-    ...
-    private static MvcUrlHelper _mvcUrlHelper ;
-
-    [SetUp]
-    public void SetUp()
-    {
-        ...
-        _mvcUrlHelper = new MvcUrlHelper(RouteConfig.RegisterRoutes(new RouteCollection()));
-    }
-
-    public static TPage NavigateTo&amp;lt;TController, TPage&amp;gt;(Expression&amp;lt;Action&amp;lt;TController&amp;gt;&amp;gt; action)
-        where TController : Controller
-        where TPage : new()
-    {
-        string relativeUrl = _mvcUrlHelper.GetRelativeUrlFor(action);
-        string url = string.Format("{0}{1}", WebServer.BaseUrl, relativeUrl);
-        Browser.Navigate().GoToUrl(url);
-        return new TPage();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And here is a test that uses strongly typed navigation&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void CanNavigateToPageViaControllerAction()
-{
-    var newStudentPage = Host.NavigateTo&amp;lt;StudentController, NewStudentPage&amp;gt;(x =&amp;gt; x.Create());
-    newStudentPage.Url.Should().Be(Host.WebServer.BaseUrl + "/Student/Create");
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Because the test now obtains the URL from an expression that is tied to the application, rather than from a string, it is less brittle and always in sync with the code. If the action name changes, or is removed, then this test won't compile, giving instant feedback that the change in the application has broken the test.&lt;/p&gt;
-
-&lt;h2&gt;Resource Files&lt;/h2&gt;
-
-&lt;p&gt;Resource files represent an elegant way to centralise the use of strings in an application and have the added benefit of making them strongly typed constants, as well as the potential benefit of internationalization. There are a few caveats about how you must set them up in the application in order to be able to access them from your test assemblies. K. Scott Allen has a great overview of the problem and solution &lt;a href="http://odetocode.com/blogs/scott/archive/2009/07/16/resource-files-and-asp-net-mvc-projects.aspx"&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In summary, to make resource files accessible from other assemblies:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Don't place resource files in one of the special resource directories (&lt;code&gt;App_LocalResources&lt;/code&gt; or &lt;code&gt;App_GlobalResources&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;In the Properties window for the resource file, make sure the &lt;code&gt;Build Action&lt;/code&gt; is set to &lt;code&gt;Embedded Resource&lt;/code&gt;, which embeds the resource in the web application's .dll. &lt;/li&gt;
-&lt;li&gt;Also in the Properties window for the resource file, make sure the &lt;code&gt;Custom Tool&lt;/code&gt; is set to &lt;code&gt;PublicResXFileCodeGenerator&lt;/code&gt; instead of &lt;code&gt;ResXCodeFileGenerator&lt;/code&gt;. (Alternatively, you can open the resource file and select &lt;code&gt;Public&lt;/code&gt; from the &lt;code&gt;Access Modifier&lt;/code&gt; dropdown). This makes the class modifier public, and thus accessible outside the assembly.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So, now I can use a resource value in the view:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;h2&amp;gt;&amp;lt;span id="title"&amp;gt;@Resources.Student_CreateForm_Title&amp;lt;/span&amp;gt;&amp;lt;/h2&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;and in the tests:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void CanAccessResourceFilesFromTests()
-{
-    var newStudentPage = Host.NavigateTo&amp;lt;StudentController, NewStudentPage&amp;gt;(x =&amp;gt; x.Create());
-    newStudentPage.HeaderTitle.Should().Be(Resources.Student_CreateForm_Title);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Because the test now just references the constant value it is less brittle. Any changes to the resource file are immediately reflected in the test and don't cause it to break.&lt;/p&gt;
-
-&lt;h2&gt;Static Constant Classes&lt;/h2&gt;
-
-&lt;p&gt;Sometimes it can be useful to embed information in the application page that is just for the purpose of making testing easier. The MVC in Action series of books provide the example of a well-known hidden input on each page that provides a unique page identifier.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;input type="hidden" name="pageId" value="@LocalSiteMap.Pages.Student.Create" /&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can then create a static class that exposes the site structure as a hierarchical model of constants.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public static class LocalSiteMap
-{
-    public static class Pages
-    {
-        public static class Student
-        {
-            public static readonly string Create = "studentCreate";
-            public static readonly string Delete = "studentDelete";
-            public static readonly string Details = "studentDetails";
-            public static readonly string Edit = "studentEdit";
-            public static readonly string Index = "studentIndex";
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Because this identifier is agreed to be on every page, you can add a property to your base page object to read it:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public string PageId
-{
-    get
-    {
-        return Host.Browser.FindElement(By.Id("pageId")).Text;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And then use that property to assert which page you are on in tests in a strongly typed manner. &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void CanIdentifyPageWithHiddenIdentifier()
-{
-    var newStudentPage = Host.NavigateTo&amp;lt;StudentController, NewStudentPage&amp;gt;(x =&amp;gt; x.Create());
-    newStudentPage.PageId.Should().Be(LocalSiteMap.Pages.Student.Create);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Again, any changes to the constant value in the static class are reflected in both the application and the tests without breaking the tests.&lt;/p&gt;
 </a10:content></item></channel></rss>

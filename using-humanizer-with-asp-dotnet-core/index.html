@@ -8,14 +8,14 @@
     <meta name="keywords" content="" />
 
 
-    <title>BDD Course in London - Michael Whelan - behaviour driven blog</title>
+    <title>A Humanizer Display Metadata Provider for ASP .Net Core - Michael Whelan - behaviour driven blog</title>
 
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/bdd-course-london/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/" />
 </head>
 <body>
     <div class="container">
@@ -118,118 +118,83 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">BDD Course in London</h1>
+    <h1 class="blog-post-title">A Humanizer Display Metadata Provider for ASP .Net Core</h1>
 
     <div class="blog-post-meta">
-        posted on 27 May 2016
-            | <a class="label label-primary" href="/category/bdd">BDD</a>
-            | <a class="label label-primary" href="/category/learning">Learning</a>
+        posted on 18 Jul 2016
+            | <a class="label label-primary" href="/category/.net">.Net</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p>Last week I had the pleasure of attending Gaspar Nagy's 3-day <a href="http://gasparnagy.com/trainings/specflow/">BDD course</a> at Skills Matter's <a href="https://skillsmatter.com/event-space">CodeNode</a> in London. I have been doing BDD for over 5 years now, and SpecFlow is not my preferred .Net BDD tool, but I still got a huge amount of value out of the course. Gaspar is very knowledgeable about BDD and I would highly recommend the course, whether you are new to BDD,  a <a href="http://www.specsolutions.eu/news/bddaddict">BDD addict</a> like me, or even if you are just struggling with agile.</p>
+        <p>I have always been a big fan of using a Humanizer model metadata provider in my ASP.Net MVC applications. This means that Humanizer will automatically put spaces into labels for multi-word view model property names rather than the developer having to manually add a lot of data annotation Display attributes to those view model property names. The APIs have changed a little for ASP.Net Core, but the approach is basically the same. </p>
 
 <!--excerpt-->
 
-<p>I had the good fortune of choosing a seat next to <a href="https://twitter.com/QuestMasterNET">Dirk Rombauts</a> on the first day, which resulted in two days of great pair programming, where I learned a lot, including some excellent pairing habits and one trick to double my ReSharper ninja skills!</p>
+<h2>What it does</h2>
 
-<p>It is a wide-ranging course that covers how to gather examples and then turn them into executable specifications, with the implementation focused on ASP.Net MVC and WPF .Net projects. The course covers refining and documenting specification workshop results in Gherkin, feeding Gherkin scenarios into acceptance test driven development with SpecFlow, and advanced concepts for automation and building living documentation systems. The course topics are discussed through examples, demos and hands-on exercises to ensure knowledge that can be used in practice.</p>
+<p>You can read about the approach for classic MVC in <a href="http://www.mehdi-khalili.com/introducing-humanizer/#what-else">Mehdi's introductory Humanizer post</a>. Basically, instead of the <code>ReleaseDate</code> label:</p>
 
-<p>The course started off by looking at the four different areas that make up BDD. So many companies that I see struggling with agile tend to focus primarily on the agile project management area, with perhaps one or two other techniques from the other areas. I think you need to do all four to maximise the benefits of agile.</p>
+<p><img src="/images/humanizer-original.png" alt="VS test runner" /> </p>
 
-<p><img src="/images/specflow-bdd.png" alt="BDD" /></p>
+<p>you get the preferable <code>Release Date</code>, with a space between the words.</p>
 
-<p>The first day was focused on capturing specification workshop results in gherkin, and covered some theory:</p>
+<p><img src="/images/humanizer-after.png" alt="VS test runner" /> </p>
 
-<ul>
-<li>Agile testing is not about hunting criminals (finding bugs after development) but more like crime prevention.</li>
-<li>As formality increases, tests and requirements become indistinguishable. At the limit, tests and requirements are equivalent. <em>Equivalence Hypothesis (Martin, Melnik)</em>.</li>
-</ul>
+<h2>How it works</h2>
 
-<p>The second day looked at SpecFlow core concepts and ATDD basics, with examples using a WPF pomodoro application, including:</p>
+<p>Rather than inherit from the DataAnnotationsModelMetadataProvider as you did in classic MVC, with ASP.Net Core you need to implement the <code>IDisplayMetadataProvider</code> interface from the <code>Microsoft.AspNetCore.Mvc.ModelBinding.Metadata</code> namespace. The implementation is otherwise very similar:</p>
 
-<ul>
-<li>Introduction to the Acceptance Test Driven Development workflow (test first, outside-in)</li>
-<li>Core concepts for (A)TDD: mocking, stubbing, dependency injection</li>
-<li>Domain layer automation (automating under the skin)</li>
-<li>Organizing step definitions</li>
-<li>Sharing state between steps</li>
-</ul>
+<pre><code>using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Humanizer;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
-<p>The third day looked at advanced test automation topics, using an ASP.Net MVC pomodoro application, including:</p>
-
-<ul>
-<li>Clean and maintainable automation layer</li>
-<li>Dealing with external dependencies</li>
-<li>Flickering scenarios</li>
-<li>UI layer automation (MVC ASP.NET, Driver, PageObject pattern)</li>
-<li>Handling the database</li>
-<li>Challenges of out-of-process testing (with Selenium)</li>
-<li>Organizing step definitions</li>
-<li>Defaults and implicit assumptions of scenarios</li>
-<li>Automapper and SpecFlow.Assist</li>
-<li>Putting it all together: implement new functionality with BDD</li>
-</ul>
-
-<h2>Step Definitions</h2>
-
-<p>I've spoken with SpecFlow developers who are struggling to organise their step definitions, and I haven't really known what to advise, as it's not an issue with BDDfy, so I was interested to see the best tips for organising them. Gaspar showed a lot of great techniques for organising feature files and step definitions. I particularly liked the suggestion of moving user stories into a feature tree after the sprint was completed. </p>
-
-<p>I can't help feeling that step definitions are the wrong abstraction for reusability in an automated testing project. There are inherent difficulties from wanting to reuse steps when the two use cases are slightly different, and I would prefer to avoid it altogether.</p>
-
-<p>Stepping back from tools for a moment, I think that step definitions are just metadata that should just read whatever way makes the most sense for a particular scenario in the living documentation that the users will see, whether it is exactly the same as other steps in the system or slightly different. While I recognise the importance and value of the DRY principle, I don't think it needs to be applied to the step definition itself (as it's just a string on a report).</p>
-
-<p>What should be reusable is the code inside the step definitions. Things like repositories, builders/object mothers in the Given steps, drivers in the When step, assertions in the Then steps. Why do you need to reuse steps if they only have one line of code, and if that line itself is a useful and reusable abstraction?</p>
-
-<pre><code>public void Given_I_have_5_customers()
+public class HumanizerMetadataProvider : IDisplayMetadataProvider
 {
-    Database.Save(CustomerBuilder.CreateListOfSize(5).BuildList());
-}
-</code></pre>
-
-<p>Generally, I'm just not comfortable with having my scenario being distributed across multiple feature and step definition files, which I think is inherent in the Gherkin-based approach. I prefer the pure C# solution of having the entire scenario in one file with the class-per-scenario approach (and no feature file):</p>
-
-<pre><code>public class ValidEditStudentDetailsScenario : ScenarioFor&lt;MvcControllerDriver, StudentEditStory&gt;
-{
-    private Student _student;
-    private ControllerResultTest&lt;StudentController&gt; _result;
-
-    public void Given_I_am_editing_an_existing_student_with_valid_data()
+    public void CreateDisplayMetadata(DisplayMetadataProviderContext context)
     {
-        Builder&lt;Student&gt;.CreateNew().Persist();
-        _student = Container
-            .Get&lt;IStudentRepository&gt;()
-            .FindById(1);
-        _student.FirstMidName = "newFirstName";
-    }
-    public void When_I_save_the_changes()
-    {
-        _result = SUT.ExecuteActionFor&lt;StudentController&gt;(c =&gt; c.Edit(_student));
+        var propertyAttributes = context.Attributes;
+        var modelMetadata = context.DisplayMetadata;
+        var propertyName = context.Key.Name;
+
+        if (IsTransformRequired(propertyName, modelMetadata, propertyAttributes))
+        {
+            modelMetadata.DisplayName = () =&gt; propertyName.Humanize().Transform(To.TitleCase);
+        }
     }
 
-    public void Then_I_am_returned_to_the_student_list()
+    private static bool IsTransformRequired(string propertyName, DisplayMetadata modelMetadata, IReadOnlyList&lt;object&gt; propertyAttributes)
     {
-        _result.ShouldRedirectTo&lt;StudentController&gt;(c =&gt; c.Index(null, null, null, null));
-    }
+        if (!string.IsNullOrEmpty(modelMetadata.SimpleDisplayProperty))
+            return false;
 
-    public void AndThen_the_changes_have_been_saved()
-    {
-        Container.Get&lt;IStudentRepository&gt;()
-            .FindById(1)
-            .ShouldBeEquivalentTo(_student);
+        if (propertyAttributes.OfType&lt;DisplayNameAttribute&gt;().Any())
+            return false;
+
+        if (propertyAttributes.OfType&lt;DisplayAttribute&gt;().Any())
+            return false;
+
+        if (string.IsNullOrEmpty(propertyName))
+            return false;
+
+        return true;
     }
 }
 </code></pre>
 
-<h2>The driver pattern</h2>
+<p>To wire it up, you configure it in the ConfigureServices method of Startup.cs. You add the custom HumanizerMetadataProvider provider to the ModelMetadataDetailsProviders collection.</p>
 
-<p>Speaking of drivers, Gaspar gave an excellent talk on the driver pattern in relation to the <a href="http://alistair.cockburn.us/Hexagonal+architecture">hexagonal architecture</a>. I am quite familiar with how the <a href="http://martinfowler.com/eaaDev/WindowDriver.html">window driver pattern</a> is applied to Selenium, in the form of page objects, but Gaspar articulated a more general purpose pattern which extends beyond the UI/windows. </p>
+<pre><code>services.AddMvc()
+    .AddMvcOptions(m =&gt; m.ModelMetadataDetailsProviders.Add(new HumanizerMetadataProvider()));
+</code></pre>
 
-<h2>Conclusion</h2>
+<h2>Summary</h2>
 
-<p>There is a lot more I could say about the course. I'm still digesting a lot of the excellent information. My recommendation would be to try to attend it yourself (there are a number of venues around Europe). BDD is by far the best way to deliver software on agile projects that I have come across, and Gaspar Nagy is an excellent guide.</p>
+<p>Creating a custom model metadata provider in ASP.Net Core is quite similar to ASP.Net MVC, but the APIs have changed a little bit.</p>
 
     </div>
     
@@ -261,14 +226,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/bdd-course-london/';
+                this.page.url = 'http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/bdd-course-london/';
+    var disqus_url = 'http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
