@@ -163,7 +163,7 @@ For more detailed progress and discussion on .NET Core, see [Issue #145 - Suppor
 One of the items on the roadmap is to publish a prerelease NuGet package of 2.x for initial round of feedback but, as far as I can tell, that has not been released yet.
 
 ## Mocking Frameworks
-Most of the mocking frameworks depend on Castle.Core, which itself currently has alpha support for .Net Core. 
+Most of the mocking frameworks depend on Castle.Core, which itself currently has alpha support for .Net Core. Note, that at the time of writing, Castle.Core had a dependency on System.Diagnostics.TraceSource, meaning the mocking frameworks also had this dependency. As Jonathon Rossi says in the comments below, Castle.Core have since released Castle Core 4.0.0-beta001, which removes that dependency, so expect this dependency to drop off the mocking frameworks once they update to the latest Castle.Core.
 
 ### NSubstitute
 If you go to nuget.org, you will find that the latest NSubstitute package is version 1.10.0 from March and does not have support for .Net Core. However, there is actually an unlisted beta package of version 2.0 with support for .Net Core that is published to nuget.org and just not visible. 
