@@ -249,7 +249,7 @@ Install-Package dotnet-test-mstest -Pre
 
 &lt;h2&gt;Mocking Frameworks&lt;/h2&gt;
 
-&lt;p&gt;Most of the mocking frameworks depend on Castle.Core, which itself currently has alpha support for .Net Core. &lt;/p&gt;
+&lt;p&gt;Most of the mocking frameworks depend on Castle.Core, which itself currently has alpha support for .Net Core. Note, that at the time of writing, Castle.Core had a dependency on System.Diagnostics.TraceSource, meaning the mocking frameworks also had this dependency. As Jonathon Rossi says in the comments below, Castle.Core have since released Castle Core 4.0.0-beta001, which removes that dependency, so expect this dependency to drop off the mocking frameworks once they update to the latest Castle.Core.&lt;/p&gt;
 
 &lt;h3&gt;NSubstitute&lt;/h3&gt;
 
