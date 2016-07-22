@@ -1,4 +1,107 @@
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/</guid><link>http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>A Humanizer Display Metadata Provider for ASP .Net Core</title><description>&lt;p&gt;I have always been a big fan of using a Humanizer model metadata provider in my ASP.Net MVC applications. This means that Humanizer will automatically put spaces into labels for multi-word view model property names rather than the developer having to manually add a lot of data annotation Display attributes to those view model property names. The APIs have changed a little for ASP.Net Core, but the approach is basically the same. &lt;/p&gt;
+<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/testing-dotnet-core-with-testdriven-net/</guid><link>http://www.michael-whelan.net/testing-dotnet-core-with-testdriven-net/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>Testing .Net Core with TestDriven.Net</title><description>&lt;p&gt;Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net is leading the way with a slick Visual Studio testing experience for .Net Core (and earlier versions of .Net).  You simply right click on the solution, project, folder, file, or test, and it will run all of the tests in that scope. TestDriven.Net is actually one of the oldest .Net/Visual Studio test runners and is undergoing something of a reboot with support for .Net Core and the next version of Visual Studio, "15."&lt;/p&gt;
+
+</description><pubDate>Fri, 22 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-22T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net is leading the way with a slick Visual Studio testing experience for .Net Core (and earlier versions of .Net).  You simply right click on the solution, project, folder, file, or test, and it will run all of the tests in that scope. TestDriven.Net is actually one of the oldest .Net/Visual Studio test runners and is undergoing something of a reboot with support for .Net Core and the next version of Visual Studio, "15."&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;h2&gt;TestDriven.Net v4 Alpha&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="https://twitter.com/jcansdale"&gt;Jamie Cansdale&lt;/a&gt;, the maintainer of the venerable TestDriven.Net, has been hard at work releasing a number of alpha versions through the &lt;a href="http://testdriven.net/download.aspx"&gt;testdriven.net website&lt;/a&gt;. The releases consist of .zip files that contain a setup.exe executable for installing TestDriven.Net as a Visual Studio add-in. &lt;/p&gt;
+
+&lt;p&gt;You can read the release notes &lt;a href="http://testdriven.net/downloads/releasenotes.html"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Running Tests&lt;/h2&gt;
+
+&lt;p&gt;TestDriven.net is extremely flexible and can be run in a number of ways.&lt;/p&gt;
+
+&lt;h3&gt;Running Tests from Solution Explorer&lt;/h3&gt;
+
+&lt;p&gt;After installing TestDriven.Net, and re-starting Visual Studio, the 'Run Test(s)' command becomes available on the Right-Click context menu in Solution Explorer, and offers a straightforward way to build and run tests. You can right click on the solution, a project (or multiple projects), or a file (or multiple files) and it will run all of the tests in that scope. You have a number of useful testing options, such as testing with the debugger or code coverage.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/test-dotnet-core-tdnet-run.png" alt="VS test runner" /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is intended to be the default method of test execution in most contexts. TestDriven.Net automatically detects the test framework being used and executes tests using the correct test runner. The tests are launched by a test execution engine running as an external process. This test process is kept alive in order to improve execution times on subsequent runs. Once a test process has been cached, a rocket icon will appear in the notify box.&lt;/p&gt;
+
+&lt;h3&gt;Running Tests from the Code Editor Window&lt;/h3&gt;
+
+&lt;p&gt;If the code editor window is selected, the test(s) to execute will be determined by the position of the caret:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;individual tests are executed by right-clicking anywhere inside a test method and selecting 'Run Test(s)'&lt;/li&gt;
+&lt;li&gt;all tests in a test fixture are executed by right-clicking inside a class (but outside of any method) and selecting 'Run Test(s)'&lt;/li&gt;
+&lt;li&gt;all tests in a namespace are executed by right-clicking inside a namespace and selecting 'Run Test(s)'.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Test Results&lt;/h3&gt;
+
+&lt;p&gt;Once your run the tests, TestDriven.Net will show the results in the "Test" output window.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/test-dotnet-core-tdnet.png" alt="VS test runner" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;Tips and Tricks&lt;/h2&gt;
+
+&lt;p&gt;It is important to remember that TestDriven.Net v4 is an alpha, and not everything works quite as well as it will in the final release. This is sometimes down to the vagaries of how Visual Studio works, not to mention the issues that all tools vendors are facing with the moving target of the Visual Studio .Net Core preview tooling. So, hopefully some of these things will improve with time.&lt;/p&gt;
+
+&lt;h3&gt;The order of frameworks matter when multi-targeting&lt;/h3&gt;
+
+&lt;p&gt;If you are targeting multiple frameworks in your test project and you put the .Net 4x project first, TestDriven.Net won't run your tests. It is important to put the .Net Core framework first in your project.json. For example, here netcoreapp1.0 is listed before net46.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"frameworks": {
+    "netcoreapp1.0": {
+        "dependencies": {
+            "Microsoft.NETCore.App": {
+                "type": "platform",
+                "version": "1.0.0"
+            },
+            "System.Linq": "4.1.0"
+        },
+        "imports": [
+            "dnxcore50",
+            "portable-net45+win8"
+        ]
+    },
+    "net46": {
+        "dependencies": {
+        },
+        "buildOptions": {
+            "define": [
+                "Approvals",
+                "Culture",
+                "NSubstitute"
+            ]
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Runtimes&lt;/h3&gt;
+
+&lt;p&gt;I had an issue where some of my tests just weren't working. When I ran them nothing would happen - nothing was displayed in the "Test" output window and the status bar said &lt;code&gt;0 passed, 0 Failed, 0 Skipped&lt;/code&gt;. It turned out the problem was having a Runtimes node in my test project's project.json.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;"runtimes": {
+    "win10-x64": {}
+},
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This made Visual Studio incorrectly report to TestDriven.Net that my test project's DLL was in the &lt;code&gt;bin\Debug\netcoreapp1.0\win10-x64&lt;/code&gt; directory, when in fact it was in the &lt;code&gt;bin\Debug\netcoreapp1.0&lt;/code&gt; directory. Removing the runtimes node solved the problems and enabled TestDriven.Net to run the tests successfully.&lt;/p&gt;
+
+&lt;h3&gt;Execute non-test methods&lt;/h3&gt;
+
+&lt;p&gt;The .NET Core test runner requires that unit tests be inside a Console Application project, but TestDriven.Net can actually execute any method/property that doesn't have a test attribute as an "Ad hoc" test (even if it's inside a Class Library project). Anything returned from the method/property will be expanded on the output window. &lt;/p&gt;
+
+&lt;p&gt;This feature can make it a really interesting utility for running your own methods. For example, if you wanted to find out more about the properties on a type:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/tdnet-normal-method.png" alt="TestDriven.Net" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;Get Involved&lt;/h2&gt;
+
+&lt;p&gt;TestDriven.Net is still in alpha and Jamie Cansdale is actively looking at ways to make it as useful as possible. That means that you have the opportunity to shape its direction by raising issues on the &lt;a href="https://github.com/jcansdale/TestDriven.Net-Issues/issues"&gt;GitHub issues page&lt;/a&gt; or &lt;a href="https://twitter.com/jcansdale"&gt;tweeting Jamie&lt;/a&gt; with feature requests. Give it a try.&lt;/p&gt;
+
+&lt;p&gt;For example, Jamie mentioned to me that he is thinking about how to allow people to swap between the different frameworks. At the moment he is thinking of adding separate &lt;code&gt;Test With &amp;gt; .NET Core&lt;/code&gt; and &lt;code&gt;Test With &amp;gt; .NET 4.x&lt;/code&gt; options, but he would appreciate feedback and suggestions about how this might work best.&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;There are not a lot of .Net Core test runners available at the moment. TestDriven.Net may only be in alpha, but it is already very stable for day-to-day testing of your .Net Core projects and is a slick and flexible way to run your tests in Visual Studio. I recommend &lt;a href="http://testdriven.net/download.aspx"&gt;checking it out&lt;/a&gt;.&lt;/p&gt;
+</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/</guid><link>http://www.michael-whelan.net/using-humanizer-with-asp-dotnet-core/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>A Humanizer Display Metadata Provider for ASP .Net Core</title><description>&lt;p&gt;I have always been a big fan of using a Humanizer model metadata provider in my ASP.Net MVC applications. This means that Humanizer will automatically put spaces into labels for multi-word view model property names rather than the developer having to manually add a lot of data annotation Display attributes to those view model property names. The APIs have changed a little for ASP.Net Core, but the approach is basically the same. &lt;/p&gt;
 
 </description><pubDate>Mon, 18 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-18T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;I have always been a big fan of using a Humanizer model metadata provider in my ASP.Net MVC applications. This means that Humanizer will automatically put spaces into labels for multi-word view model property names rather than the developer having to manually add a lot of data annotation Display attributes to those view model property names. The APIs have changed a little for ASP.Net Core, but the approach is basically the same. &lt;/p&gt;
 
@@ -137,17 +240,11 @@ public class HumanizerMetadataProvider : IDisplayMetadataProvider
 
 &lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/test-dotnet-core-tdnet.png" alt="VS test runner" /&gt;&lt;/p&gt;
 
-&lt;p&gt;From the &lt;a href="http://testdriven.net/quickstart.aspx"&gt;documentation&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;After installing TestDriven.Net and re-starting Visual Studio, the 'Run Test(s)' command (available on the Right-Click context menu) offers a straightforward way to build and run tests. It is intended to be the default method of test execution in most contexts. It automatically detects the test framework being used and executes tests using the correct test runner. The tests are launched by a test execution engine running as an external process. This test process is kept alive in order to improve execution times on subsequent runs. Once a test process has been cached, a rocket icon will appear in the notify box.&lt;/p&gt;
-  
-  &lt;p&gt;If the code editor window is selected, the test(s) to execute will be determined by the position of the caret; individual tests are executed by right-clicking anywhere inside a test method and selecting 'Run Test(s)' as shown in Figure 2; all tests in a test fixture are executed by right-clicking inside a class (but outside of any method) and selecting 'Run Test(s)'; all tests in a namespace are executed by right-clicking inside a namespace and selecting 'Run Test(s)'.&lt;/p&gt;
-  
-  &lt;p&gt;The 'Run Test(s)' button is also found on various 'Solution Explorer' context menus. It can be used to execute all tests in a solution, project or project item.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;After installing TestDriven.Net, you can right click on the solution, a project (or multiple projects), or a file (or multiple files) and it will run all of the tests in that scope. TestDriven.Net automatically detects the test framework being used and executes tests using the correct test runner. You have a number of useful testing options, such as testing with the debugger or code coverage.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/test-dotnet-core-tdnet-run.png" alt="VS test runner" /&gt;&lt;/p&gt;
+
+&lt;p&gt;I've written another post about how to test .Net Core with TestDriven.Net &lt;a href="http://www.michael-whelan.net/testing-dotnet-core-with-testdriven-net/"&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3&gt;Console Runners&lt;/h3&gt;
 
@@ -256,6 +353,8 @@ Install-Package dotnet-test-mstest -Pre
 &lt;p&gt;For more detailed progress and discussion on .NET Core, see &lt;a href="https://github.com/fixie/fixie/issues/145"&gt;Issue #145 - Support .NET Core&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;One of the items on the roadmap is to publish a prerelease NuGet package of 2.x for initial round of feedback but, as far as I can tell, that has not been released yet.&lt;/p&gt;
+
+&lt;p&gt;Fixie's creator, &lt;a href="https://twitter.com/plioi"&gt;Patrick Lioi&lt;/a&gt;, has more details on Fixie 2.0's progress on his &lt;a href="https://lostechies.com/patricklioi/2016/07/22/tiny-steps-creating-fixie-2-0/"&gt;blog&lt;/a&gt;, including a link to a &lt;a href="https://vimeo.com/175828748"&gt;video presentation&lt;/a&gt; he did about it.&lt;/p&gt;
 
 &lt;h2&gt;Mocking Frameworks&lt;/h2&gt;
 
@@ -970,261 +1069,4 @@ public void should_return_application_in_url()
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;These additional values are used by UrlHelper in the creation of the full URL to make the test pass.&lt;/p&gt;
-</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/</guid><link>http://www.michael-whelan.net/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/</link><author>mjmwdev@gmail.com</author><category>Automated Testing</category><category>Black-Box Testing ASP.Net Series</category><title>Black-Box Testing ASP.Net: Using ASP.Net MVC View Models with Selenium WebDriver</title><description>&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
-
-</description><pubDate>Sun, 04 Jan 2015 00:00:00 Z</pubDate><a10:updated>2015-01-04T00:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;This post continues the theme of the &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt;, in looking at how a little knowledge of the inner workings of the MVC application can go a long way to writing less brittle, more maintainable, UI tests with Selenium WebDriver. In this post I am going to look at how we can use the same view model in the test that the application view uses to automate the reading and writing of data from the web page. (It could also be a domain model class, I just prefer to use view models for my views and keep my domain models separate).&lt;/p&gt;
-
-&lt;!--excerpt--&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Some of the sample code is taken straight from &lt;a href="https://github.com/TestStack/TestStack.Seleno"&gt;Seleno&lt;/a&gt;, the Selenium WebDriver browser automation framework from &lt;a href="http://teststack.net/"&gt;TestStack&lt;/a&gt;, and gives you a look under the hood at the sorts of things a UI automation framework does for you. If some of these samples are relevant to the problems you are trying to solve, I encourage you to check out Seleno. It takes care of a lot of the complex infrastructure setup of a Selenium WebDriver project for you, allowing you to get on with the important business of writing specifications for your application. I've produced a working sample on &lt;a href="https://github.com/mwhelan/MvcTestingSamples"&gt;GitHub&lt;/a&gt;, so you should be able to take it, run it, and use some of the code in your own applications if you want to.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2&gt;Input View Model Property into Web Page&lt;/h2&gt;
-
-&lt;p&gt;When you use strongly typed views (with models) and generate HTML for the model properties with expression-based HTML helpers, such as &lt;code&gt;Html.EditorFor()&lt;/code&gt;, MVC will produce controls with predictable names for the properties of the model. This view code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@model ContosoUniversity.ViewModels.CreateStudentForm
-...
-@Html.EditorFor(model =&amp;gt; model.LastName)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;will produce this HTML:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;input name="LastName" class="text-box single-line" id="LastName" type="text" value="" &amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can leverage this MVC infrastructure in our UI tests to input a model property into a form field. System.Web.Mvc provides the &lt;code&gt;ExpressionHelper.GetExpressionText&lt;/code&gt; method to provide the same control name from the model property that the expression-based HTML helpers provide in the views.&lt;/p&gt;
-
-&lt;p&gt;We can derive a strongly typed base page object from the base page object used in the previous post, where &lt;code&gt;TModel&lt;/code&gt; is the view model class used by that view. The &lt;code&gt;TextBoxFor&lt;/code&gt; method uses ExpressionHelper to derive the name of the control from the model property expression, then uses WebDriver to find the element and populate it with the specified value.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Page&amp;lt;TModel&amp;gt; : Page
-{
-    public Page&amp;lt;TModel&amp;gt; TextBoxFor&amp;lt;TField&amp;gt;(Expression&amp;lt;Func&amp;lt;TModel, TField&amp;gt;&amp;gt; field, TField value)
-    {
-        var name = ExpressionHelper.GetExpressionText(field);
-
-        var element = Host.Browser.FindElement(By.Name(name));
-        element.Clear();
-        element.SendKeys(value.ToString());
-
-        return this;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now we can modify the &lt;code&gt;NewStudentPage&lt;/code&gt; page object to use the strongly typed page object and specify the &lt;code&gt;CreateStudentForm&lt;/code&gt; view model, which is the one that the view uses. The various Input methods are able to enter data into the web page using the appropriate property expression in a strongly typed way. &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class NewStudentPage : Page&amp;lt;CreateStudentForm&amp;gt;
-{
-    public string HeaderTitle
-    {
-        get
-        {
-            var header = Host.Browser.FindElement(By.Id("title"));
-            return header.Text;
-        }
-    }
-
-    public NewStudentPage InputLastName(string lastName)
-    {
-        TextBoxFor(x =&amp;gt; x.LastName, lastName);
-        return this;
-    }
-
-    public NewStudentPage InputFirstName(string firstName)
-    {
-        TextBoxFor(x =&amp;gt; x.FirstMidName, firstName);
-        return this;
-    }
-
-    public NewStudentPage InputEnrollmentDate(DateTime enrollmentDate)
-    {
-        TextBoxFor(x =&amp;gt; x.EnrollmentDate, enrollmentDate);
-        return this;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In keeping with the page object design pattern each method returns the page so that test code can set multiple properties in the fluent style, as you can see from this test.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void CanPopulateAFormFieldFromModelProperty()
-{
-    var student = Builder&amp;lt;CreateStudentForm&amp;gt;
-        .CreateNew()
-        .Build();
-    var newStudentPage = Host.NavigateTo&amp;lt;StudentController, NewStudentPage&amp;gt;(x =&amp;gt; x.Create());
-
-    newStudentPage
-        .InputFirstName(student.FirstMidName)
-        .InputLastName(student.LastName)
-        .InputEnrollmentDate(student.EnrollmentDate);
-
-    Host.Browser.FindElement(By.Id("FirstMidName")).GetAttribute("value").Should().Be(student.FirstMidName);
-    Host.Browser.FindElement(By.Id("LastName")).GetAttribute("value").Should().Be(student.LastName);
-    Host.Browser.FindElement(By.Id("EnrollmentDate")).GetAttribute("value").Should().Be(student.EnrollmentDate.ToString());
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;Input Whole View Model into Web Page&lt;/h2&gt;
-
-&lt;p&gt;To be honest, I strongly dislike this approach of the page object exposing every property of the view model individually. It lends itself to script-style code, with lots of repetitive calls to set each property, obfuscating the meaning of the test. I prefer more of a specification style of test, where each method on the page object is representative of a behaviour of the application (more than likely representative of a single request/response  - a single controller action). This improves the API of the Page Object layer, and makes for a better Domain Specific Language (DSL) for your tests. &lt;/p&gt;
-
-&lt;p&gt;Ignoring the assertions in this test - which are for demo purposes only - I prefer this test. One or two lines to setup the context and one call to the page object for the action I'm testing. This reads much more like a specification, which I think makes it a lot easier for the Test Reader to quickly see what is going on, and makes the tests a lot easier to maintain over time.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void CanPopulateFormFromModel()
-{
-    var student = Builder&amp;lt;CreateStudentForm&amp;gt;
-        .CreateNew()
-        .Build();
-    var newStudentPage = Host.NavigateTo&amp;lt;StudentController, NewStudentPage&amp;gt;(x =&amp;gt; x.Create());
-
-    newStudentPage.AddValidStudent(student);
-
-    Host.Browser.FindElement(By.Id("FirstMidName")).GetAttribute("value").Should().Be(student.FirstMidName);
-    Host.Browser.FindElement(By.Id("LastName")).GetAttribute("value").Should().Be(student.LastName);
-    Host.Browser.FindElement(By.Id("EnrollmentDate")).GetAttribute("value").Should().Be(student.EnrollmentDate.ToString());
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We have a &lt;a href="https://github.com/TestStack/TestStack.Seleno/blob/master/src/TestStack.Seleno/PageObjects/Actions/PageWriter.cs"&gt;PageWriter&lt;/a&gt; class in Seleno that inputs a whole model like this and handles the different data types and other complexities. Here is a cut down version that works for the 3 text boxes in this example.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Page&amp;lt;TModel&amp;gt; : Page
-{
-    ...
-    public Page&amp;lt;TModel&amp;gt; InputModel(TModel model)
-    {
-        var type = model.GetType();
-        foreach (var property in type.GetProperties())
-        {
-            var element = Host.Browser.FindElement(By.Name(property.Name));
-            element.Clear();
-            element.SendKeys(property.GetValue(model).ToString());
-        }
-        return this;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And the additional method on the page object.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class NewStudentPage : Page&amp;lt;CreateStudentForm&amp;gt;
-{
-    ...
-    public StudentDetailsPage AddValidStudent(CreateStudentForm student)
-    {
-        InputModel(student);
-        return new StudentDetailsPage();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;Display Templates do not generate IDs for controls&lt;/h2&gt;
-
-&lt;p&gt;By default MVC only adds ID and name properties to form controls (via the &lt;strong&gt;Editor Templates&lt;/strong&gt;) with the expression-based HTML helpers. It does not do the same with the display expressions (such as &lt;code&gt;Html.DisplayFor()&lt;/code&gt;) that use the &lt;strong&gt;Display Templates&lt;/strong&gt;). &lt;/p&gt;
-
-&lt;p&gt;For example, this code from the Student Details view (Views\Student\Details.cshtml):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;dt&amp;gt;
-    @Html.DisplayNameFor(model =&amp;gt; model.LastName)
-&amp;lt;/dt&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;produces the following HTML with the standard Display Templates:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;dd&amp;gt;
-    Alexander
-&amp;lt;/dd&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Fortunately, you can override both the Editor and Display templates if you add them to your web project. You can read all about ASP.Net MVC's templating system in &lt;a href="http://bradwilson.typepad.com/blog/2009/10/aspnet-mvc-2-templates-part-1-introduction.html"&gt;this series of posts&lt;/a&gt; from Brad Wilson. Suffice to say, for the purposes of this discussion, you can override the display templates by adding a DisplayTemplates folder to your &lt;code&gt;Views\Shared&lt;/code&gt; folder in your web project. You can copy the DisplayTemplates folder from your Visual Studio installation, or you can install the MvcDisplayTemplates package, provided by &lt;a href="https://twitter.com/matthoneycutt"&gt;Matt Honeycutt&lt;/a&gt; on NuGet:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Install-Package MvcDisplayTemplates
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This overrides the &lt;code&gt;_Layout.cshtml&lt;/code&gt; file in the &lt;code&gt;Views\Shared\DisplayTemplates&lt;/code&gt; folder to wrap each model property in the view with a span that uses the &lt;code&gt;Html.IdForModel&lt;/code&gt; Html Helper from System.Web.Mvc to generate an ID for the property control. &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@model dynamic
-@if (HttpContext.Current.IsDebuggingEnabled)
-{ 
-    &amp;lt;span id="@Html.IdForModel()"&amp;gt;@RenderBody()&amp;lt;/span&amp;gt;
-}
-else
-{
-    @RenderBody()
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now the &lt;code&gt;Html.DisplayNameFor&lt;/code&gt; expression above generates this HTML, with the value wrapped in a span with an ID. Now that all of our view model properties are named with a well-known, predictable, naming convention, we can set about automating the reading of these properties into a view model in our tests in an automated fashion.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;dd&amp;gt;
-    &amp;lt;span id="LastName"&amp;gt;Alexander&amp;lt;/span&amp;gt;
-&amp;lt;/dd&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;Read View Model Property from Web Page&lt;/h2&gt;
-
-&lt;p&gt;We can extend the strongly typed base page with a method to read the value from a view page, again utilising the &lt;code&gt;ExpressionHelper&lt;/code&gt; class from System.Web.Mvc. The &lt;a href="http://msdn.microsoft.com/en-us/library/system.web.mvc.tagbuilder.createsanitizedid%28v=vs.111%29.aspx"&gt;TagBuilder.CreateSanitizedId&lt;/a&gt; method is another System.Web.Mvc helper that ensures only valid HTML characters are used .&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public string DisplayFor&amp;lt;TField&amp;gt;(Expression&amp;lt;Func&amp;lt;TModel, TField&amp;gt;&amp;gt; field)
-{
-    string name = ExpressionHelper.GetExpressionText(field);
-    string id = TagBuilder.CreateSanitizedId(name);
-
-    var span = Host.Browser.FindElement(By.Id(id));
-
-    return span.Text;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Which can be used in tests in the following way:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void CanReadFormFieldFromModelProperty()
-{
-    var studentDetailsPage = Host.NavigateTo&amp;lt;StudentController, StudentDetailsPage&amp;gt;(x =&amp;gt; x.Details(1));
-
-    studentDetailsPage
-        .DisplayFor(x =&amp;gt; x.LastName)
-        .Should().Be("Alexander");
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;Read Whole View Model From Web Page&lt;/h2&gt;
-
-&lt;p&gt;As with writing view model data to the page, we can extend this concept to read the whole view model from the page. Again, Seleno has a more fully featured &lt;a href="https://github.com/TestStack/TestStack.Seleno/blob/master/src/TestStack.Seleno/PageObjects/Actions/PageReader.cs"&gt;PageReader&lt;/a&gt; class, but here is a cut down version to illustrate the principle:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public TModel ReadModel()
-{
-    var type = typeof(TModel);
-    var instance = new TModel();
-
-    foreach (var property in type.GetProperties())
-    {
-        string name = ExpressionHelper.GetExpressionText(property.Name);
-        string id = TagBuilder.CreateSanitizedId(name);
-
-        var span = Host.Browser.FindElement(By.Id(id));
-        property.SetValue(instance, span.Text, null);
-    }
-
-    return instance;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Which you could use in tests similar to this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void CanReadModelFromPage()
-{
-    var studentDetailsPage = Host.NavigateTo&amp;lt;StudentController, StudentDetailsPage&amp;gt;(x =&amp;gt; x.Details(1));
-
-    StudentDetailsViewModel model = studentDetailsPage.ReadModel();
-
-    model.FirstMidName.Should().Be("Carson");
-    model.LastName.Should().Be("Alexander");
-}
-&lt;/code&gt;&lt;/pre&gt;
 </a10:content></item></channel></rss>
