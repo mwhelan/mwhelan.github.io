@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2016-07-21T15:46:51.6940554+01:00" />
+    <meta http-equiv="last-modified" content="2016-07-22T10:10:44.4069120+01:00" />
     <meta name="keywords" content="" />
 
 
@@ -192,11 +192,21 @@
 
 <h3>TestDriven.Net v4 Alpha</h3>
 
-<p><a href="https://twitter.com/jcansdale">Jamie Cansdale</a>, the maintainer of the venerable TestDriven.Net, has released a number of alpha versions through the <a href="https://github.com/jcansdale/TestDriven.Net-Issues">TestDriven.Net-Issues project</a> on his GitHub. The releases consist of .zip files that contain an executable for installing TestDriven.Net as a Visual Studio add-in.</p>
+<p><a href="https://twitter.com/jcansdale">Jamie Cansdale</a>, the maintainer of the venerable TestDriven.Net, has released a number of alpha versions through the <a href="http://testdriven.net/default.aspx">testdriven.net website</a>. The releases consist of .zip files that contain an executable for installing TestDriven.Net as a Visual Studio add-in.</p>
 
 <p><img src="/images/test-dotnet-core-tdnet.png" alt="VS test runner" /></p>
 
-<p>As far as I can tell, the latest release, at the time of writing, is v4.0.3267-alpha. You can find it in <a href="https://github.com/jcansdale/TestDriven.Net-Issues/issues/8">issue 8</a>, but you should check any new issues for more recent releases.</p>
+<p>From the <a href="http://testdriven.net/quickstart.aspx">documentation</a>:</p>
+
+<blockquote>
+  <p>After installing TestDriven.Net and re-starting Visual Studio, the 'Run Test(s)' command (available on the Right-Click context menu) offers a straightforward way to build and run tests. It is intended to be the default method of test execution in most contexts. It automatically detects the test framework being used and executes tests using the correct test runner. The tests are launched by a test execution engine running as an external process. This test process is kept alive in order to improve execution times on subsequent runs. Once a test process has been cached, a rocket icon will appear in the notify box.</p>
+  
+  <p>If the code editor window is selected, the test(s) to execute will be determined by the position of the caret; individual tests are executed by right-clicking anywhere inside a test method and selecting 'Run Test(s)' as shown in Figure 2; all tests in a test fixture are executed by right-clicking inside a class (but outside of any method) and selecting 'Run Test(s)'; all tests in a namespace are executed by right-clicking inside a namespace and selecting 'Run Test(s)'.</p>
+  
+  <p>The 'Run Test(s)' button is also found on various 'Solution Explorer' context menus. It can be used to execute all tests in a solution, project or project item.</p>
+</blockquote>
+
+<p><img src="/images/test-dotnet-core-tdnet-run.png" alt="VS test runner" /></p>
 
 <h3>Console Runners</h3>
 
