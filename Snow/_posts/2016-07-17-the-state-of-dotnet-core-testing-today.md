@@ -66,11 +66,18 @@ You can target both net4xx and netcoreapp simply by adding both frameworks toget
 Unfortunately, my favourite test runners, ReSharper and NCrunch, do not have support for .Net Core yet. That has meant that we have been stuck with either the console runners or the Visual Studio test runner. Fortunately, things are looking up, with TestDriven.Net providing a flurry of alpha packages. There are still a number of issues to work out - tests just flat out don't run on some of my projects - but it seems to be shaping up quite well and is a great option for those projects that it does work for.
 
 ### TestDriven.Net v4 Alpha
-[Jamie Cansdale](https://twitter.com/jcansdale), the maintainer of the venerable TestDriven.Net, has released a number of alpha versions through the [TestDriven.Net-Issues project](https://github.com/jcansdale/TestDriven.Net-Issues) on his GitHub. The releases consist of .zip files that contain an executable for installing TestDriven.Net as a Visual Studio add-in.
+[Jamie Cansdale](https://twitter.com/jcansdale), the maintainer of the venerable TestDriven.Net, has released a number of alpha versions through the [testdriven.net website](http://testdriven.net/default.aspx). The releases consist of .zip files that contain an executable for installing TestDriven.Net as a Visual Studio add-in.
 
 ![VS test runner](/images/test-dotnet-core-tdnet.png)
 
-As far as I can tell, the latest release, at the time of writing, is v4.0.3267-alpha. You can find it in [issue 8](https://github.com/jcansdale/TestDriven.Net-Issues/issues/8), but you should check any new issues for more recent releases.
+From the [documentation](http://testdriven.net/quickstart.aspx):
+>  After installing TestDriven.Net and re-starting Visual Studio, the 'Run Test(s)' command (available on the Right-Click context menu) offers a straightforward way to build and run tests. It is intended to be the default method of test execution in most contexts. It automatically detects the test framework being used and executes tests using the correct test runner. The tests are launched by a test execution engine running as an external process. This test process is kept alive in order to improve execution times on subsequent runs. Once a test process has been cached, a rocket icon will appear in the notify box.
+> 
+> If the code editor window is selected, the test(s) to execute will be determined by the position of the caret; individual tests are executed by right-clicking anywhere inside a test method and selecting 'Run Test(s)' as shown in Figure 2; all tests in a test fixture are executed by right-clicking inside a class (but outside of any method) and selecting 'Run Test(s)'; all tests in a namespace are executed by right-clicking inside a namespace and selecting 'Run Test(s)'.
+> 
+> The 'Run Test(s)' button is also found on various 'Solution Explorer' context menus. It can be used to execute all tests in a solution, project or project item.
+
+![VS test runner](/images/test-dotnet-core-tdnet-run.png)
 
 ### Console Runners
 The various test frameworks implement the [.Net Core test protocol](https://docs.microsoft.com/en-us/dotnet/articles/core/tools/test-protocol) to provide test runners, which allow tests to be run by the Visual Studio test runner or from the command line. 
