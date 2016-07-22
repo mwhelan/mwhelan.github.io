@@ -70,14 +70,11 @@ Unfortunately, my favourite test runners, ReSharper and NCrunch, do not have sup
 
 ![VS test runner](/images/test-dotnet-core-tdnet.png)
 
-From the [documentation](http://testdriven.net/quickstart.aspx):
->  After installing TestDriven.Net and re-starting Visual Studio, the 'Run Test(s)' command (available on the Right-Click context menu) offers a straightforward way to build and run tests. It is intended to be the default method of test execution in most contexts. It automatically detects the test framework being used and executes tests using the correct test runner. The tests are launched by a test execution engine running as an external process. This test process is kept alive in order to improve execution times on subsequent runs. Once a test process has been cached, a rocket icon will appear in the notify box.
-> 
-> If the code editor window is selected, the test(s) to execute will be determined by the position of the caret; individual tests are executed by right-clicking anywhere inside a test method and selecting 'Run Test(s)' as shown in Figure 2; all tests in a test fixture are executed by right-clicking inside a class (but outside of any method) and selecting 'Run Test(s)'; all tests in a namespace are executed by right-clicking inside a namespace and selecting 'Run Test(s)'.
-> 
-> The 'Run Test(s)' button is also found on various 'Solution Explorer' context menus. It can be used to execute all tests in a solution, project or project item.
+After installing TestDriven.Net, you can right click on the solution, a project (or multiple projects), or a file (or multiple files) and it will run all of the tests in that scope. TestDriven.Net automatically detects the test framework being used and executes tests using the correct test runner. You have a number of useful testing options, such as testing with the debugger or code coverage.
 
 ![VS test runner](/images/test-dotnet-core-tdnet-run.png)
+
+I've written another post about how to test .Net Core with TestDriven.Net [here](/testing-dotnet-core-with-testdriven-net/).
 
 ### Console Runners
 The various test frameworks implement the [.Net Core test protocol](https://docs.microsoft.com/en-us/dotnet/articles/core/tools/test-protocol) to provide test runners, which allow tests to be run by the Visual Studio test runner or from the command line. 
@@ -168,6 +165,8 @@ As described in the [Project Roadmap](https://github.com/fixie/fixie/wiki), Fixi
 For more detailed progress and discussion on .NET Core, see [Issue #145 - Support .NET Core](https://github.com/fixie/fixie/issues/145).
 
 One of the items on the roadmap is to publish a prerelease NuGet package of 2.x for initial round of feedback but, as far as I can tell, that has not been released yet.
+
+Fixie's creator, [Patrick Lioi](https://twitter.com/plioi), has more details on Fixie 2.0's progress on his [blog](https://lostechies.com/patricklioi/2016/07/22/tiny-steps-creating-fixie-2-0/), including a link to a [video presentation](https://vimeo.com/175828748) he did about it.
 
 ## Mocking Frameworks
 Most of the mocking frameworks depend on Castle.Core, which itself currently has alpha support for .Net Core. Note, that at the time of writing, Castle.Core had a dependency on System.Diagnostics.TraceSource, meaning the mocking frameworks also had this dependency. As Jonathon Rossi says in the comments below, Castle.Core have since released Castle Core 4.0.0-beta001, which removes that dependency, so expect this dependency to drop off the mocking frameworks once they update to the latest Castle.Core.
