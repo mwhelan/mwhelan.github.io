@@ -1,4 +1,397 @@
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/testing-dotnet-core-with-testdriven-net/</guid><link>http://www.michael-whelan.net/testing-dotnet-core-with-testdriven-net/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>Testing .Net Core with TestDriven.Net</title><description>&lt;p&gt;Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net is leading the way with a slick Visual Studio testing experience for .Net Core (and earlier versions of .Net).  You simply right click on the solution, project, folder, file, or test, and it will run all of the tests in that scope. TestDriven.Net is actually one of the oldest .Net/Visual Studio test runners and is undergoing something of a reboot with support for .Net Core and the next version of Visual Studio, "15."&lt;/p&gt;
+<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>michael whelan</title><link>http://www.michael-whelan.net/rss.xml</link><description>michael whelan</description><item><guid isPermaLink="true">http://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/</guid><link>http://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>Continuous Delivery for .Net Core with GitHub, Cake, GitTools, and AppVeyor</title><description>&lt;p&gt;This is an end-to-end tutorial for setting up &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous integration&lt;/a&gt; (CI) and &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous delivery&lt;/a&gt; (CD) for a .Net Core project hosted on GitHub using Cake, GitTools, and AppVeyor. Credit for this entire process goes to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt;, who set this up for TestStack's &lt;a href="https://github.com/TestStack/TestStack.BDDfy"&gt;BDDfy&lt;/a&gt; open source project, and is actively involved in a number of the GitTools projects referenced here. I have replicated that process for another open source project and documented it here.&lt;/p&gt;
+
+</description><pubDate>Sun, 31 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-31T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;This is an end-to-end tutorial for setting up &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous integration&lt;/a&gt; (CI) and &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous delivery&lt;/a&gt; (CD) for a .Net Core project hosted on GitHub using Cake, GitTools, and AppVeyor. Credit for this entire process goes to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt;, who set this up for TestStack's &lt;a href="https://github.com/TestStack/TestStack.BDDfy"&gt;BDDfy&lt;/a&gt; open source project, and is actively involved in a number of the GitTools projects referenced here. I have replicated that process for another open source project and documented it here.&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;p&gt;Continuous delivery can be quite a daunting prospect these days and it would be easy to be overwhelmed by the number of different things the process I describe here does. But, rest assured, I am far from being an expert in this area, so if I can do it you can too. The good news is that the hard work and ingenuity has been done by the folks behind Cake, GitTools, AppVeyor and the other open source tools. They have created all the jigsaw pieces and all that is left for you and me to do is to compose the modules together to suit our particular situation.&lt;/p&gt;
+
+&lt;h2&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;The .Net Core project for this tutorial is &lt;a href="https://github.com/mwhelan/Specify"&gt;Specify&lt;/a&gt;: Its technology stack is:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;C#&lt;/strong&gt;: The programming language used for Specify.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NUnit&lt;/strong&gt;: The testing framework I am using in Specify (though with .Net Core you could have a mix of test frameworks as Cake just delegates to the dotnet-test runner to run tests).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Git and GitHub&lt;/strong&gt;: The Specify repository is git and the project is hosted on GitHub.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AppVeyor&lt;/strong&gt;: An online continuous integration server for .Net projects.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NuGet&lt;/strong&gt;: the package manager for .Net which is where Specify is deployed to.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cake&lt;/strong&gt;: A cross platform build automation system with a C# DSL.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GitTools&lt;/strong&gt;: A GitHub open source organisation which provide a bunch of assorted git related tools which help with debugging, versioning, releasing etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That said, many of the topics in this post are more or less applicable to other technologies and providers, mainly due to the agnosticism of the Cake build tool.&lt;/p&gt;
+
+&lt;p&gt;The end-to-end process is comprised of these 3 steps, as depicted in the diagram below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/cake-continuous-delivery.png" alt="Cake continuous delivery" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Step 1: Commit code to GitHub&lt;/h3&gt;
+
+&lt;p&gt;When you commit your code to GitHub, a webhook for AppVeyor is triggered to kick off the continuous integration build. For every project AppVeyor will configure webhooks for its repository to automatically start a build when you push the changes. You can read more about configuring AppVeyor to work with GitHub (and other providers) &lt;a href="https://www.appveyor.com/docs"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;Step 2: Continuous Integration&lt;/h3&gt;
+
+&lt;p&gt;AppVeyor runs the Cake continuous integration build process by calling the &lt;code&gt;build.ps1&lt;/code&gt; PowerShell script. This calls the &lt;code&gt;build.cake&lt;/code&gt; script, which does all the work, and runs the following tasks (the continuous integration tasks are blue in the diagram):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: 
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Clean&lt;/strong&gt;: Cleans the previous build (deleting and re-creating the folder used for build output). &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Semantic Version&lt;/strong&gt;: Uses GitVersion to calculate the semantic version and update the AssemblyInfo.cs files with that version. &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Package restore&lt;/strong&gt;: Performs a NuGet package restore. &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build&lt;/strong&gt;: Compiles the source code with msbuild.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Test&lt;/strong&gt;: Runs tests for each of the test projects and for each target in those projects.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Package&lt;/strong&gt;: generates NuGet packages
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;GitHub source stepping&lt;/strong&gt;: Uses GitLink to allow consumers of this project to step through the exact version of code on GitHub that was used to create the package (an alternative approach to symbol servers).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Release notes&lt;/strong&gt;: Uses GitReleaseNotes to automatically generate release notes from the GitHub issue tracker based on closed issues since the last release.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Package for NuGet&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Step 3: Continuous Delivery&lt;/h3&gt;
+
+&lt;p&gt;AppVeyor runs the Cake deployment process by calling the &lt;code&gt;deploy.ps1&lt;/code&gt; PowerShell script. This calls the &lt;code&gt;deploy.cake&lt;/code&gt; script, which does all the work, and runs the publish tasks (green on the diagram above):
+Manually run the deploy process, etc. &lt;/p&gt;
+
+&lt;h3&gt;Cake&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href="http://cakebuild.net/"&gt;Cake&lt;/a&gt; (C# Make) is a cross platform build automation system with a C# DSL to do things like compiling code, copy files/folders, running unit tests, compress files and build NuGet packages. It is built on top of the Roslyn and Mono compiler which enables you to write your build scripts in C#. One of its main philosophies is that Cake should behave the same way regardless of operating system (Windows, Linux, or OS X) or environment (AppVeyor, VSTS, TeamCity, Jenkins, etc.).&lt;/p&gt;
+
+&lt;p&gt;You can read how to get started with Cake &lt;a href="http://cakebuild.net/docs/tutorials/getting-started"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Tasks represent a unit of work in Cake, and you use them to perform specific work in a specific order. You can read more about tasks &lt;a href="http://cakebuild.net/docs/fundamentals/tasks"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Cake supports something called script aliases. Script aliases are convenience methods that are easily accessible directly from a Cake script. Every single DSL method in Cake is implemented like an alias method. You can read more about Cake aliases &lt;a href="http://cakebuild.net/docs/fundamentals/aliases"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3&gt;GitTools&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/GitTools"&gt;GitTools&lt;/a&gt; is a GitHub open source organisation which provide a bunch of assorted git related tools which help with debugging, versioning, releasing etc.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;GitVersion&lt;/strong&gt;: Provides easy, automated, &lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt; for projects using git, by looking at your git history and working out the semantic version of the commit being built.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GitLink&lt;/strong&gt;: Allows users to step through your source code hosted on GitHub, making symbol servers obsolete.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GitReleaseNotes&lt;/strong&gt;: Utility which makes it really easy to generate release notes for your git project. Works with GitHub, Jira and YouTrack.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Continuous Integration&lt;/h2&gt;
+
+&lt;h3&gt;Build task&lt;/h3&gt;
+
+&lt;p&gt;This illustrates a basic Cake task. You can see that it is familiar C# syntax. Each task defines a name - "Build" in this case - and is followed by a &lt;code&gt;.Does&lt;/code&gt; method which takes a lambda for the work the task will perform.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;IsDependentOn&lt;/code&gt; method is used to setup a dependency on another task. That means that task must run before this task. If there are multiple dependencies then each will run in order before this task. So, in this example, they will run in the following order: &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Clean =&amp;gt; Version =&amp;gt; Restore =&amp;gt; Build.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;build&lt;/code&gt; task uses the Cake MSBuild task to compile the Specify solution.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Task("Build")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Version")
+    .IsDependentOn("Restore")
+    .Does(() =&amp;gt; {
+        MSBuild("./src/Specify.sln");
+    });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In order to use the commands for this alias, MSBuild will already have to be installed on the machine the Cake Script is being executed on.&lt;/p&gt;
+
+&lt;h3&gt;Clean task&lt;/h3&gt;
+
+&lt;p&gt;The first task you normally want to do with a build script is to delete the working directory, which various tasks in the build process use for preparing files and producing output. Cake provides a number of aliases for working with directories. This script uses the &lt;code&gt;DirectoryExists&lt;/code&gt;, &lt;code&gt;DeleteDirectory&lt;/code&gt;, and &lt;code&gt;CreateDirectory&lt;/code&gt; methods.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Task("Clean")
+    .Does(() =&amp;gt; {
+        if (DirectoryExists(outputDir))
+        {
+            DeleteDirectory(outputDir, recursive:true);
+        }
+        CreateDirectory(outputDir);
+    });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Version task&lt;/h3&gt;
+
+&lt;p&gt;The version task uses the GitVersion tool to calculate the &lt;a href="http://semver.org/"&gt;semantic version&lt;/a&gt; of the project and updates the project's project.json and AssemblyInfo.cs files with this version number. You can read more about GitVersion on the project's &lt;a href="http://gitversion.readthedocs.io/en/latest/"&gt;readthedocs site&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In order to use the GitVersion tool, you have to download its package as part of executing the build script. To do that with Cake, you have to provide this directive at the top of the build script.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#tool "nuget:?package=GitVersion.CommandLine"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And then use the GitVersion alias and the GitVersionSettings class in the version task.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Task("Version")
+    .Does(() =&amp;gt; {
+        GitVersion(new GitVersionSettings{
+            UpdateAssemblyInfo = true,
+            OutputType = GitVersionOutput.BuildServer
+        });
+        versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
+        // Update project.json
+        var updatedProjectJson = System.IO.File.ReadAllText(specifyProjectJson)
+            .Replace("1.0.0-*", versionInfo.NuGetVersion);
+
+        System.IO.File.WriteAllText(specifyProjectJson, updatedProjectJson);
+    });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Restore task&lt;/h3&gt;
+
+&lt;p&gt;Cake provides built-in support for .Net Core. The DotNetCoreRestore alias will restore all NuGet packages for .Net Core solutions. You just have to pass in the folder where the solution is located ("src" in this example).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Task("Restore")
+    .Does(() =&amp;gt; {
+        DotNetCoreRestore("src");
+    });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In order to use the commands for this alias, the &lt;a href="https://www.microsoft.com/net/core#windows"&gt;.Net Core CLI tools&lt;/a&gt; will need to be installed on the machine where the Cake script is being executed.&lt;/p&gt;
+
+&lt;h3&gt;Test task&lt;/h3&gt;
+
+&lt;p&gt;DotNetCoreTest is another DotNetCore alias. It will use the .Net CLI test runner that is configured for each test project to run the tests for that project. It will run tests for each target defined in the test project's project.json file. You just have to pass in the location of the test project.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;DotNetCoreTest("./src/tests/Specify.Tests");
+DotNetCoreTest("./src/tests/Specify.IntegrationTests");
+DotNetCoreTest("./src/Samples/Examples/Specify.Examples.UnitSpecs");
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In order to use the commands for this alias, the &lt;a href="https://www.microsoft.com/net/core#windows"&gt;.Net Core CLI tools&lt;/a&gt; will need to be installed on the machine where the Cake script is being executed.&lt;/p&gt;
+
+&lt;h3&gt;Package task&lt;/h3&gt;
+
+&lt;p&gt;The package task performs performs several operations to create  runs once for each &lt;/p&gt;
+
+&lt;h3&gt;GitHub source stepping task&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;UPDATE&lt;/strong&gt;: Unfortunately, it turns out that GitLink does not currently support xproj or project.json and .Net Core. I will leave this step in as it is still a correct description of how to use Cake and GitLink with pre-.Net Core projects and perhaps suppor will be added eventually. As an alternative, I will demonstrate packaging pdb files as a NuGet package for a symbol server in a later step.&lt;/p&gt;
+
+&lt;p&gt;In order to use the GitLink tool, you have to download its package as part of executing the build script. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#tool "nuget:?package=gitlink"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And then use the GitLink alias and the GitVersionSettings class in the package task. This example shows how to include command-line arguments that tell GitLink which projects in the solution to target.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;GitLink("./", new GitLinkSettings { ArgumentCustomization = args =&amp;gt; args.Append("-include Specify,Specify.Autofac") });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Alternatively, you can just call it without any settings and accept the defaults:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;GitLink("./");
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Release notes task&lt;/h3&gt;
+
+&lt;p&gt;In order to use the GitReleaseNotes tool, you have to download its package as part of executing the build script. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#tool "nuget:?package=GitReleaseNotes"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Although there is a GitReleaseNotes tool for Cake, this example shows how to use the StartProcess alias to run the GitReleaseNotes executable that Cake has downloaded to the tools directory.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void GenerateReleaseNotes()
+{
+    var releaseNotesExitCode = StartProcess(
+        @"tools\GitReleaseNotes\tools\gitreleasenotes.exe", 
+        new ProcessSettings { Arguments = ". /o artifacts/releasenotes.md" });
+    if (string.IsNullOrEmpty(System.IO.File.ReadAllText("./artifacts/releasenotes.md")))
+        System.IO.File.WriteAllText("./artifacts/releasenotes.md", "No issues closed since last release");
+
+    if (releaseNotesExitCode != 0) throw new Exception("Failed to generate release notes");
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Package for NuGet task&lt;/h3&gt;
+
+&lt;p&gt;The package task generates the .nupkg files for each project that needs to be deployed to NuGet using Cake's DotNetCorePack alias. This is another DotNetCore alias, and also requires the .Net Core CLI tools be installed on the machine where the Cake script is being executed. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void PackageProject(string projectName, string projectJsonPath)
+{
+    var settings = new DotNetCorePackSettings
+        {
+            OutputDirectory = outputDir,
+            NoBuild = true
+        };
+
+    DotNetCorePack(projectJsonPath, settings);
+
+    System.IO.File.WriteAllLines(outputDir + "artifacts", new[]{
+        "nuget:" + projectName + "." + versionInfo.NuGetVersion + ".nupkg",
+        "nugetSymbols:" + projectName + "." + versionInfo.NuGetVersion + ".symbols.nupkg",
+        "releaseNotes:releasenotes.md"
+    });
+} 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that this also generates the symbols package for uploading the .pdb files to a symbol server (as an alternative to GitHub source stepping).&lt;/p&gt;
+
+&lt;p&gt;If the script is running on AppVeyor then it copies all the generated output to the Artifacts folder on AppVeyor that is associated with this build.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/cake-appveyor-artifacts.png" alt="AppVeyor artifacts" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Final Cake Continuous Integration build script&lt;/h3&gt;
+
+&lt;p&gt;Having seen all the constituent parts it's probably useful to see the whole script:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#tool "nuget:?package=GitReleaseNotes"
+#tool "nuget:?package=GitVersion.CommandLine"
+#tool "nuget:?package=gitlink"
+
+var target = Argument("target", "Default");
+var outputDir = "./artifacts/";
+var solutionPath = "./src/Specify.sln";
+var specifyProjectJson = "./src/app/Specify/project.json";
+var specifyAutofacProjectJson = "./src/app/Specify.Autofac/project.json";
+
+Task("Clean")
+    .Does(() =&amp;gt; {
+        if (DirectoryExists(outputDir))
+        {
+            DeleteDirectory(outputDir, recursive:true);
+        }
+        CreateDirectory(outputDir);
+    });
+
+Task("Restore")
+    .Does(() =&amp;gt; {
+        DotNetCoreRestore("src");
+    });
+
+GitVersion versionInfo = null;
+Task("Version")
+    .Does(() =&amp;gt; {
+        GitVersion(new GitVersionSettings{
+            UpdateAssemblyInfo = true,
+            OutputType = GitVersionOutput.BuildServer
+        });
+        versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
+        // Update project.json
+        var updatedProjectJson = System.IO.File.ReadAllText(specifyProjectJson)
+            .Replace("1.0.0-*", versionInfo.NuGetVersion);
+
+        System.IO.File.WriteAllText(specifyProjectJson, updatedProjectJson);
+    });
+
+Task("Build")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Version")
+    .IsDependentOn("Restore")
+    .Does(() =&amp;gt; {
+        MSBuild(solutionPath);
+    });
+
+Task("Test")
+    .IsDependentOn("Build")
+    .Does(() =&amp;gt; {
+        DotNetCoreTest("./src/tests/Specify.Tests");
+        DotNetCoreTest("./src/tests/Specify.IntegrationTests");
+        DotNetCoreTest("./src/Samples/Examples/Specify.Examples.UnitSpecs");
+    });
+
+Task("Package")
+    .IsDependentOn("Test")
+    .Does(() =&amp;gt; {
+        //GitLink("./", new GitLinkSettings { ArgumentCustomization = args =&amp;gt; args.Append("-include Specify,Specify.Autofac") });
+
+        GenerateReleaseNotes();
+
+        PackageProject("Specify", specifyProjectJson);
+        PackageProject("Specify.Autofac", specifyAutofacProjectJson);
+
+        if (AppVeyor.IsRunningOnAppVeyor)
+        {
+            foreach (var file in GetFiles(outputDir + "**/*"))
+                AppVeyor.UploadArtifact(file.FullPath);
+        }
+    });
+
+private void PackageProject(string projectName, string projectJsonPath)
+{
+    var settings = new DotNetCorePackSettings
+        {
+            OutputDirectory = outputDir,
+            NoBuild = true
+        };
+
+    DotNetCorePack(projectJsonPath, settings);
+
+    System.IO.File.WriteAllLines(outputDir + "artifacts", new[]{
+        "nuget:" + projectName + "." + versionInfo.NuGetVersion + ".nupkg",
+        "nugetSymbols:" + projectName + "." + versionInfo.NuGetVersion + ".symbols.nupkg",
+        "releaseNotes:releasenotes.md"
+    });
+}    
+
+private void GenerateReleaseNotes()
+{
+        var releaseNotesExitCode = StartProcess(
+        @"tools\GitReleaseNotes\tools\gitreleasenotes.exe", 
+        new ProcessSettings { Arguments = ". /o artifacts/releasenotes.md" });
+    if (string.IsNullOrEmpty(System.IO.File.ReadAllText("./artifacts/releasenotes.md")))
+        System.IO.File.WriteAllText("./artifacts/releasenotes.md", "No issues closed since last release");
+
+    if (releaseNotesExitCode != 0) throw new Exception("Failed to generate release notes");
+}
+
+Task("Default")
+    .IsDependentOn("Package");
+
+RunTarget(target);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;AppVeyor badge&lt;/h3&gt;
+
+&lt;p&gt;A project status badge is a dynamically generated image displaying the status of the last AppVeyor build. You can put a status badge on the home page of your GitHub project (in the readme.md file). &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[![Build status](https://ci.appveyor.com/api/projects/status/vj6ec2yubg8ii9sn?svg=true)](https://ci.appveyor.com/project/mwhelan/specify)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/cake-appveyor-badge.svg" alt="AppVeyor artifacts" /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can read more about AppVeyor status badges &lt;a href="https://www.appveyor.com/docs/status-badges"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Continuous Delivery&lt;/h2&gt;
+
+&lt;p&gt;I have not had time to replicate the BDDfy deployment to NuGet process, so I will just outline the steps we take to deploy BDDfy. &lt;/p&gt;
+
+&lt;p&gt;The process has two steps, each of which has its own project in AppVeyor. The first step is to create a GitHub release. That is done by the CI build, which is configured to not build tags. The second step is to deploy to NuGet. This is done by a dedicated AppVeyor project for deployment which is configured to only build tags. Tags are created when you publish the GitHub Release.&lt;/p&gt;
+
+&lt;h3&gt;Step 1: Publish a GitHub Release&lt;/h3&gt;
+
+&lt;p&gt;The deployment process starts by selecting &lt;code&gt;Deploy&lt;/code&gt; from the continuous integration build to create a new deployment. &lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/cake-appveyor-deploy1.png" alt="AppVeyor deploy" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Select &lt;code&gt;Create GitHub Release - GitHub Releases&lt;/code&gt; option for the Environment and then click &lt;code&gt;Deploy&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/cake-appveyor-deploy2.png" alt="AppVeyor deploy" /&gt;&lt;/p&gt;
+
+&lt;p&gt;This will run and generate a GitHub Release.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/cake-appveyor-deploy3.png" alt="AppVeyor deploy" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, if you go over to GitHub Releases for your project you should see a new Draft Release.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/cake-appveyor-deploy4.png" alt="AppVeyor deploy" /&gt;&lt;/p&gt;
+
+&lt;p&gt;At this stage, this requires some manual editing of the title and tag and perhaps making some changes to the release notes. &lt;/p&gt;
+
+&lt;p&gt;Once everything is OK, publish the GitHub Release. This will create a tag, which will kick off the AppVeyor deployment project (which is configured to only build tags).&lt;/p&gt;
+
+&lt;h3&gt;Step 2: Deploy to NuGet&lt;/h3&gt;
+
+&lt;p&gt;The BDDfy deployment process is defined in the &lt;a href="https://github.com/TestStack/TestStack.BDDfy/blob/master/deploy.cake"&gt;deploy.cake file&lt;/a&gt;. It downloads GitHub Release artifacts and then deploys to NuGet. &lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;So, that is an end-to-end process for setting up continuous integration and continuous delivery for a .Net Core project hosted on GitHub using Cake, GitTools, and AppVeyor. It is one of my longer posts, and there's a whole lot going on, but hopefully it provides some useful insight into some of the great tools that talented people have made available for the community and how you might be able to use them in your own processes.&lt;/p&gt;
+</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/testing-dotnet-core-with-testdriven-net/</guid><link>http://www.michael-whelan.net/testing-dotnet-core-with-testdriven-net/</link><author>mjmwdev@gmail.com</author><category>.Net</category><title>Testing .Net Core with TestDriven.Net</title><description>&lt;p&gt;Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net is leading the way with a slick Visual Studio testing experience for .Net Core (and earlier versions of .Net).  You simply right click on the solution, project, folder, file, or test, and it will run all of the tests in that scope. TestDriven.Net is actually one of the oldest .Net/Visual Studio test runners and is undergoing something of a reboot with support for .Net Core and the next version of Visual Studio, "15."&lt;/p&gt;
 
 </description><pubDate>Fri, 22 Jul 2016 07:00:00 Z</pubDate><a10:updated>2016-07-22T07:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;Third party tools vendors are finding it particularly difficult to provide .Net Core support while the tooling is in preview and still subject to a lot of change, but TestDriven.Net is leading the way with a slick Visual Studio testing experience for .Net Core (and earlier versions of .Net).  You simply right click on the solution, project, folder, file, or test, and it will run all of the tests in that scope. TestDriven.Net is actually one of the oldest .Net/Visual Studio test runners and is undergoing something of a reboot with support for .Net Core and the next version of Visual Studio, "15."&lt;/p&gt;
 
@@ -947,126 +1340,4 @@ Part 3 =&amp;gt; moving from intermediate developer to senior developer
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Click the Clear Caches button.&lt;/p&gt;
-</a10:content></item><item><guid isPermaLink="true">http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/</guid><link>http://www.michael-whelan.net/testing-mvc-extending-strongly-typed-navigation/</link><author>mjmwdev@gmail.com</author><category>Automated Testing</category><category>Black-Box Testing ASP.Net Series</category><title>Black-Box Testing ASP.Net: Extending Strongly Typed Navigation</title><description>&lt;p&gt;In a &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt; in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.&lt;/p&gt;
-
-</description><pubDate>Sun, 22 Feb 2015 00:00:00 Z</pubDate><a10:updated>2015-02-22T00:00:00Z</a10:updated><a10:content type="html">&lt;p&gt;In a &lt;a href="http://www.michael-whelan.net/testing-mvc-reducing-use-of-magic-strings/"&gt;previous post&lt;/a&gt; in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.&lt;/p&gt;
-
-&lt;!--excerpt--&gt;
-
-&lt;p&gt;Here is a test that illustrates the behaviour. This is a standard situation where the URL simply contains the controller and the action, as well as the ID as a route argument. &lt;code&gt;RouteConfig.RegisterRoutes()&lt;/code&gt; is the method in the application that intialises its route table.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[Test]
-public void MvcUrlHelper_should_return_correct_route_for_controller_action()
-{
-    var routes = RouteConfig.RegisterRoutes(new RouteCollection());
-    var sut = new MvcUrlHelper(routes);
-
-    sut.GetRelativeUrlFor&amp;lt;StudentController&amp;gt;(x =&amp;gt; x.Details(1))
-        .Should().Be("/Student/Details/1");
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Recently, I've had a couple of reasons to extend this class. Firstly, I've been testing applications that use Areas. Secondly, I've needed to be able to pass in additional route values.&lt;/p&gt;
-
-&lt;p&gt;I will start off with the final class and then discuss the additional behaviour:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class MvcUrlHelper
-{
-    private readonly RouteCollection routeCollection;
-
-    public MvcUrlHelper(RouteCollection routeCollection)
-    {
-        this.routeCollection = routeCollection;
-    }
-
-    public string GetRelativeUrlFor&amp;lt;TController&amp;gt;(Expression&amp;lt;Action&amp;lt;TController&amp;gt;&amp;gt; action, IDictionary&amp;lt;string, object&amp;gt; routeValues = null)
-        where TController : Controller
-    {
-        var requestContext = new RequestContext(FakeHttpContext.Root(), new RouteData());
-
-        // Get controller and action values
-        var actionRouteValues = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
-
-        var area = GetArea(typeof(TController));
-        if (!string.IsNullOrEmpty(area))
-        {
-            actionRouteValues.Add("Area", area);
-        }
-
-        if (routeValues != null)
-        {
-            foreach (var v in routeValues) actionRouteValues[v.Key] = v.Value;
-        }
-
-        var urlHelper = new UrlHelper(requestContext, this.routeCollection);
-        var relativeUrl = urlHelper.RouteUrl(new RouteValueDictionary(actionRouteValues));
-
-        return relativeUrl;
-    }
-
-    private static string GetArea(Type controllerType)
-    {
-        var routeAreaAttributes = controllerType.GetCustomAttributes(typeof(RouteAreaAttribute), true);
-        if (routeAreaAttributes.Length &amp;gt; 0)
-        {
-            var routeArea = (RouteAreaAttribute)(routeAreaAttributes[0]);
-            return routeArea.AreaName;
-        }
-
-        var nameSpace = controllerType.Namespace;
-        if (nameSpace == null)
-        {
-            return string.Empty;
-        }
-
-        const string AreasStartSearchString = "Areas.";
-        var areasIndexOf = nameSpace.IndexOf(AreasStartSearchString, StringComparison.Ordinal);
-        if (areasIndexOf &amp;lt; 0)
-        {
-            return string.Empty;
-        }
-
-        var areaStart = areasIndexOf + AreasStartSearchString.Length;
-        var areaString = nameSpace.Substring(areaStart);
-        if (areaString.Contains("."))
-        {
-            areaString = areaString.Remove(areaString.IndexOf(".", StringComparison.Ordinal));
-        }
-
-        return areaString;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;Areas&lt;/h2&gt;
-
-&lt;p&gt;The MVC5 Futures &lt;code&gt;ExpressionHelper&lt;/code&gt; class does not return the area in the URL (unless you use its Area attribute). Here is the test that illustrates the behaviour I want, where University is the Area and Student the controller. &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[TestMethod]
-public void should_return_area_in_url()
-{
-    var routes = RouteConfig.RegisterRoutes(new RouteCollection());
-    var sut = new MvcUrlHelper(routes);
-    var result = sut.GetRelativeUrlFor&amp;lt;StudentController&amp;gt;(c =&amp;gt; c.Create());
-    result.ShouldBe("/University/Student/Create");
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;code&gt;GetArea&lt;/code&gt; method tries to find area information by interrogating the controller type. Firstly, it looks for a &lt;code&gt;RouteAreaAttribute&lt;/code&gt; on the class. Secondly, it looks at the namespace to see if it is in the standard Areas namespace, and extracts the Area from the namespace if it is. If this method returns an area then it is added to the actionRouteValues &lt;code&gt;RouteValueDictionary&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Additional Route Values&lt;/h2&gt;
-
-&lt;p&gt;Sometimes, you must provide additional route values that the &lt;code&gt;UrlHelper&lt;/code&gt; class requires to construct a URL. This test shows the adding of an &lt;code&gt;application&lt;/code&gt; route value, with a value of &lt;code&gt;Books&lt;/code&gt;, which is used in the URL.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;[TestMethod]
-public void should_return_application_in_url()
-{
-    var sut = new MvcUrlHelper(new RouteRegistrator().RegisterRoutes());
-    var application = new Dictionary&amp;lt;string, object&amp;gt; { { "application", "Books" } };
-    var result = sut.GetRelativeUrlFor&amp;lt;CollectionsController&amp;gt;(c =&amp;gt; c.Details(23), application);
-    Assert.AreEqual("/Editorial/Applications/Books/Collections/Details?collectionId=23", result);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;These additional values are used by UrlHelper in the creation of the full URL to make the test pass.&lt;/p&gt;
 </a10:content></item></channel></rss>

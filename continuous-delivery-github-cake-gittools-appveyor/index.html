@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="last-modified" content="2016-07-31T15:33:43.7435956+01:00" />
+    <meta name="keywords" content="" />
+
+
+    <title>Continuous Delivery for .Net Core with GitHub, Cake, GitTools, and AppVeyor - Michael Whelan - behaviour driven blog</title>
+
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
+
+    <link rel="canonical" href="http://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/" />
+</head>
+<body>
+    <div class="container">
+        <!-- row 1: navigation -->
+        <div class="row">
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://michael-whelan.net/">behaviour driven blog</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="http://about.me/michaelwhelan">About</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="/category/.net" title=".Net">.Net</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/automated-testing" title="Automated Testing">Automated Testing</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/azure" title="Azure">Azure</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bdd" title="BDD">BDD</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/bddfy" title="BDDfy">BDDfy</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/black-box-testing-asp.net-series" title="Black-Box Testing ASP.Net Series">Black-Box Testing ASP.Net Series</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/general" title="General">General</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/learning" title="Learning">Learning</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/programming" title="Programming">Programming</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/seleno" title="Seleno">Seleno</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/snow" title="Snow">Snow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/sql-server" title="SQL Server">SQL Server</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/test-data" title="Test Data">Test Data</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/teststack" title="TestStack">TestStack</a>
+                                        </li>
+                                        <li>
+                                            <a href="/category/visual-studio" title="Visual Studio">Visual Studio</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li><a href="/archive">Archive</a></li>
+                            <li><a href="/feed.xml">RSS</a></li>
+                        </ul>
+
+                        <div class="navbar-right">
+                            <a class="navbar-custom-button" href="https://twitter.com/mjmwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://twitter.com']);"><img src="/stylesheets/images/twitter.png"></a>
+                            <a class="navbar-custom-button" href="https://github.com/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://github.com']);"><img src="/stylesheets/images/github.png"></a>
+                            <a class="navbar-custom-button" href="http://www.linkedin.com/in/mwhelan" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://www.linkedin.com']);"><img src="/stylesheets/images/linkedin.png"></a>
+                            <a class="navbar-custom-button" href="https://plus.google.com/u/1/105055485720815974241?rel=me" onclick="javascript:_gaq.push(['_trackEvent','outbound-widget','http://plus.google.com']);"><img src="/stylesheets/images/googleplus.png"></a>
+                        </div>
+                    </div><!--collapse -->
+                </div>
+            </nav>
+        </div><!--row -->
+        <!-- row 2: header -->
+        <header class="row">
+            <a href="/" title="Home"><img width="60" height="60" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png" title="logo"></a>
+            <h1 class="blog-title">
+                <a href="/" title="Michael Whelan" rel="home">Michael Whelan</a>
+            </h1>
+            <p class="lead blog-description">behaviour driven blog</p>
+        </header>
+
+        <!-- row 3: featured -->
+        <div class="row">
+            
+        </div>
+
+        <!-- row 4: body -->
+        <div class="row">
+            
+
+<div id="post">
+    <h1 class="blog-post-title">Continuous Delivery for .Net Core with GitHub, Cake, GitTools, and AppVeyor</h1>
+
+    <div class="blog-post-meta">
+        posted on 31 Jul 2016
+            | <a class="label label-primary" href="/category/.net">.Net</a>
+    </div>
+
+    <div class="blog-post">
+        
+
+        <p>This is an end-to-end tutorial for setting up <a href="http://www.martinfowler.com/articles/continuousIntegration.html">continuous integration</a> (CI) and <a href="http://www.martinfowler.com/articles/continuousIntegration.html">continuous delivery</a> (CD) for a .Net Core project hosted on GitHub using Cake, GitTools, and AppVeyor. Credit for this entire process goes to <a href="https://twitter.com/JakeGinnivan">Jake Ginnivan</a>, who set this up for TestStack's <a href="https://github.com/TestStack/TestStack.BDDfy">BDDfy</a> open source project, and is actively involved in a number of the GitTools projects referenced here. I have replicated that process for another open source project and documented it here.</p>
+
+<!--excerpt-->
+
+<p>Continuous delivery can be quite a daunting prospect these days and it would be easy to be overwhelmed by the number of different things the process I describe here does. But, rest assured, I am far from being an expert in this area, so if I can do it you can too. The good news is that the hard work and ingenuity has been done by the folks behind Cake, GitTools, AppVeyor and the other open source tools. They have created all the jigsaw pieces and all that is left for you and me to do is to compose the modules together to suit our particular situation.</p>
+
+<h2>Overview</h2>
+
+<p>The .Net Core project for this tutorial is <a href="https://github.com/mwhelan/Specify">Specify</a>: Its technology stack is:</p>
+
+<ul>
+<li><strong>C#</strong>: The programming language used for Specify.</li>
+<li><strong>NUnit</strong>: The testing framework I am using in Specify (though with .Net Core you could have a mix of test frameworks as Cake just delegates to the dotnet-test runner to run tests).</li>
+<li><strong>Git and GitHub</strong>: The Specify repository is git and the project is hosted on GitHub.</li>
+<li><strong>AppVeyor</strong>: An online continuous integration server for .Net projects.</li>
+<li><strong>NuGet</strong>: the package manager for .Net which is where Specify is deployed to.</li>
+<li><strong>Cake</strong>: A cross platform build automation system with a C# DSL.</li>
+<li><strong>GitTools</strong>: A GitHub open source organisation which provide a bunch of assorted git related tools which help with debugging, versioning, releasing etc.</li>
+</ul>
+
+<p>That said, many of the topics in this post are more or less applicable to other technologies and providers, mainly due to the agnosticism of the Cake build tool.</p>
+
+<p>The end-to-end process is comprised of these 3 steps, as depicted in the diagram below:</p>
+
+<p><img src="/images/cake-continuous-delivery.png" alt="Cake continuous delivery" /></p>
+
+<h3>Step 1: Commit code to GitHub</h3>
+
+<p>When you commit your code to GitHub, a webhook for AppVeyor is triggered to kick off the continuous integration build. For every project AppVeyor will configure webhooks for its repository to automatically start a build when you push the changes. You can read more about configuring AppVeyor to work with GitHub (and other providers) <a href="https://www.appveyor.com/docs">here</a>.</p>
+
+<h3>Step 2: Continuous Integration</h3>
+
+<p>AppVeyor runs the Cake continuous integration build process by calling the <code>build.ps1</code> PowerShell script. This calls the <code>build.cake</code> script, which does all the work, and runs the following tasks (the continuous integration tasks are blue in the diagram):</p>
+
+<ul>
+<li><strong>Build</strong>: 
+<ul>
+<li><strong>Clean</strong>: Cleans the previous build (deleting and re-creating the folder used for build output). </li>
+<li><strong>Semantic Version</strong>: Uses GitVersion to calculate the semantic version and update the AssemblyInfo.cs files with that version. </li>
+<li><strong>Package restore</strong>: Performs a NuGet package restore. </li>
+<li><strong>Build</strong>: Compiles the source code with msbuild.</li>
+</ul></li>
+<li><strong>Test</strong>: Runs tests for each of the test projects and for each target in those projects.</li>
+<li><strong>Package</strong>: generates NuGet packages
+<ul>
+<li><strong>GitHub source stepping</strong>: Uses GitLink to allow consumers of this project to step through the exact version of code on GitHub that was used to create the package (an alternative approach to symbol servers).</li>
+<li><strong>Release notes</strong>: Uses GitReleaseNotes to automatically generate release notes from the GitHub issue tracker based on closed issues since the last release.</li>
+<li><strong>Package for NuGet</strong>:</li>
+</ul></li>
+</ul>
+
+<h3>Step 3: Continuous Delivery</h3>
+
+<p>AppVeyor runs the Cake deployment process by calling the <code>deploy.ps1</code> PowerShell script. This calls the <code>deploy.cake</code> script, which does all the work, and runs the publish tasks (green on the diagram above):
+Manually run the deploy process, etc. </p>
+
+<h3>Cake</h3>
+
+<p><a href="http://cakebuild.net/">Cake</a> (C# Make) is a cross platform build automation system with a C# DSL to do things like compiling code, copy files/folders, running unit tests, compress files and build NuGet packages. It is built on top of the Roslyn and Mono compiler which enables you to write your build scripts in C#. One of its main philosophies is that Cake should behave the same way regardless of operating system (Windows, Linux, or OS X) or environment (AppVeyor, VSTS, TeamCity, Jenkins, etc.).</p>
+
+<p>You can read how to get started with Cake <a href="http://cakebuild.net/docs/tutorials/getting-started">here</a>.</p>
+
+<p>Tasks represent a unit of work in Cake, and you use them to perform specific work in a specific order. You can read more about tasks <a href="http://cakebuild.net/docs/fundamentals/tasks">here</a>.</p>
+
+<p>Cake supports something called script aliases. Script aliases are convenience methods that are easily accessible directly from a Cake script. Every single DSL method in Cake is implemented like an alias method. You can read more about Cake aliases <a href="http://cakebuild.net/docs/fundamentals/aliases">here</a>.</p>
+
+<h3>GitTools</h3>
+
+<p><a href="https://github.com/GitTools">GitTools</a> is a GitHub open source organisation which provide a bunch of assorted git related tools which help with debugging, versioning, releasing etc.</p>
+
+<ul>
+<li><strong>GitVersion</strong>: Provides easy, automated, <a href="http://semver.org/">semantic versioning</a> for projects using git, by looking at your git history and working out the semantic version of the commit being built.</li>
+<li><strong>GitLink</strong>: Allows users to step through your source code hosted on GitHub, making symbol servers obsolete.</li>
+<li><strong>GitReleaseNotes</strong>: Utility which makes it really easy to generate release notes for your git project. Works with GitHub, Jira and YouTrack.</li>
+</ul>
+
+<h2>Continuous Integration</h2>
+
+<h3>Build task</h3>
+
+<p>This illustrates a basic Cake task. You can see that it is familiar C# syntax. Each task defines a name - "Build" in this case - and is followed by a <code>.Does</code> method which takes a lambda for the work the task will perform.</p>
+
+<p>The <code>IsDependentOn</code> method is used to setup a dependency on another task. That means that task must run before this task. If there are multiple dependencies then each will run in order before this task. So, in this example, they will run in the following order: </p>
+
+<pre><code>Clean =&gt; Version =&gt; Restore =&gt; Build.
+</code></pre>
+
+<p>The <code>build</code> task uses the Cake MSBuild task to compile the Specify solution.</p>
+
+<pre><code>Task("Build")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Version")
+    .IsDependentOn("Restore")
+    .Does(() =&gt; {
+        MSBuild("./src/Specify.sln");
+    });
+</code></pre>
+
+<p>In order to use the commands for this alias, MSBuild will already have to be installed on the machine the Cake Script is being executed on.</p>
+
+<h3>Clean task</h3>
+
+<p>The first task you normally want to do with a build script is to delete the working directory, which various tasks in the build process use for preparing files and producing output. Cake provides a number of aliases for working with directories. This script uses the <code>DirectoryExists</code>, <code>DeleteDirectory</code>, and <code>CreateDirectory</code> methods.</p>
+
+<pre><code>Task("Clean")
+    .Does(() =&gt; {
+        if (DirectoryExists(outputDir))
+        {
+            DeleteDirectory(outputDir, recursive:true);
+        }
+        CreateDirectory(outputDir);
+    });
+</code></pre>
+
+<h3>Version task</h3>
+
+<p>The version task uses the GitVersion tool to calculate the <a href="http://semver.org/">semantic version</a> of the project and updates the project's project.json and AssemblyInfo.cs files with this version number. You can read more about GitVersion on the project's <a href="http://gitversion.readthedocs.io/en/latest/">readthedocs site</a>.</p>
+
+<p>In order to use the GitVersion tool, you have to download its package as part of executing the build script. To do that with Cake, you have to provide this directive at the top of the build script.</p>
+
+<pre><code>#tool "nuget:?package=GitVersion.CommandLine"
+</code></pre>
+
+<p>And then use the GitVersion alias and the GitVersionSettings class in the version task.</p>
+
+<pre><code>Task("Version")
+    .Does(() =&gt; {
+        GitVersion(new GitVersionSettings{
+            UpdateAssemblyInfo = true,
+            OutputType = GitVersionOutput.BuildServer
+        });
+        versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
+        // Update project.json
+        var updatedProjectJson = System.IO.File.ReadAllText(specifyProjectJson)
+            .Replace("1.0.0-*", versionInfo.NuGetVersion);
+
+        System.IO.File.WriteAllText(specifyProjectJson, updatedProjectJson);
+    });
+</code></pre>
+
+<h3>Restore task</h3>
+
+<p>Cake provides built-in support for .Net Core. The DotNetCoreRestore alias will restore all NuGet packages for .Net Core solutions. You just have to pass in the folder where the solution is located ("src" in this example).</p>
+
+<pre><code>Task("Restore")
+    .Does(() =&gt; {
+        DotNetCoreRestore("src");
+    });
+</code></pre>
+
+<p>In order to use the commands for this alias, the <a href="https://www.microsoft.com/net/core#windows">.Net Core CLI tools</a> will need to be installed on the machine where the Cake script is being executed.</p>
+
+<h3>Test task</h3>
+
+<p>DotNetCoreTest is another DotNetCore alias. It will use the .Net CLI test runner that is configured for each test project to run the tests for that project. It will run tests for each target defined in the test project's project.json file. You just have to pass in the location of the test project.</p>
+
+<pre><code>DotNetCoreTest("./src/tests/Specify.Tests");
+DotNetCoreTest("./src/tests/Specify.IntegrationTests");
+DotNetCoreTest("./src/Samples/Examples/Specify.Examples.UnitSpecs");
+</code></pre>
+
+<p>In order to use the commands for this alias, the <a href="https://www.microsoft.com/net/core#windows">.Net Core CLI tools</a> will need to be installed on the machine where the Cake script is being executed.</p>
+
+<h3>Package task</h3>
+
+<p>The package task performs performs several operations to create  runs once for each </p>
+
+<h3>GitHub source stepping task</h3>
+
+<p><strong>UPDATE</strong>: Unfortunately, it turns out that GitLink does not currently support xproj or project.json and .Net Core. I will leave this step in as it is still a correct description of how to use Cake and GitLink with pre-.Net Core projects and perhaps suppor will be added eventually. As an alternative, I will demonstrate packaging pdb files as a NuGet package for a symbol server in a later step.</p>
+
+<p>In order to use the GitLink tool, you have to download its package as part of executing the build script. </p>
+
+<pre><code>#tool "nuget:?package=gitlink"
+</code></pre>
+
+<p>And then use the GitLink alias and the GitVersionSettings class in the package task. This example shows how to include command-line arguments that tell GitLink which projects in the solution to target.</p>
+
+<pre><code>GitLink("./", new GitLinkSettings { ArgumentCustomization = args =&gt; args.Append("-include Specify,Specify.Autofac") });
+</code></pre>
+
+<p>Alternatively, you can just call it without any settings and accept the defaults:</p>
+
+<pre><code>GitLink("./");
+</code></pre>
+
+<h3>Release notes task</h3>
+
+<p>In order to use the GitReleaseNotes tool, you have to download its package as part of executing the build script. </p>
+
+<pre><code>#tool "nuget:?package=GitReleaseNotes"
+</code></pre>
+
+<p>Although there is a GitReleaseNotes tool for Cake, this example shows how to use the StartProcess alias to run the GitReleaseNotes executable that Cake has downloaded to the tools directory.</p>
+
+<pre><code>private void GenerateReleaseNotes()
+{
+    var releaseNotesExitCode = StartProcess(
+        @"tools\GitReleaseNotes\tools\gitreleasenotes.exe", 
+        new ProcessSettings { Arguments = ". /o artifacts/releasenotes.md" });
+    if (string.IsNullOrEmpty(System.IO.File.ReadAllText("./artifacts/releasenotes.md")))
+        System.IO.File.WriteAllText("./artifacts/releasenotes.md", "No issues closed since last release");
+
+    if (releaseNotesExitCode != 0) throw new Exception("Failed to generate release notes");
+}
+</code></pre>
+
+<h3>Package for NuGet task</h3>
+
+<p>The package task generates the .nupkg files for each project that needs to be deployed to NuGet using Cake's DotNetCorePack alias. This is another DotNetCore alias, and also requires the .Net Core CLI tools be installed on the machine where the Cake script is being executed. </p>
+
+<pre><code>private void PackageProject(string projectName, string projectJsonPath)
+{
+    var settings = new DotNetCorePackSettings
+        {
+            OutputDirectory = outputDir,
+            NoBuild = true
+        };
+
+    DotNetCorePack(projectJsonPath, settings);
+
+    System.IO.File.WriteAllLines(outputDir + "artifacts", new[]{
+        "nuget:" + projectName + "." + versionInfo.NuGetVersion + ".nupkg",
+        "nugetSymbols:" + projectName + "." + versionInfo.NuGetVersion + ".symbols.nupkg",
+        "releaseNotes:releasenotes.md"
+    });
+} 
+</code></pre>
+
+<p>Note that this also generates the symbols package for uploading the .pdb files to a symbol server (as an alternative to GitHub source stepping).</p>
+
+<p>If the script is running on AppVeyor then it copies all the generated output to the Artifacts folder on AppVeyor that is associated with this build.</p>
+
+<p><img src="/images/cake-appveyor-artifacts.png" alt="AppVeyor artifacts" /></p>
+
+<h3>Final Cake Continuous Integration build script</h3>
+
+<p>Having seen all the constituent parts it's probably useful to see the whole script:</p>
+
+<pre><code>#tool "nuget:?package=GitReleaseNotes"
+#tool "nuget:?package=GitVersion.CommandLine"
+#tool "nuget:?package=gitlink"
+
+var target = Argument("target", "Default");
+var outputDir = "./artifacts/";
+var solutionPath = "./src/Specify.sln";
+var specifyProjectJson = "./src/app/Specify/project.json";
+var specifyAutofacProjectJson = "./src/app/Specify.Autofac/project.json";
+
+Task("Clean")
+    .Does(() =&gt; {
+        if (DirectoryExists(outputDir))
+        {
+            DeleteDirectory(outputDir, recursive:true);
+        }
+        CreateDirectory(outputDir);
+    });
+
+Task("Restore")
+    .Does(() =&gt; {
+        DotNetCoreRestore("src");
+    });
+
+GitVersion versionInfo = null;
+Task("Version")
+    .Does(() =&gt; {
+        GitVersion(new GitVersionSettings{
+            UpdateAssemblyInfo = true,
+            OutputType = GitVersionOutput.BuildServer
+        });
+        versionInfo = GitVersion(new GitVersionSettings{ OutputType = GitVersionOutput.Json });
+        // Update project.json
+        var updatedProjectJson = System.IO.File.ReadAllText(specifyProjectJson)
+            .Replace("1.0.0-*", versionInfo.NuGetVersion);
+
+        System.IO.File.WriteAllText(specifyProjectJson, updatedProjectJson);
+    });
+
+Task("Build")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Version")
+    .IsDependentOn("Restore")
+    .Does(() =&gt; {
+        MSBuild(solutionPath);
+    });
+
+Task("Test")
+    .IsDependentOn("Build")
+    .Does(() =&gt; {
+        DotNetCoreTest("./src/tests/Specify.Tests");
+        DotNetCoreTest("./src/tests/Specify.IntegrationTests");
+        DotNetCoreTest("./src/Samples/Examples/Specify.Examples.UnitSpecs");
+    });
+
+Task("Package")
+    .IsDependentOn("Test")
+    .Does(() =&gt; {
+        //GitLink("./", new GitLinkSettings { ArgumentCustomization = args =&gt; args.Append("-include Specify,Specify.Autofac") });
+
+        GenerateReleaseNotes();
+
+        PackageProject("Specify", specifyProjectJson);
+        PackageProject("Specify.Autofac", specifyAutofacProjectJson);
+
+        if (AppVeyor.IsRunningOnAppVeyor)
+        {
+            foreach (var file in GetFiles(outputDir + "**/*"))
+                AppVeyor.UploadArtifact(file.FullPath);
+        }
+    });
+
+private void PackageProject(string projectName, string projectJsonPath)
+{
+    var settings = new DotNetCorePackSettings
+        {
+            OutputDirectory = outputDir,
+            NoBuild = true
+        };
+
+    DotNetCorePack(projectJsonPath, settings);
+
+    System.IO.File.WriteAllLines(outputDir + "artifacts", new[]{
+        "nuget:" + projectName + "." + versionInfo.NuGetVersion + ".nupkg",
+        "nugetSymbols:" + projectName + "." + versionInfo.NuGetVersion + ".symbols.nupkg",
+        "releaseNotes:releasenotes.md"
+    });
+}    
+
+private void GenerateReleaseNotes()
+{
+        var releaseNotesExitCode = StartProcess(
+        @"tools\GitReleaseNotes\tools\gitreleasenotes.exe", 
+        new ProcessSettings { Arguments = ". /o artifacts/releasenotes.md" });
+    if (string.IsNullOrEmpty(System.IO.File.ReadAllText("./artifacts/releasenotes.md")))
+        System.IO.File.WriteAllText("./artifacts/releasenotes.md", "No issues closed since last release");
+
+    if (releaseNotesExitCode != 0) throw new Exception("Failed to generate release notes");
+}
+
+Task("Default")
+    .IsDependentOn("Package");
+
+RunTarget(target);
+</code></pre>
+
+<h3>AppVeyor badge</h3>
+
+<p>A project status badge is a dynamically generated image displaying the status of the last AppVeyor build. You can put a status badge on the home page of your GitHub project (in the readme.md file). </p>
+
+<pre><code>[![Build status](https://ci.appveyor.com/api/projects/status/vj6ec2yubg8ii9sn?svg=true)](https://ci.appveyor.com/project/mwhelan/specify)
+</code></pre>
+
+<p><img src="/images/cake-appveyor-badge.svg" alt="AppVeyor artifacts" /></p>
+
+<p>You can read more about AppVeyor status badges <a href="https://www.appveyor.com/docs/status-badges">here</a>.</p>
+
+<h2>Continuous Delivery</h2>
+
+<p>I have not had time to replicate the BDDfy deployment to NuGet process, so I will just outline the steps we take to deploy BDDfy. </p>
+
+<p>The process has two steps, each of which has its own project in AppVeyor. The first step is to create a GitHub release. That is done by the CI build, which is configured to not build tags. The second step is to deploy to NuGet. This is done by a dedicated AppVeyor project for deployment which is configured to only build tags. Tags are created when you publish the GitHub Release.</p>
+
+<h3>Step 1: Publish a GitHub Release</h3>
+
+<p>The deployment process starts by selecting <code>Deploy</code> from the continuous integration build to create a new deployment. </p>
+
+<p><img src="/images/cake-appveyor-deploy1.png" alt="AppVeyor deploy" /></p>
+
+<p>Select <code>Create GitHub Release - GitHub Releases</code> option for the Environment and then click <code>Deploy</code>.</p>
+
+<p><img src="/images/cake-appveyor-deploy2.png" alt="AppVeyor deploy" /></p>
+
+<p>This will run and generate a GitHub Release.</p>
+
+<p><img src="/images/cake-appveyor-deploy3.png" alt="AppVeyor deploy" /></p>
+
+<p>Now, if you go over to GitHub Releases for your project you should see a new Draft Release.</p>
+
+<p><img src="/images/cake-appveyor-deploy4.png" alt="AppVeyor deploy" /></p>
+
+<p>At this stage, this requires some manual editing of the title and tag and perhaps making some changes to the release notes. </p>
+
+<p>Once everything is OK, publish the GitHub Release. This will create a tag, which will kick off the AppVeyor deployment project (which is configured to only build tags).</p>
+
+<h3>Step 2: Deploy to NuGet</h3>
+
+<p>The BDDfy deployment process is defined in the <a href="https://github.com/TestStack/TestStack.BDDfy/blob/master/deploy.cake">deploy.cake file</a>. It downloads GitHub Release artifacts and then deploys to NuGet. </p>
+
+<h2>Summary</h2>
+
+<p>So, that is an end-to-end process for setting up continuous integration and continuous delivery for a .Net Core project hosted on GitHub using Cake, GitTools, and AppVeyor. It is one of my longer posts, and there's a whole lot going on, but hopefully it provides some useful insight into some of the great tools that talented people have made available for the community and how you might be able to use them in your own processes.</p>
+
+    </div>
+    
+    <div class="blog-post aboutFooter">
+        <h3>About Michael Whelan</h3>
+        <img style="float:left;padding-right: 1em;" src="http://www.gravatar.com/avatar/391e4f217a06e3dfc8976a4b99b79617.png">
+        <p>
+            Michael Whelan is a software developer with 20 years’ experience in building (and testing!) applications on the Microsoft stack. He is passionate about applying agile development practices, such as TDD and BDD, to agile processes. Michael specializes in ASP.Net MVC but has also worked with WPF. He does open source development with <a href="http://www.teststack.net/">TestStack</a> to learn from great developers. Michael is a Principal Consultant at <a href="http://www.bjss.com/">BJSS</a> in London.
+        </p>
+    </div>
+    
+    <!-- Add this toolbox-->
+    <div class="row addThis">
+        <div class="addthis_toolbox addthis_default_style row pull-right" style="margin:10px">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+            <a class="addthis_button_linkedin_counter"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+    </div>
+    
+    <!-- Disqus Comments -->
+    <div class="row">
+        <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'givenwhenthen';
+    var disqus_url = 'http://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>        
+    </div>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53d54a0e28fe9235"></script>
+
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</div>
+
+        </div>
+
+        <hr>
+
+        <footer class="row">
+            <p>&copy; 2014 - Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/prettify.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-49651944-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script type='text/javascript'>
+        $(function () {
+            $("pre code").parent().each(function () {
+                if (!$(this).hasClass("prettyprint")) {
+                    $(this).addClass("prettyprint");
+                    a = true
+                }
+            });
+
+            prettyPrint();
+        });
+    </script>
+    
+
+    
+    <!-- Authorship Google -->
+    <a style="display: block; width: 30px; height: 30px; text-indent: -999px; text-decoration: none" href="https://plus.google.com/u/1/105055485720815974241?rel=author">Google</a>
+</body>
+</html>

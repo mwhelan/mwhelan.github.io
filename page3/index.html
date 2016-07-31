@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2016-07-22T17:14:55.3830829+01:00" />
+    <meta http-equiv="last-modified" content="2016-07-31T15:33:43.7435956+01:00" />
     <meta name="keywords" content="" />
 
 
@@ -121,6 +121,17 @@
 
     <div class="blog-main">
       <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/restoring-nuget-packages-in-teamcity/">Restoring NuGet Packages in TeamCity</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 07 Sep 2014</p>
+
+        
+        <p>NuGet package restore used to be MSBuild-based and you would enable it by selecting <code>Enable NuGet Package Restore</code> in Visual Studio. Nowadays, it is <a href="http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore">recommended</a> that you don't use this approach, but instead just set the option in Visual Studio to <code>Allow NuGet to download missing packages</code>. This works really well in Visual Studio, but when you select the Visual Studio build runner in TeamCity it does not go ahead and restore all the NuGet packages for you in the same way, so you get a compilation error. Instead, you  have to explicitly create a separate step to run before the Visual Studio build step.</p>
+
+
+          <p><a class="btn btn-primary" href="/restoring-nuget-packages-in-teamcity/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
         <h2 class="blog-post-title"><a href="/code-katas-for-practicing-tdd/">TDD Katas</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 03 Aug 2014</p>
 
@@ -223,17 +234,6 @@
 
 
           <p><a class="btn btn-primary" href="/learning-angularjs/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/moving-blog-to-snow/">Moving my blog to Snow and GitHub Pages</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 14 Jun 2014</p>
-
-        
-        <p>Most of my work has involved ASP.Net MVC and SQL Server, so it seemed natural to gravitate towards blogging platforms that used those technologies. Initially, I used <a href="http://nblog.codeplex.com/">NBlog</a>, which was a great little blogging engine, then I moved to <a href="http://www.funnelweblog.com/">FunnelWeb</a>, which seemed to have a larger community around it and was used by people I knew. My work has expanded a bit to other technologies, such as RavenDB and AngularJS, and I’ve become more open to the idea of using my blog to experiment with new technologies and approaches. I have noticed more and more people moving towards static site generators, and the simplicity really appealed . I also use Git and GitHub a lot more now and the idea of a blog publishing workflow involving Git makes a lot of sense to me. Add in GitHub Pages for free hosting and what could be better?</p>
-
-
-          <p><a class="btn btn-primary" href="/moving-blog-to-snow/">Read more</a></p>
           <hr/>
       </div>
     </div>

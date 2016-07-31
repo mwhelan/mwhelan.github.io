@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="last-modified" content="2016-07-22T17:14:55.3830829+01:00" />
+    <meta http-equiv="last-modified" content="2016-07-31T15:33:43.7435956+01:00" />
     <meta name="keywords" content="" />
 
 
@@ -121,6 +121,17 @@
 
     <div class="blog-main">
       <div class="blog-post">
+        <h2 class="blog-post-title"><a href="/testing-mvc-extending-strongly-typed-navigation/">Black-Box Testing ASP.Net: Extending Strongly Typed Navigation</a></h2>
+          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 22 Feb 2015</p>
+
+        
+        <p>In a <a href="/testing-mvc-reducing-use-of-magic-strings/">previous post</a> in this series, on reducing the use of magic strings, I showed a helper class for creating strongly typed navigation. This lets you derive a URL from a strongly typed controller action by looking up the route in the route table and returning you the same computed URL your application recognises.</p>
+
+
+          <p><a class="btn btn-primary" href="/testing-mvc-extending-strongly-typed-navigation/">Read more</a></p>
+          <hr/>
+      </div>
+      <div class="blog-post">
         <h2 class="blog-post-title"><a href="/testing-mvc-using-aspnet-mvc-view-models-with-selenium-webdriver/">Black-Box Testing ASP.Net: Using ASP.Net MVC View Models with Selenium WebDriver</a></h2>
           <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 04 Jan 2015</p>
 
@@ -224,17 +235,6 @@
 
 
           <p><a class="btn btn-primary" href="/creating-test-data-with-mockaroo/">Read more</a></p>
-          <hr/>
-      </div>
-      <div class="blog-post">
-        <h2 class="blog-post-title"><a href="/restoring-nuget-packages-in-teamcity/">Restoring NuGet Packages in TeamCity</a></h2>
-          <p class="blog-post-meta"><i class="fa fa-calendar"></i>  posted on 07 Sep 2014</p>
-
-        
-        <p>NuGet package restore used to be MSBuild-based and you would enable it by selecting <code>Enable NuGet Package Restore</code> in Visual Studio. Nowadays, it is <a href="http://www.xavierdecoster.com/migrate-away-from-msbuild-based-nuget-package-restore">recommended</a> that you don't use this approach, but instead just set the option in Visual Studio to <code>Allow NuGet to download missing packages</code>. This works really well in Visual Studio, but when you select the Visual Studio build runner in TeamCity it does not go ahead and restore all the NuGet packages for you in the same way, so you get a compilation error. Instead, you  have to explicitly create a separate step to run before the Visual Studio build step.</p>
-
-
-          <p><a class="btn btn-primary" href="/restoring-nuget-packages-in-teamcity/">Read more</a></p>
           <hr/>
       </div>
     </div>
