@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Testing .Net Core with TestDriven.Net
-categories: .Net
+categories: DotNet
 date: 2016-07-22 08:00:00
 comments: true
 sharing: true

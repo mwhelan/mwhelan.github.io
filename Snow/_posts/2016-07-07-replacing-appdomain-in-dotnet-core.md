@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Replacing AppDomain in .Net Core
-categories: .Net
+categories: DotNet
 date: 2016-07-07 08:00:00
 comments: true
 sharing: true

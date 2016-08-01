@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Porting a .Net Framework Library to .Net Core
-categories: .Net
+categories: DotNet
 date: 2016-07-04 08:00:00
 comments: true
 sharing: true
