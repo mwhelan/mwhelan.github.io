@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A Humanizer Display Metadata Provider for ASP .Net Core
-categories: DotNet
+categories: DotNet Core
 date: 2016-07-18 08:00:00
 comments: true
 sharing: true

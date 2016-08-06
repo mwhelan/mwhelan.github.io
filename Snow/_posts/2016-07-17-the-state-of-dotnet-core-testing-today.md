@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The State of .Net Core Testing Today
-categories: DotNet
+categories: DotNet Core
 date: 2016-07-17 08:00:00
 comments: true
 sharing: true

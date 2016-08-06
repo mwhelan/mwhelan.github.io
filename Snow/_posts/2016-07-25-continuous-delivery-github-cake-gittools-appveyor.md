@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Continuous Delivery for .Net Core with GitHub, Cake, GitTools, and AppVeyor
-categories: DotNet
+categories: DotNet Core
 date: 2016-07-31 08:00:00
 comments: true
 sharing: true
