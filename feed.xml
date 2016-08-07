@@ -1,4 +1,84 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2016-08-06T09:07:02+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/</id><title type="text">Continuous Delivery for .Net Core with GitHub, Cake, GitTools, and AppVeyor</title><summary type="html">&lt;p&gt;This is an end-to-end tutorial for setting up &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous integration&lt;/a&gt; (CI) and &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous delivery&lt;/a&gt; (CD) for a .Net Core project hosted on GitHub using Cake, GitTools, and AppVeyor. Credit for this entire process goes to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt;, who set this up for TestStack's &lt;a href="https://github.com/TestStack/TestStack.BDDfy"&gt;BDDfy&lt;/a&gt; open source project, and is actively involved in a number of the GitTools projects referenced here. I have replicated that process for another open source project and documented it here.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2016-08-07T13:53:58+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/semantic-versioning-with-publicapigenerator/</id><title type="text">Semantic Versioning Tests with PublicApiGenerator</title><summary type="html">&lt;p&gt;When you are following &lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt; for the public API of your software package, it can be quite easy to accidentally change the API. &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; wrote the &lt;a href="https://www.nuget.org/packages/PublicApiGenerator/"&gt;PublicApiGenerator&lt;/a&gt; package to generate the public API of your package as a string. That way, you can write a unit test that verifies the contents of the string hasn't changed, using an approval test framework, such as &lt;a href="http://shouldly.readthedocs.io/en/latest/"&gt;Shouldly&lt;/a&gt; or &lt;a href="http://approvaltests.com/"&gt;ApprovalTests&lt;/a&gt;.&lt;/p&gt;
+
+</summary><published>2016-08-07T07:00:00Z</published><updated>2016-08-07T07:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/semantic-versioning-with-publicapigenerator/" /><content type="html">&lt;p&gt;When you are following &lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt; for the public API of your software package, it can be quite easy to accidentally change the API. &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; wrote the &lt;a href="https://www.nuget.org/packages/PublicApiGenerator/"&gt;PublicApiGenerator&lt;/a&gt; package to generate the public API of your package as a string. That way, you can write a unit test that verifies the contents of the string hasn't changed, using an approval test framework, such as &lt;a href="http://shouldly.readthedocs.io/en/latest/"&gt;Shouldly&lt;/a&gt; or &lt;a href="http://approvaltests.com/"&gt;ApprovalTests&lt;/a&gt;.&lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;p&gt;The first thing that you need to do is install the Public Api Generator package into your test project.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Install-Package PublicApiGenerator
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then write a unit test, calling the &lt;code&gt;GetPublicApi&lt;/code&gt; method on the static &lt;code&gt;PublicApiGenerator&lt;/code&gt; class, passing in the assembly that you want to generate the API for. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Test]
+public void specify_autofac_has_no_public_api_changes()
+{
+    var publicApi = PublicApiGenerator.PublicApiGenerator.GetPublicApi(typeof(AutofacContainer).Assembly);
+    publicApi.ShouldMatchApproved();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The test then calls Shouldly's &lt;code&gt;ShouldMatchApproved&lt;/code&gt; method, which generates a text file with the contents of the public API string in the form [ClassName].[TestName].received.txt. For example, in this case the file name is SemanticVersioningTests.specify&lt;em&gt;autofac&lt;/em&gt;has&lt;em&gt;no&lt;/em&gt;public&lt;em&gt;api&lt;/em&gt;changes.received.txt.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute("Specify.IntegrationTests")]
+[assembly: System.Runtime.InteropServices.ComVisibleAttribute(false)]
+[assembly: System.Runtime.InteropServices.GuidAttribute("2cb27234-4675-4f6b-b165-052ff7e5fa5e")]
+[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.0", FrameworkDisplayName=".NET Framework 4")]
+
+namespace Specify.Autofac
+{  
+    public class AutofacContainer : Specify.IContainer, System.IDisposable
+    {
+        protected Autofac.ContainerBuilder _containerBuilder;
+        public AutofacContainer() { }
+        public AutofacContainer(Autofac.ILifetimeScope container) { }
+        public AutofacContainer(Autofac.ContainerBuilder containerBuilder) { }
+        public Autofac.ILifetimeScope Container { get; }
+        public bool CanResolve&amp;lt;T&amp;gt;()
+            where T :  class { }
+        public bool CanResolve(System.Type serviceType) { }
+        public void Dispose() { }
+        public T Get&amp;lt;T&amp;gt;(string key = null)
+            where T :  class { }
+        public object Get(System.Type serviceType, string key = null) { }
+        public void Set&amp;lt;T&amp;gt;()
+            where T :  class { }
+        public void Set&amp;lt;TService, TImplementation&amp;gt;()
+            where TService :  class
+            where TImplementation :  class, TService { }
+        public T Set&amp;lt;T&amp;gt;(T valueToSet, string key = null)
+            where T :  class { }
+    }
+    public class AutofacMockRegistrationHandler : Autofac.Core.IRegistrationSource
+    {
+        public AutofacMockRegistrationHandler(Specify.Mocks.IMockFactory mockFactory) { }
+        public bool IsAdapterForIndividualComponents { get; }
+        public System.Collections.Generic.IEnumerable&amp;lt;Autofac.Core.IComponentRegistration&amp;gt; RegistrationsFor(Autofac.Core.Service service, System.Func&amp;lt;Autofac.Core.Service, System.Collections.Generic.IEnumerable&amp;lt;Autofac.Core.IComponentRegistration&amp;gt;&amp;gt; registrationAccessor) { }
+    }
+    public class DefaultAutofacBootstrapper : Specify.Configuration.BootstrapperBase
+    {
+        public DefaultAutofacBootstrapper() { }
+        protected override Specify.IContainer BuildApplicationContainer() { }
+        public virtual void ConfigureContainer(Autofac.ContainerBuilder builder) { }
+    }
+    public class SpecifyAutofacConfigScanner : Specify.Configuration.Scanners.ConfigScanner
+    {
+        public SpecifyAutofacConfigScanner(Specify.Mocks.IFileSystem fileSystem) { }
+        public SpecifyAutofacConfigScanner() { }
+        protected override System.Type DefaultBootstrapperType { get; }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Because this is the first time the test has been run, the file will be opened in your diff tool so that you can see any changes that have occurred. To make the test pass, just rename "received" to "approved." Now, if the API ever changes, a different API string will be generated in the "received" file and the test will fail, opening your diff tool to show you the changes and allow you to approve them (or change the API back if the change was unintentional). This diagram shows the diff in the Beyond Compare tool.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/publicapigenerator-diff.png" alt="PublicApiGenerator diff in Beyond Compare" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Public Api Generator and an approval test framework are a great combination for determining if the public API of your package have changed, allowing you to approve the change if it was intentional, and warning you to revert a change if it was accidental.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/</id><title type="text">Continuous Delivery for .Net Core with GitHub, Cake, GitTools, and AppVeyor</title><summary type="html">&lt;p&gt;This is an end-to-end tutorial for setting up &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous integration&lt;/a&gt; (CI) and &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous delivery&lt;/a&gt; (CD) for a .Net Core project hosted on GitHub using Cake, GitTools, and AppVeyor. Credit for this entire process goes to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt;, who set this up for TestStack's &lt;a href="https://github.com/TestStack/TestStack.BDDfy"&gt;BDDfy&lt;/a&gt; open source project, and is actively involved in a number of the GitTools projects referenced here. I have replicated that process for another open source project and documented it here.&lt;/p&gt;
 
 </summary><published>2016-07-31T07:00:00Z</published><updated>2016-07-31T07:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/continuous-delivery-github-cake-gittools-appveyor/" /><content type="html">&lt;p&gt;This is an end-to-end tutorial for setting up &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous integration&lt;/a&gt; (CI) and &lt;a href="http://www.martinfowler.com/articles/continuousIntegration.html"&gt;continuous delivery&lt;/a&gt; (CD) for a .Net Core project hosted on GitHub using Cake, GitTools, and AppVeyor. Credit for this entire process goes to &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt;, who set this up for TestStack's &lt;a href="https://github.com/TestStack/TestStack.BDDfy"&gt;BDDfy&lt;/a&gt; open source project, and is actively involved in a number of the GitTools projects referenced here. I have replicated that process for another open source project and documented it here.&lt;/p&gt;
 
@@ -1328,16 +1408,4 @@ Part 3 =&amp;gt; moving from intermediate developer to senior developer
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;There is a lot more I could say about the course. I'm still digesting a lot of the excellent information. My recommendation would be to try to attend it yourself (there are a number of venues around Europe). BDD is by far the best way to deliver software on agile projects that I have come across, and Gaspar Nagy is an excellent guide.&lt;/p&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/code-compiling-but-resharper-red/</id><title type="text">Code compiling but ReSharper is red</title><summary type="html">&lt;p&gt;From time-to-time, I have this weird situation with ReSharper and Visual Studios (different versions of both) where my code is compiling, but ReSharper is highlighting some things in red. I think there might be a few different solutions to this problem, and I'll add others here if I come across them. The solution that worked for me this time is just to &lt;a href="http://stackoverflow.com/questions/6040338/everything-compiles-but-resharper-marks-everything-in-red"&gt;delete the .suo files&lt;/a&gt;.&lt;/p&gt;
-
-</summary><published>2015-06-19T09:00:00Z</published><updated>2015-06-19T09:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/code-compiling-but-resharper-red/" /><content type="html">&lt;p&gt;From time-to-time, I have this weird situation with ReSharper and Visual Studios (different versions of both) where my code is compiling, but ReSharper is highlighting some things in red. I think there might be a few different solutions to this problem, and I'll add others here if I come across them. The solution that worked for me this time is just to &lt;a href="http://stackoverflow.com/questions/6040338/everything-compiles-but-resharper-marks-everything-in-red"&gt;delete the .suo files&lt;/a&gt;.&lt;/p&gt;
-
-&lt;!--excerpt--&gt;
-
-&lt;p&gt;Another solution that has worked in the past is to clear the ReSharper cache and restart Visual Studio. &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ReSharper &amp;gt; Options &amp;gt; Environment &amp;gt; General &amp;gt; Options &amp;gt; General 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Click the Clear Caches button.&lt;/p&gt;
 </content></entry></feed>

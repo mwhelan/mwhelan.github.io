@@ -8,14 +8,14 @@
     <meta name="keywords" content="" />
 
 
-    <title>Deleting Nested node_modules Folders - Michael Whelan - behaviour driven blog</title>
+    <title>Semantic Versioning Tests with PublicApiGenerator - Michael Whelan - behaviour driven blog</title>
 
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/deleting-nested-node-modules-folders/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/semantic-versioning-with-publicapigenerator/" />
 </head>
 <body>
     <div class="container">
@@ -118,35 +118,94 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">Deleting Nested node_modules Folders</h1>
+    <h1 class="blog-post-title">Semantic Versioning Tests with PublicApiGenerator</h1>
 
     <div class="blog-post-meta">
-        posted on 09 Jul 2014
+        posted on 07 Aug 2016
             | <a class="label label-primary" href="/category/general">General</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p>When using Node Package Manager (NPM) on Windows, it has an annoying habit of creating massively nested <code>node_modules</code> folders that exceed the 260 character path length limit. This makes it extremely painful to try to delete and causes problems with most windows tools. In Visual Studio, for example, I cannot <code>Refresh Folder</code> when I am in a website project (as opposed to a web application project).</p>
-
-<p>Fortunately, the fix is pretty simple.</p>
+        <p>When you are following <a href="http://semver.org/">semantic versioning</a> for the public API of your software package, it can be quite easy to accidentally change the API. <a href="https://twitter.com/JakeGinnivan">Jake Ginnivan</a> wrote the <a href="https://www.nuget.org/packages/PublicApiGenerator/">PublicApiGenerator</a> package to generate the public API of your package as a string. That way, you can write a unit test that verifies the contents of the string hasn't changed, using an approval test framework, such as <a href="http://shouldly.readthedocs.io/en/latest/">Shouldly</a> or <a href="http://approvaltests.com/">ApprovalTests</a>.</p>
 
 <!--excerpt-->
 
-<p>First, you need to install <a href="http://technet.microsoft.com/en-us/library/cc733145.aspx">RoboCopy</a>. If you are on Windows 8, I suggest you use the version from the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=17657">Windows Server 2003 resource kit</a> as there appear to be <a href="http://www.matrix44.net/blog/?p=1355">issues</a> with the Windows 8 version. Next, create an empty directory and use the RoboCopy mirror flag to mirror the empty directory to the problematic <code>node_modules</code> folder. You can then delete the empty directory in the normal way. Cunningly, deleting the mirrored directory also deletes the <code>node_modules</code> directory. </p>
+<p>The first thing that you need to do is install the Public Api Generator package into your test project.</p>
 
-<pre><code>robocopy new_empty_directory node_modules /MIR
+<pre><code>Install-Package PublicApiGenerator
 </code></pre>
 
-<p>Credit to <a href="http://toby1kenobi.com/2014/04/how-to-delete-the-node_modules-folder-when-windows-complains-that-file-or-path-names-are-too-long/">toby1kenobi</a> for this clever solution!</p>
+<p>Then write a unit test, calling the <code>GetPublicApi</code> method on the static <code>PublicApiGenerator</code> class, passing in the assembly that you want to generate the API for. </p>
 
-<p>Finally, you just have to restore the deleted node packages. From the application directory, just run <a href="https://www.npmjs.org/doc/cli/npm-update.html">npm update</a>:</p>
-
-<pre><code>npm update
+<pre><code>[Test]
+public void specify_autofac_has_no_public_api_changes()
+{
+    var publicApi = PublicApiGenerator.PublicApiGenerator.GetPublicApi(typeof(AutofacContainer).Assembly);
+    publicApi.ShouldMatchApproved();
+}
 </code></pre>
 
-<p>This command will update all the packages listed in the packages.json file to the latest version. It will also install missing packages.</p>
+<p>The test then calls Shouldly's <code>ShouldMatchApproved</code> method, which generates a text file with the contents of the public API string in the form [ClassName].[TestName].received.txt. For example, in this case the file name is SemanticVersioningTests.specify<em>autofac</em>has<em>no</em>public<em>api</em>changes.received.txt.</p>
+
+<pre><code>[assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute("Specify.IntegrationTests")]
+[assembly: System.Runtime.InteropServices.ComVisibleAttribute(false)]
+[assembly: System.Runtime.InteropServices.GuidAttribute("2cb27234-4675-4f6b-b165-052ff7e5fa5e")]
+[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.0", FrameworkDisplayName=".NET Framework 4")]
+
+namespace Specify.Autofac
+{  
+    public class AutofacContainer : Specify.IContainer, System.IDisposable
+    {
+        protected Autofac.ContainerBuilder _containerBuilder;
+        public AutofacContainer() { }
+        public AutofacContainer(Autofac.ILifetimeScope container) { }
+        public AutofacContainer(Autofac.ContainerBuilder containerBuilder) { }
+        public Autofac.ILifetimeScope Container { get; }
+        public bool CanResolve&lt;T&gt;()
+            where T :  class { }
+        public bool CanResolve(System.Type serviceType) { }
+        public void Dispose() { }
+        public T Get&lt;T&gt;(string key = null)
+            where T :  class { }
+        public object Get(System.Type serviceType, string key = null) { }
+        public void Set&lt;T&gt;()
+            where T :  class { }
+        public void Set&lt;TService, TImplementation&gt;()
+            where TService :  class
+            where TImplementation :  class, TService { }
+        public T Set&lt;T&gt;(T valueToSet, string key = null)
+            where T :  class { }
+    }
+    public class AutofacMockRegistrationHandler : Autofac.Core.IRegistrationSource
+    {
+        public AutofacMockRegistrationHandler(Specify.Mocks.IMockFactory mockFactory) { }
+        public bool IsAdapterForIndividualComponents { get; }
+        public System.Collections.Generic.IEnumerable&lt;Autofac.Core.IComponentRegistration&gt; RegistrationsFor(Autofac.Core.Service service, System.Func&lt;Autofac.Core.Service, System.Collections.Generic.IEnumerable&lt;Autofac.Core.IComponentRegistration&gt;&gt; registrationAccessor) { }
+    }
+    public class DefaultAutofacBootstrapper : Specify.Configuration.BootstrapperBase
+    {
+        public DefaultAutofacBootstrapper() { }
+        protected override Specify.IContainer BuildApplicationContainer() { }
+        public virtual void ConfigureContainer(Autofac.ContainerBuilder builder) { }
+    }
+    public class SpecifyAutofacConfigScanner : Specify.Configuration.Scanners.ConfigScanner
+    {
+        public SpecifyAutofacConfigScanner(Specify.Mocks.IFileSystem fileSystem) { }
+        public SpecifyAutofacConfigScanner() { }
+        protected override System.Type DefaultBootstrapperType { get; }
+    }
+}
+</code></pre>
+
+<p>Because this is the first time the test has been run, the file will be opened in your diff tool so that you can see any changes that have occurred. To make the test pass, just rename "received" to "approved." Now, if the API ever changes, a different API string will be generated in the "received" file and the test will fail, opening your diff tool to show you the changes and allow you to approve them (or change the API back if the change was unintentional). This diagram shows the diff in the Beyond Compare tool.</p>
+
+<p><img src="/images/publicapigenerator-diff.png" alt="PublicApiGenerator diff in Beyond Compare" /></p>
+
+<h2>Summary</h2>
+
+<p>Public Api Generator and an approval test framework are a great combination for determining if the public API of your package have changed, allowing you to approve the change if it was intentional, and warning you to revert a change if it was accidental.</p>
 
     </div>
     
@@ -178,14 +237,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/deleting-nested-node-modules-folders/';
+                this.page.url = 'http://www.michael-whelan.net/semantic-versioning-with-publicapigenerator/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/deleting-nested-node-modules-folders/';
+    var disqus_url = 'http://www.michael-whelan.net/semantic-versioning-with-publicapigenerator/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
