@@ -812,6 +812,12 @@ Install-Package dotnet-test-nunit -Pre
 Install-Package dotnet-test-mstest -Pre
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h3&gt;MSpec&lt;/h3&gt;
+
+&lt;p&gt;MSpec is a context/specification framework that greatly influenced the way I write tests today. I really like its class per test approach and the automocking that you can do with it, both of which I have carried forward. I only moved away from it because it was so different from how I was writing my functional tests with BDDfy, and I wanted to use the &lt;a href="http://www.michael-whelan.net/using-bddfy-for-unit-tests/"&gt;same frameworks and coding styles&lt;/a&gt; across all my tests.&lt;/p&gt;
+
+&lt;p&gt;Ivan Zlatev has a great post outlining MSpec support for .Net Core &lt;a href="http://ivanz.com/2016/08/05/announcing-mspec-for-net-core/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h3&gt;BDDfy&lt;/h3&gt;
 
 &lt;p&gt;BDDfy, from TestStack - the simplest BDD framework to use, customize and extend - has full support for .Net Core.&lt;/p&gt;
