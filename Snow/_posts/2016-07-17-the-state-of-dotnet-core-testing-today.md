@@ -154,6 +154,11 @@ Using the NuGet Package Management Console:
 	Install-Package MSTest.TestFramework -Pre
 	Install-Package dotnet-test-mstest -Pre
 
+### MSpec
+MSpec is a context/specification framework that greatly influenced the way I write tests today. I really like its class per test approach and the automocking that you can do with it, both of which I have carried forward. I only moved away from it because it was so different from how I was writing my functional tests with BDDfy, and I wanted to use the [same frameworks and coding styles](/using-bddfy-for-unit-tests/) across all my tests.
+
+Ivan Zlatev has a great post outlining MSpec support for .Net Core [here](http://ivanz.com/2016/08/05/announcing-mspec-for-net-core/).
+
 ### BDDfy
 BDDfy, from TestStack - the simplest BDD framework to use, customize and extend - has full support for .Net Core.
 
