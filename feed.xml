@@ -1,4 +1,122 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2016-08-31T22:04:59+01:00</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/semantic-versioning-with-publicapigenerator/</id><title type="text">Semantic Versioning Tests with PublicApiGenerator</title><summary type="html">&lt;p&gt;When you are following &lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt; for the public API of your software package, it can be quite easy to accidentally change the API. &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; wrote the &lt;a href="https://www.nuget.org/packages/PublicApiGenerator/"&gt;PublicApiGenerator&lt;/a&gt; package to generate the public API of your package as a string. That way, you can write a unit test that verifies the contents of the string hasn't changed, using an approval test framework, such as &lt;a href="http://shouldly.readthedocs.io/en/latest/"&gt;Shouldly&lt;/a&gt; or &lt;a href="http://approvaltests.com/"&gt;ApprovalTests&lt;/a&gt;.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">michael whelan</title><subtitle type="text">michael whelan</subtitle><id>http://www.michael-whelan.net/</id><updated>2016-10-30T14:20:46Z</updated><author><name>Michael Whelan</name><uri>http://www.michael-whelan.net</uri><email>mjmwdev@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.michael-whelan.net/feed.xml" /><link rel="self" type="text/html" title="michael whelan" href="http://www.michael-whelan.net/feed.xml" /><entry><id>http://www.michael-whelan.net/ef-core-101-migrations-in-separate-assembly/</id><title type="text">Entity Framework Core 1.0.1 Migrations in Separate Assembly</title><summary type="html">&lt;p&gt;I am getting to grips with Entity Framework Core at the moment and I like what I am seeing so far. There are still a few EF6 scenarios that are not supported yet but the main use cases are supported and there are often workarounds for those that aren't. Entity Framework 1.1 is out soon and features will continue to be added as things just continue to improve. I love the strategic direction the project has taken and, &lt;a href="https://channel9.msdn.com/Shows/On-NET/Rowan-Miller-Entity-Framework-Core-11"&gt;listening to the team discuss the new design&lt;/a&gt;, the modular approach and use of dependency injection seems far better, not to mention the massive performance improvements they are already seeing. &lt;/p&gt;
+
+&lt;p&gt;When building ASP.Net MVC applications it is quite common to want to store your domain model and data access code in separate class libraries. If this is the case, then ideally you would not even want a reference to Entity Framework Core in your ASP.Net MVC Core project. In this post, I am going to look at how this can be achieved today with the current .Net Core 1.0.1 versions of MVC and EF. &lt;/p&gt;
+
+</summary><published>2016-10-30T08:00:00Z</published><updated>2016-10-30T08:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/ef-core-101-migrations-in-separate-assembly/" /><content type="html">&lt;p&gt;I am getting to grips with Entity Framework Core at the moment and I like what I am seeing so far. There are still a few EF6 scenarios that are not supported yet but the main use cases are supported and there are often workarounds for those that aren't. Entity Framework 1.1 is out soon and features will continue to be added as things just continue to improve. I love the strategic direction the project has taken and, &lt;a href="https://channel9.msdn.com/Shows/On-NET/Rowan-Miller-Entity-Framework-Core-11"&gt;listening to the team discuss the new design&lt;/a&gt;, the modular approach and use of dependency injection seems far better, not to mention the massive performance improvements they are already seeing. &lt;/p&gt;
+
+&lt;p&gt;When building ASP.Net MVC applications it is quite common to want to store your domain model and data access code in separate class libraries. If this is the case, then ideally you would not even want a reference to Entity Framework Core in your ASP.Net MVC Core project. In this post, I am going to look at how this can be achieved today with the current .Net Core 1.0.1 versions of MVC and EF. &lt;/p&gt;
+
+&lt;!--excerpt--&gt;
+
+&lt;h2&gt;Contoso University ASP.Net MVC Core Sample&lt;/h2&gt;
+
+&lt;p&gt;I have implemented the &lt;a href="https://docs.asp.net/en/latest/data/ef-mvc/intro.html"&gt;first&lt;/a&gt; and &lt;a href="https://docs.asp.net/en/latest/data/ef-mvc/migrations.html"&gt;fourth&lt;/a&gt; tutorials of the Contoso sample, which wire up a view to the database and implement migrations in an ASP.Net MVC project, and then migrated the domain model and Entity Framework code to a separate class library. There are no Entity Framework references in the ContosoUniversity MVC project and, instead, the EF dependency is just injected at runtime. You can see the source code on &lt;a href="https://github.com/mwhelan/MvcEfCore10Sample"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/ef-core-solution.png" alt="VS solution" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Credit where it is due, I have provided an updated version of solutions from &lt;a href="http://benjii.me/2016/06/entity-framework-core-migrations-for-class-library-projects/"&gt;Ben Cull&lt;/a&gt; and the &lt;a href="https://docs.efproject.net/en/latest/miscellaneous/cli/dotnet.html#preview-2-known-issues"&gt;EF docs&lt;/a&gt;. &lt;/p&gt;
+
+&lt;h2&gt;Step 1: Configure the class library as an application&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  "version": "1.0.0-*",
+
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.1",
+          "type": "platform"
+        }
+      }
+    }
+  },
+
+  "dependencies": {
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
+    "Microsoft.EntityFrameworkCore.SqlServer.Design": {
+      "version": "1.0.1",
+      "type": "build"
+    },
+    "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "1.0.0-preview2-final",
+      "type": "build"
+    }
+  },
+
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To convert the class library to a .Net Core application, you have to add the &lt;code&gt;frameworks&lt;/code&gt; section above. It is also important that you add a reference to 
+&lt;code&gt;Microsoft.EntityFrameworkCore.Tools&lt;/code&gt; in the &lt;code&gt;dependencies&lt;/code&gt; and &lt;code&gt;tools&lt;/code&gt; sections. &lt;/p&gt;
+
+&lt;h2&gt;Step 2: Add static void Main&lt;/h2&gt;
+
+&lt;p&gt;Because this is an application you need to add a &lt;code&gt;Program.cs&lt;/code&gt; file to serve as an entry point.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Program
+{
+    public static void Main(string[] args)
+    {
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Step 3: Create a DB Context Factory&lt;/h2&gt;
+
+&lt;p&gt;The CLI tools would normally discover the DbContext configuration in the Startup.cs of the web application, but the same thing can be achieved by creating a class that implements the IDbContextFactory interface. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class SchoolDbContextFactory : IDbContextFactory&amp;lt;SchoolContext&amp;gt;
+{
+    public SchoolContext Create(DbContextFactoryOptions options)
+    {
+        var builder = new DbContextOptionsBuilder&amp;lt;SchoolContext&amp;gt;();
+        builder.UseSqlServer(
+            "Server=(localdb)\\mssqllocaldb;Database=MyContosoUniversityCoreDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+        return new SchoolContext(builder.Options);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2&gt;Step 4: Configure dependencies with extension methods on IApplicationBuilder and IServiceCollection&lt;/h2&gt;
+
+&lt;p&gt;There is still one last issue to solve before we can remove the dependency on EF Core from the ASP.Net MVC Core project. The &lt;code&gt;AddDbContext&lt;/code&gt; extension method that configures EF Core in Startup.cs still requires a reference to the NuGet package.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;services.AddDbContext&amp;lt;SchoolContext&amp;gt;(options =&amp;gt; 
+    options.UseSqlServer(connectionString));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;While most of the samples show how to configure dependencies in Startup.cs, this can quickly become quite unwieldy. I like &lt;a href="http://odetocode.com/blogs/scott/archive/2016/08/30/keeping-a-clean-startup-cs-in-asp-net-core.aspx"&gt;Scott Allen's suggestion&lt;/a&gt; of moving this configuration code into extension methods on IApplicationBuilder and IServiceCollection.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public static class ServiceCollectionExtensions
+{
+    public static void AddEntityFramework(this IServiceCollection services, string connectionString)
+    {
+        services.AddDbContext&amp;lt;SchoolContext&amp;gt;(options =&amp;gt;
+                options.UseSqlServer(connectionString));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I like this approach, because it simplifies Startup.cs to a series of self-documenting, one-line commands, and moves the EF configuration code where it belongs - next to all the other EF code.&lt;/p&gt;
+
+&lt;h2&gt;Running Migrations for the Class Library&lt;/h2&gt;
+
+&lt;p&gt;One important point to make, in case it is not obvious, is that you need to run migrations from the class library folder (and not from the web project folder).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/ef-core-dotnet-ef-migrations-add.png" alt="VS test runner" /&gt;&lt;/p&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;When building ASP.Net MVC applications it is quite common to want to store your domain model and data access code in separate class libraries. If this is the case, then ideally you would not even want a reference to Entity Framework Core in your ASP.Net MVC Core project. In this post, I have shown how this can be achieved today with the current .Net Core 1.0.1 versions of MVC and EF. You can see the source code on &lt;a href="https://github.com/mwhelan/MvcEfCore10Sample"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+</content></entry><entry><id>http://www.michael-whelan.net/semantic-versioning-with-publicapigenerator/</id><title type="text">Semantic Versioning Tests with PublicApiGenerator</title><summary type="html">&lt;p&gt;When you are following &lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt; for the public API of your software package, it can be quite easy to accidentally change the API. &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; wrote the &lt;a href="https://www.nuget.org/packages/PublicApiGenerator/"&gt;PublicApiGenerator&lt;/a&gt; package to generate the public API of your package as a string. That way, you can write a unit test that verifies the contents of the string hasn't changed, using an approval test framework, such as &lt;a href="http://shouldly.readthedocs.io/en/latest/"&gt;Shouldly&lt;/a&gt; or &lt;a href="http://approvaltests.com/"&gt;ApprovalTests&lt;/a&gt;.&lt;/p&gt;
 
 </summary><published>2016-08-07T07:00:00Z</published><updated>2016-08-07T07:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/semantic-versioning-with-publicapigenerator/" /><content type="html">&lt;p&gt;When you are following &lt;a href="http://semver.org/"&gt;semantic versioning&lt;/a&gt; for the public API of your software package, it can be quite easy to accidentally change the API. &lt;a href="https://twitter.com/JakeGinnivan"&gt;Jake Ginnivan&lt;/a&gt; wrote the &lt;a href="https://www.nuget.org/packages/PublicApiGenerator/"&gt;PublicApiGenerator&lt;/a&gt; package to generate the public API of your package as a string. That way, you can write a unit test that verifies the contents of the string hasn't changed, using an approval test framework, such as &lt;a href="http://shouldly.readthedocs.io/en/latest/"&gt;Shouldly&lt;/a&gt; or &lt;a href="http://approvaltests.com/"&gt;ApprovalTests&lt;/a&gt;.&lt;/p&gt;
 
@@ -1311,107 +1429,4 @@ Part 3 =&amp;gt; moving from intermediate developer to senior developer
 &lt;p&gt;You can currently get 6 months of Pluralsight for free if you sign up for an &lt;a href="https://www.visualstudio.com/en-us/products/visual-studio-dev-essentials-vs.aspx"&gt;MSDN Dev Essentials&lt;/a&gt; subscription.&lt;/p&gt;
 
 &lt;p&gt;I think Mosh is a really talented teacher and his style and focus on quality is quite distinctive from other teachers. I can also recommend some of his &lt;a href="https://www.udemy.com/user/moshfeghhamedani/"&gt;Udemy courses&lt;/a&gt; that I've done. You can also find him on his &lt;a href="https://www.youtube.com/channel/UCWv7vMbMWH4-V0ZXdmDpPBA"&gt;youtube channel&lt;/a&gt;.&lt;/p&gt;
-</content></entry><entry><id>http://www.michael-whelan.net/bdd-course-london/</id><title type="text">BDD Course in London</title><summary type="html">&lt;p&gt;Last week I had the pleasure of attending Gaspar Nagy's 3-day &lt;a href="http://gasparnagy.com/trainings/specflow/"&gt;BDD course&lt;/a&gt; at Skills Matter's &lt;a href="https://skillsmatter.com/event-space"&gt;CodeNode&lt;/a&gt; in London. I have been doing BDD for over 5 years now, and SpecFlow is not my preferred .Net BDD tool, but I still got a huge amount of value out of the course. Gaspar is very knowledgeable about BDD and I would highly recommend the course, whether you are new to BDD,  a &lt;a href="http://www.specsolutions.eu/news/bddaddict"&gt;BDD addict&lt;/a&gt; like me, or even if you are just struggling with agile.&lt;/p&gt;
-
-</summary><published>2016-05-27T09:00:00Z</published><updated>2016-05-27T09:00:00Z</updated><link rel="alternate" href="http://www.michael-whelan.net/bdd-course-london/" /><content type="html">&lt;p&gt;Last week I had the pleasure of attending Gaspar Nagy's 3-day &lt;a href="http://gasparnagy.com/trainings/specflow/"&gt;BDD course&lt;/a&gt; at Skills Matter's &lt;a href="https://skillsmatter.com/event-space"&gt;CodeNode&lt;/a&gt; in London. I have been doing BDD for over 5 years now, and SpecFlow is not my preferred .Net BDD tool, but I still got a huge amount of value out of the course. Gaspar is very knowledgeable about BDD and I would highly recommend the course, whether you are new to BDD,  a &lt;a href="http://www.specsolutions.eu/news/bddaddict"&gt;BDD addict&lt;/a&gt; like me, or even if you are just struggling with agile.&lt;/p&gt;
-
-&lt;!--excerpt--&gt;
-
-&lt;p&gt;I had the good fortune of choosing a seat next to &lt;a href="https://twitter.com/QuestMasterNET"&gt;Dirk Rombauts&lt;/a&gt; on the first day, which resulted in two days of great pair programming, where I learned a lot, including some excellent pairing habits and one trick to double my ReSharper ninja skills!&lt;/p&gt;
-
-&lt;p&gt;It is a wide-ranging course that covers how to gather examples and then turn them into executable specifications, with the implementation focused on ASP.Net MVC and WPF .Net projects. The course covers refining and documenting specification workshop results in Gherkin, feeding Gherkin scenarios into acceptance test driven development with SpecFlow, and advanced concepts for automation and building living documentation systems. The course topics are discussed through examples, demos and hands-on exercises to ensure knowledge that can be used in practice.&lt;/p&gt;
-
-&lt;p&gt;The course started off by looking at the four different areas that make up BDD. So many companies that I see struggling with agile tend to focus primarily on the agile project management area, with perhaps one or two other techniques from the other areas. I think you need to do all four to maximise the benefits of agile.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src="http://www.michael-whelan.net/images/specflow-bdd.png" alt="BDD" /&gt;&lt;/p&gt;
-
-&lt;p&gt;The first day was focused on capturing specification workshop results in gherkin, and covered some theory:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Agile testing is not about hunting criminals (finding bugs after development) but more like crime prevention.&lt;/li&gt;
-&lt;li&gt;As formality increases, tests and requirements become indistinguishable. At the limit, tests and requirements are equivalent. &lt;em&gt;Equivalence Hypothesis (Martin, Melnik)&lt;/em&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The second day looked at SpecFlow core concepts and ATDD basics, with examples using a WPF pomodoro application, including:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Introduction to the Acceptance Test Driven Development workflow (test first, outside-in)&lt;/li&gt;
-&lt;li&gt;Core concepts for (A)TDD: mocking, stubbing, dependency injection&lt;/li&gt;
-&lt;li&gt;Domain layer automation (automating under the skin)&lt;/li&gt;
-&lt;li&gt;Organizing step definitions&lt;/li&gt;
-&lt;li&gt;Sharing state between steps&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The third day looked at advanced test automation topics, using an ASP.Net MVC pomodoro application, including:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Clean and maintainable automation layer&lt;/li&gt;
-&lt;li&gt;Dealing with external dependencies&lt;/li&gt;
-&lt;li&gt;Flickering scenarios&lt;/li&gt;
-&lt;li&gt;UI layer automation (MVC ASP.NET, Driver, PageObject pattern)&lt;/li&gt;
-&lt;li&gt;Handling the database&lt;/li&gt;
-&lt;li&gt;Challenges of out-of-process testing (with Selenium)&lt;/li&gt;
-&lt;li&gt;Organizing step definitions&lt;/li&gt;
-&lt;li&gt;Defaults and implicit assumptions of scenarios&lt;/li&gt;
-&lt;li&gt;Automapper and SpecFlow.Assist&lt;/li&gt;
-&lt;li&gt;Putting it all together: implement new functionality with BDD&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;Step Definitions&lt;/h2&gt;
-
-&lt;p&gt;I've spoken with SpecFlow developers who are struggling to organise their step definitions, and I haven't really known what to advise, as it's not an issue with BDDfy, so I was interested to see the best tips for organising them. Gaspar showed a lot of great techniques for organising feature files and step definitions. I particularly liked the suggestion of moving user stories into a feature tree after the sprint was completed. &lt;/p&gt;
-
-&lt;p&gt;I can't help feeling that step definitions are the wrong abstraction for reusability in an automated testing project. There are inherent difficulties from wanting to reuse steps when the two use cases are slightly different, and I would prefer to avoid it altogether.&lt;/p&gt;
-
-&lt;p&gt;Stepping back from tools for a moment, I think that step definitions are just metadata that should just read whatever way makes the most sense for a particular scenario in the living documentation that the users will see, whether it is exactly the same as other steps in the system or slightly different. While I recognise the importance and value of the DRY principle, I don't think it needs to be applied to the step definition itself (as it's just a string on a report).&lt;/p&gt;
-
-&lt;p&gt;What should be reusable is the code inside the step definitions. Things like repositories, builders/object mothers in the Given steps, drivers in the When step, assertions in the Then steps. Why do you need to reuse steps if they only have one line of code, and if that line itself is a useful and reusable abstraction?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public void Given_I_have_5_customers()
-{
-    Database.Save(CustomerBuilder.CreateListOfSize(5).BuildList());
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Generally, I'm just not comfortable with having my scenario being distributed across multiple feature and step definition files, which I think is inherent in the Gherkin-based approach. I prefer the pure C# solution of having the entire scenario in one file with the class-per-scenario approach (and no feature file):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class ValidEditStudentDetailsScenario : ScenarioFor&amp;lt;MvcControllerDriver, StudentEditStory&amp;gt;
-{
-    private Student _student;
-    private ControllerResultTest&amp;lt;StudentController&amp;gt; _result;
-
-    public void Given_I_am_editing_an_existing_student_with_valid_data()
-    {
-        Builder&amp;lt;Student&amp;gt;.CreateNew().Persist();
-        _student = Container
-            .Get&amp;lt;IStudentRepository&amp;gt;()
-            .FindById(1);
-        _student.FirstMidName = "newFirstName";
-    }
-    public void When_I_save_the_changes()
-    {
-        _result = SUT.ExecuteActionFor&amp;lt;StudentController&amp;gt;(c =&amp;gt; c.Edit(_student));
-    }
-
-    public void Then_I_am_returned_to_the_student_list()
-    {
-        _result.ShouldRedirectTo&amp;lt;StudentController&amp;gt;(c =&amp;gt; c.Index(null, null, null, null));
-    }
-
-    public void AndThen_the_changes_have_been_saved()
-    {
-        Container.Get&amp;lt;IStudentRepository&amp;gt;()
-            .FindById(1)
-            .ShouldBeEquivalentTo(_student);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2&gt;The driver pattern&lt;/h2&gt;
-
-&lt;p&gt;Speaking of drivers, Gaspar gave an excellent talk on the driver pattern in relation to the &lt;a href="http://alistair.cockburn.us/Hexagonal+architecture"&gt;hexagonal architecture&lt;/a&gt;. I am quite familiar with how the &lt;a href="http://martinfowler.com/eaaDev/WindowDriver.html"&gt;window driver pattern&lt;/a&gt; is applied to Selenium, in the form of page objects, but Gaspar articulated a more general purpose pattern which extends beyond the UI/windows. &lt;/p&gt;
-
-&lt;h2&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;There is a lot more I could say about the course. I'm still digesting a lot of the excellent information. My recommendation would be to try to attend it yourself (there are a number of venues around Europe). BDD is by far the best way to deliver software on agile projects that I have come across, and Gaspar Nagy is an excellent guide.&lt;/p&gt;
 </content></entry></feed>

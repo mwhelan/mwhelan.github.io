@@ -8,14 +8,14 @@
     <meta name="keywords" content="" />
 
 
-    <title>NuGet Add-BindingRedirect - Michael Whelan - behaviour driven blog</title>
+    <title>Entity Framework Core 1.0.1 Migrations in Separate Assembly - Michael Whelan - behaviour driven blog</title>
 
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <link href="/stylesheets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/stylesheets/github.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" />
 
-    <link rel="canonical" href="http://www.michael-whelan.net/nuget-add-bindingredirect/" />
+    <link rel="canonical" href="http://www.michael-whelan.net/ef-core-101-migrations-in-separate-assembly/" />
 </head>
 <body>
     <div class="container">
@@ -118,41 +118,130 @@
             
 
 <div id="post">
-    <h1 class="blog-post-title">NuGet Add-BindingRedirect</h1>
+    <h1 class="blog-post-title">Entity Framework Core 1.0.1 Migrations in Separate Assembly</h1>
 
     <div class="blog-post-meta">
-        posted on 09 Jan 2013
-            | <a class="label label-primary" href="/category/visual-studio">Visual Studio</a>
+        posted on 30 Oct 2016
+            | <a class="label label-primary" href="/category/dotnet-core">DotNet Core</a>
     </div>
 
     <div class="blog-post">
         
 
-        <p>This is one of those "note to self" posts. I recently came across this NuGet feature which is useful on those infrequent occasions when I need to do binding redirects. Hopefully others will find it useful too! </p>
+        <p>I am getting to grips with Entity Framework Core at the moment and I like what I am seeing so far. There are still a few EF6 scenarios that are not supported yet but the main use cases are supported and there are often workarounds for those that aren't. Entity Framework 1.1 is out soon and features will continue to be added as things just continue to improve. I love the strategic direction the project has taken and, <a href="https://channel9.msdn.com/Shows/On-NET/Rowan-Miller-Entity-Framework-Core-11">listening to the team discuss the new design</a>, the modular approach and use of dependency injection seems far better, not to mention the massive performance improvements they are already seeing. </p>
 
-<p>I was wanting to use <a href="https://github.com/robdmoore/AutofacContrib.NSubstitute">AutoSubstitute</a>, the cool little auto mocking container from fellow TestStacker <a href="http://robdmoore.id.au/">Rob Moore</a> that uses Autofac to resolve unknown dependencies from NSubstitute. The problem was that AutoSubstitute is strongly named and when an assembly has a strong name, the binding to that assembly becomes very strict. Because AutoSubstitute currently binds to NSubstitute 1.4.0 and I was using 1.4.3 I was getting a FileLoadException. </p>
+<p>When building ASP.Net MVC applications it is quite common to want to store your domain model and data access code in separate class libraries. If this is the case, then ideally you would not even want a reference to Entity Framework Core in your ASP.Net MVC Core project. In this post, I am going to look at how this can be achieved today with the current .Net Core 1.0.1 versions of MVC and EF. </p>
 
 <!--excerpt-->
 
-<p>No worries, just need to add a binding redirect. Thankfully, I no longer have to do it by hand. Open the NuGet Package Manager Console, specify the appropriate Default Project and enter the command Add-BindingRedirect. </p>
+<h2>Contoso University ASP.Net MVC Core Sample</h2>
 
-<p><img src="/images/nuget_addbindingredirect.png" alt="alt text" /></p>
+<p>I have implemented the <a href="https://docs.asp.net/en/latest/data/ef-mvc/intro.html">first</a> and <a href="https://docs.asp.net/en/latest/data/ef-mvc/migrations.html">fourth</a> tutorials of the Contoso sample, which wire up a view to the database and implement migrations in an ASP.Net MVC project, and then migrated the domain model and Entity Framework code to a separate class library. There are no Entity Framework references in the ContosoUniversity MVC project and, instead, the EF dependency is just injected at runtime. You can see the source code on <a href="https://github.com/mwhelan/MvcEfCore10Sample">GitHub</a>.</p>
 
-<p>As if by magic, an app.config is added to the project (if one doesn't exist already) and the appropriate information added.</p>
+<p><img src="/images/ef-core-solution.png" alt="VS solution" /></p>
 
-<pre><code>&lt;configuration&gt;
-  &lt;runtime&gt;
-    &lt;assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1"&gt;
-      &lt;dependentAssembly&gt;
-        &lt;assemblyIdentity name="NSubstitute" publicKeyToken="92dd2e9066daa5ca" culture="neutral" /&gt;
-        &lt;bindingRedirect oldVersion="0.0.0.0-1.4.3.0" newVersion="1.4.3.0" /&gt;
-      &lt;/dependentAssembly&gt;
-    &lt;/assemblyBinding&gt;
-  &lt;/runtime&gt;
-&lt;/configuration&gt;
+<p>Credit where it is due, I have provided an updated version of solutions from <a href="http://benjii.me/2016/06/entity-framework-core-migrations-for-class-library-projects/">Ben Cull</a> and the <a href="https://docs.efproject.net/en/latest/miscellaneous/cli/dotnet.html#preview-2-known-issues">EF docs</a>. </p>
+
+<h2>Step 1: Configure the class library as an application</h2>
+
+<pre><code>{
+  "version": "1.0.0-*",
+
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.1",
+          "type": "platform"
+        }
+      }
+    }
+  },
+
+  "dependencies": {
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
+    "Microsoft.EntityFrameworkCore.SqlServer.Design": {
+      "version": "1.0.1",
+      "type": "build"
+    },
+    "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "1.0.0-preview2-final",
+      "type": "build"
+    }
+  },
+
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
+  }
+}
 </code></pre>
 
-<p>Sweet!</p>
+<p>To convert the class library to a .Net Core application, you have to add the <code>frameworks</code> section above. It is also important that you add a reference to 
+<code>Microsoft.EntityFrameworkCore.Tools</code> in the <code>dependencies</code> and <code>tools</code> sections. </p>
+
+<h2>Step 2: Add static void Main</h2>
+
+<p>Because this is an application you need to add a <code>Program.cs</code> file to serve as an entry point.</p>
+
+<pre><code>public class Program
+{
+    public static void Main(string[] args)
+    {
+    }
+}
+</code></pre>
+
+<h2>Step 3: Create a DB Context Factory</h2>
+
+<p>The CLI tools would normally discover the DbContext configuration in the Startup.cs of the web application, but the same thing can be achieved by creating a class that implements the IDbContextFactory interface. </p>
+
+<pre><code>public class SchoolDbContextFactory : IDbContextFactory&lt;SchoolContext&gt;
+{
+    public SchoolContext Create(DbContextFactoryOptions options)
+    {
+        var builder = new DbContextOptionsBuilder&lt;SchoolContext&gt;();
+        builder.UseSqlServer(
+            "Server=(localdb)\\mssqllocaldb;Database=MyContosoUniversityCoreDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+        return new SchoolContext(builder.Options);
+    }
+}
+</code></pre>
+
+<h2>Step 4: Configure dependencies with extension methods on IApplicationBuilder and IServiceCollection</h2>
+
+<p>There is still one last issue to solve before we can remove the dependency on EF Core from the ASP.Net MVC Core project. The <code>AddDbContext</code> extension method that configures EF Core in Startup.cs still requires a reference to the NuGet package.</p>
+
+<pre><code>services.AddDbContext&lt;SchoolContext&gt;(options =&gt; 
+    options.UseSqlServer(connectionString));
+</code></pre>
+
+<p>While most of the samples show how to configure dependencies in Startup.cs, this can quickly become quite unwieldy. I like <a href="http://odetocode.com/blogs/scott/archive/2016/08/30/keeping-a-clean-startup-cs-in-asp-net-core.aspx">Scott Allen's suggestion</a> of moving this configuration code into extension methods on IApplicationBuilder and IServiceCollection.</p>
+
+<pre><code>public static class ServiceCollectionExtensions
+{
+    public static void AddEntityFramework(this IServiceCollection services, string connectionString)
+    {
+        services.AddDbContext&lt;SchoolContext&gt;(options =&gt;
+                options.UseSqlServer(connectionString));
+    }
+}
+</code></pre>
+
+<p>I like this approach, because it simplifies Startup.cs to a series of self-documenting, one-line commands, and moves the EF configuration code where it belongs - next to all the other EF code.</p>
+
+<h2>Running Migrations for the Class Library</h2>
+
+<p>One important point to make, in case it is not obvious, is that you need to run migrations from the class library folder (and not from the web project folder).</p>
+
+<p><img src="/images/ef-core-dotnet-ef-migrations-add.png" alt="VS test runner" /></p>
+
+<h2>Summary</h2>
+
+<p>When building ASP.Net MVC applications it is quite common to want to store your domain model and data access code in separate class libraries. If this is the case, then ideally you would not even want a reference to Entity Framework Core in your ASP.Net MVC Core project. In this post, I have shown how this can be achieved today with the current .Net Core 1.0.1 versions of MVC and EF. You can see the source code on <a href="https://github.com/mwhelan/MvcEfCore10Sample">GitHub</a>.</p>
 
     </div>
     
@@ -184,14 +273,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.michael-whelan.net/nuget-add-bindingredirect/';
+                this.page.url = 'http://www.michael-whelan.net/ef-core-101-migrations-in-separate-assembly/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'givenwhenthen';
-    var disqus_url = 'http://www.michael-whelan.net/nuget-add-bindingredirect/';
+    var disqus_url = 'http://www.michael-whelan.net/ef-core-101-migrations-in-separate-assembly/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
